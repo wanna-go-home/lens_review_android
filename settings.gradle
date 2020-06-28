@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name = "lens_review_android"
