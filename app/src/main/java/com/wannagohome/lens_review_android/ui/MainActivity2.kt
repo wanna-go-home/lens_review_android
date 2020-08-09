@@ -1,14 +1,18 @@
-package com.wannagohome.lens_review_android
+package com.wannagohome.lens_review_android.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.activity_main.*
+import com.wannagohome.lens_review_android.Board
+import com.wannagohome.lens_review_android.R
+import com.wannagohome.lens_review_android.Search
 import kotlinx.android.synthetic.main.activity_main2.*
 
 class MainActivity2 : AppCompatActivity() {
-    private val tabSearch = Search.instance
-    private val tabBoard = Board.instance
+    private val tabSearch =
+        Search.instance
+    private val tabBoard =
+        Board.instance
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
