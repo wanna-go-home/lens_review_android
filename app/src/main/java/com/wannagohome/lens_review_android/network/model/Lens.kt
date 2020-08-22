@@ -9,27 +9,27 @@ data class Lens(
     @SerializedName("name")
     val name: String = "",
 
-    @SerializedName("graphicDia")
-    val graphicDia: Float,
+//    @SerializedName("graphicDia")
+//    val graphicDia: Float = 0f,
 
     @SerializedName("perPackage")
-    val perPackage: Int,
+    val perPackage: Int = 0,
 
     @SerializedName("price")
-    val price: Int,
+    val price: Int = 0,
 
     @SerializedName("reviewCnt")
-    val reviewCnt: Int,
+    val reviewCnt: Int = 0
 
-    @SerializedName("bc")
-    val bc: Float,
+//    @SerializedName("bc")
+//    val bc: Float = 0f,
 
-    @SerializedName("dia")
-    val dia: Float,
+//    @SerializedName("dia")
+//    val dia: Float = 0f
 
-    @SerializedName("url")
-    val url: String,
+//    @SerializedName("url")
+//    val url: String,
 
-    @SerializedName("per")
-    val per: String
+//    @SerializedName("per")
+//    val per: Float
 )
