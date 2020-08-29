@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.ui
+package com.wannagohome.lens_review_android.ui.search_lens
 
 import android.view.LayoutInflater
 import android.view.View

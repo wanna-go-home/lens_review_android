@@ -8,6 +8,4 @@ interface LensApiInterface {
 
     @GET("api/lensinfo")
     fun getLensList(): Observable<List<Lens>>
-
-
 }

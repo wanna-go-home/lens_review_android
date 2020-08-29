@@ -1,6 +1,5 @@
 package com.wannagohome.lens_review_android.network.lensapi
 
-
 import com.wannagohome.lens_review_android.network.model.Lens
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

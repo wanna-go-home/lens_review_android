@@ -2,42 +2,46 @@ package com.wannagohome.lens_review_android.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.tabs.TabLayout
 import com.wannagohome.lens_review_android.R
+import com.wannagohome.lens_review_android.ui.board.TabBoard
+import com.wannagohome.lens_review_android.ui.search_lens.TabSearch
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.KoinComponent
 
 class MainActivity : AppCompatActivity(), KoinComponent {
 
-    private val lensViewModel: LensViewModel by viewModel()
-
-    private val lensListAdapter = LensListAdapter()
+    private val tabSearch = TabSearch.instance
+    private val tabBoard = TabBoard.instance
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initLensListRecyclerView()
+        callFragment(0)
 
-        observeEvent()
+        main_tab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
 
-        lensViewModel.getLensList()
-    }
+            }
 
-    private fun initLensListRecyclerView() {
-        lensListRecyclerView.run {
-            addItemDecoration(DividerItemDecoration(this@MainActivity, LinearLayoutManager.VERTICAL))
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = lensListAdapter
-        }
-    }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
 
-    private fun observeEvent() {
-        lensViewModel.lensList.observe(this, Observer {
-            lensListAdapter.lensList = ArrayList(it)
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                callFragment(tab?.position)
+            }
         })
+
+    }
+
+    fun callFragment(pos: Int?) {
+        val transaction = supportFragmentManager.beginTransaction()
+        when (pos) {
+            0 -> transaction.replace(R.id.main_tab_container, tabSearch)
+            1 -> transaction.replace(R.id.main_tab_container, tabBoard)
+        }
+        transaction.commitNow()
     }
 }
