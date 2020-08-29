@@ -11,37 +11,15 @@ import org.koin.core.KoinComponent
 
 class MainActivity : AppCompatActivity(), KoinComponent {
 
-    private val tabSearch = TabSearch.instance
-    private val tabBoard = TabBoard.instance
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        callFragment(0)
-
-        main_tab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-
-            }
-
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                callFragment(tab?.position)
-            }
-        })
+        initViewPager()
 
     }
-
-    fun callFragment(pos: Int?) {
-        val transaction = supportFragmentManager.beginTransaction()
-        when (pos) {
-            0 -> transaction.replace(R.id.main_tab_container, tabSearch)
-            1 -> transaction.replace(R.id.main_tab_container, tabBoard)
-        }
-        transaction.commitNow()
+    private fun initViewPager(){
+        mainViewPager.adapter = MainViewPagerAdapter(supportFragmentManager)
+        mainTabLayout.setupWithViewPager(mainViewPager)
     }
 }
