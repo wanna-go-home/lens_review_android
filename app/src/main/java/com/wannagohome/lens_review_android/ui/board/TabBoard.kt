@@ -12,6 +12,7 @@ import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.ui.BoardViewModel
 import kotlinx.android.synthetic.main.fragment_board.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.KoinComponent
 
 class TabBoard : Fragment(), KoinComponent {
@@ -19,7 +20,8 @@ class TabBoard : Fragment(), KoinComponent {
         val instance = TabBoard()
     }
 
-    private val boardViewModel: BoardViewModel by sharedViewModel()
+    private val boardViewModel: BoardViewModel by viewModel()
+
     private val boardListAdapter = BoardListAdapter()
 
     override fun onCreateView(
@@ -35,20 +37,21 @@ class TabBoard : Fragment(), KoinComponent {
         initBoardListRecyclerView()
 
         observeEvent()
+
         boardViewModel.getArticleList()
 
     }
 
     private fun initBoardListRecyclerView() {
         articleListRecyclerView.run {
-            addItemDecoration(DividerItemDecoration(activity, LinearLayoutManager.VERTICAL))
-            layoutManager = LinearLayoutManager(activity)
+            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+            layoutManager = LinearLayoutManager(context)
             adapter = boardListAdapter
         }
     }
 
     private fun observeEvent() {
-        boardViewModel.articleList.observe(activity!!, Observer {
+        boardViewModel.articleList.observe(viewLifecycleOwner, Observer {
             boardListAdapter.articleList = ArrayList(it)
         })
     }
