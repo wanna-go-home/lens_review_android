@@ -1,12 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="5dp"
+    android:layout_marginTop="10dp"
     android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="9"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        android:weightSum="10">
 
-    <TextView
-        android:id="@+id/articleTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:gravity="center_vertical"
+            android:text="Title"
+            android:textSize="24sp" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/contentText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:text="contentText"
+            android:textSize="20sp" />
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:text="author"
+            android:textSize="16sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:layout_marginHorizontal="10dp"
+            android:orientation="horizontal">
+<!--TODO : *Icon TextView Elements needs proper Icon each. -->
+            <TextView
+                android:id="@+id/viewsIcon"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="V"
+                android:gravity="center|end"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/views"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:gravity="center|start"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/likesIcon"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="L"
+                android:gravity="center|end"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/likes"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:gravity="center|start"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/commentsIcon"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="C"
+                android:gravity="center|end"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/comments"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:gravity="center|start"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/createdAt"
+                android:layout_width="20dp"
+                android:gravity="center|end"
+                android:layout_height="match_parent"
+                android:layout_weight="15"
+                android:text="createdAt"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

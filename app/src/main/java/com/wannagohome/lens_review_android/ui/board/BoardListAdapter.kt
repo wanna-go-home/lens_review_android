@@ -30,7 +30,13 @@ class BoardListAdapter : RecyclerView.Adapter<BoardListAdapter.BookListViewHolde
     inner class BookListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(article: Article) {
-            itemView.articleTitle.text = article.title
+            itemView.title.text = article.title
+            itemView.contentText.text = article.contentText
+            //itemView.author.text = article.authorId.findname()
+            itemView.views.text = article.views.toString()
+            itemView.likes.text = article.likes.toString()
+            itemView.comments.text = article.comments.toString()
+            itemView.createdAt.text = article.createdAt
         }
     }
 }
