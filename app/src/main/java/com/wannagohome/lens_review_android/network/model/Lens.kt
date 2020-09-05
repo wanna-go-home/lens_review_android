@@ -19,7 +19,7 @@ data class Lens(
     val price: Int = 0,
 
     @SerializedName("reviewCnt")
-    val reviewCnt: Int = 0
+    val reviewCnt: Int = 0,
 
 //    @SerializedName("bc")
 //    val bc: Float = 0f,
@@ -32,4 +32,7 @@ data class Lens(
 
 //    @SerializedName("per")
 //    val per: Float
+
+    @SerializedName("productImage")
+    val productImage: List<String> = listOf()
 )
