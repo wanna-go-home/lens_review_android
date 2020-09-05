@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.network.model.Lens
-import com.wannagohome.lens_review_android.ui.LensViewModel
-import com.wannagohome.lens_review_android.ui.lens_detail.DetailedLensActivity
+import com.wannagohome.lens_review_android.ui.lens_detail.LensDetailActivity
+import com.wannagohome.lens_review_android.ui.lens_detail.LensDetailActivity.Companion.DETAILED_LENS_ID
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.core.KoinComponent
@@ -26,8 +26,8 @@ class TabSearch : Fragment(), KoinComponent {
 
     private val onLensItemClickListener = object : LensListAdapter.OnItemClickListener {
         override fun onItemClick(clickedLens: Lens) {
-            val intent = Intent(activity, DetailedLensActivity::class.java)
-            intent.putExtra("lensId", clickedLens.lensId)
+            val intent = Intent(activity, LensDetailActivity::class.java)
+            intent.putExtra(DETAILED_LENS_ID, clickedLens.lensId)
             activity?.startActivity(intent)
         }
     }
