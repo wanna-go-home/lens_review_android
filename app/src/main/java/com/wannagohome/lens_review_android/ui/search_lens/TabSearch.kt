@@ -1,5 +1,6 @@
 package com.wannagohome.lens_review_android.ui.search_lens
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wannagohome.lens_review_android.R
+import com.wannagohome.lens_review_android.network.model.Lens
 import com.wannagohome.lens_review_android.ui.LensViewModel
+import com.wannagohome.lens_review_android.ui.lens_detail.DetailedLensActivity
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.core.KoinComponent
@@ -21,7 +24,15 @@ class TabSearch : Fragment(), KoinComponent {
 
     private val lensViewModel: LensViewModel by sharedViewModel()
 
-    private val lensListAdapter = LensListAdapter()
+    private val onLensItemClickListener = object : LensListAdapter.OnItemClickListener {
+        override fun onItemClick(clickedLens: Lens) {
+            val intent = Intent(activity, DetailedLensActivity::class.java)
+            intent.putExtra("lensId", clickedLens.lensId)
+            activity?.startActivity(intent)
+        }
+    }
+
+    private val lensListAdapter = LensListAdapter(onLensItemClickListener)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_search, container, false)
@@ -33,11 +44,13 @@ class TabSearch : Fragment(), KoinComponent {
         initLensListRecyclerView()
 
         observeEvent()
+
         lensViewModel.getLensList()
 
     }
 
     private fun initLensListRecyclerView() {
+
         lensListRecyclerView.run {
             addItemDecoration(DividerItemDecoration(activity, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(activity)
