@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.ui
+package com.wannagohome.lens_review_android.ui.search_lens
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,7 +20,7 @@ class LensViewModel : ViewModel(), KoinComponent {
         val lensListReq = lensClient.getLensList()
             .subscribe(
                 {
-                    lensList.value = it
+                    lensList.value = it.body()
                 },
                 {
                     it.printStackTrace()
