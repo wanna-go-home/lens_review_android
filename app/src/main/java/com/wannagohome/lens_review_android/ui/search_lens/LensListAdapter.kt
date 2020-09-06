@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.network.model.Lens
 import kotlinx.android.synthetic.main.lens_list_item.view.*
 
-class LensListAdapter : RecyclerView.Adapter<LensListAdapter.BookListViewHolder>() {
+class LensListAdapter(val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<LensListAdapter.BookListViewHolder>() {
 
     var lensList = ArrayList<Lens>()
         set(shops) {
@@ -27,10 +28,33 @@ class LensListAdapter : RecyclerView.Adapter<LensListAdapter.BookListViewHolder>
         holder.bind(lensList[position])
     }
 
+    interface OnItemClickListener {
+        fun onItemClick(clickedLens: Lens)
+    }
+
     inner class BookListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        lateinit var currentLens : Lens
+
+        init{
+            itemView.setOnClickListener {
+                itemClickListener.onItemClick(currentLens)
+            }
+        }
 
         fun bind(lens: Lens) {
-            itemView.lensName.text = lens.name
+            currentLens = lens
+
+            bindProductImage(lens.productImage[0])
+
+            bindName(lens.name)
+        }
+
+        private fun bindName(name: String) {
+            itemView.lensName.text = name
+        }
+
+        private fun bindProductImage(imageUrl: String) {
+            Glide.with(itemView.context).load(imageUrl).into(itemView.productImage)
         }
     }
 }
