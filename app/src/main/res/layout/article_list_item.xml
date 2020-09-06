@@ -10,7 +10,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="9"
         android:orientation="vertical"
         android:layout_margin="5dp"
         android:weightSum="10">
@@ -44,63 +43,41 @@
             android:layout_weight="10"
             android:layout_marginHorizontal="10dp"
             android:orientation="horizontal">
-<!--TODO : *Icon TextView Elements needs proper Icon each. -->
-            <TextView
+
+            <ImageView
                 android:id="@+id/viewsIcon"
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="V"
-                android:gravity="center|end"
-                android:textSize="16sp" />
+                style="@style/FreeBoardIcon"
+                android:src="@drawable/baseline_remove_red_eye_black_18dp"/>
             <TextView
                 android:id="@+id/views"
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text=""
-                android:gravity="center|start"
-                android:textSize="16sp" />
-            <TextView
+                style="@style/FreeBoardCnt"/>
+
+            <com.sackcentury.shinebuttonlib.ShineButton
                 android:id="@+id/likesIcon"
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="L"
-                android:gravity="center|end"
-                android:textSize="16sp" />
+                style="@style/FreeBoardIcon"
+                android:src="@android:color/darker_gray"
+                app:btn_color="@android:color/darker_gray"
+                app:btn_fill_color="@android:color/holo_red_dark"
+                app:siShape="@raw/baseline_thumb_up_alt_black_18dp"/>
             <TextView
                 android:id="@+id/likes"
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text=""
-                android:gravity="center|start"
-                android:textSize="16sp" />
-            <TextView
+                style="@style/FreeBoardCnt"/>
+
+            <ImageView
                 android:id="@+id/commentsIcon"
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="C"
-                android:gravity="center|end"
-                android:textSize="16sp" />
+                style="@style/FreeBoardIcon"
+                android:src="@drawable/baseline_comment_black_18dp"/>
             <TextView
                 android:id="@+id/comments"
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text=""
-                android:gravity="center|start"
-                android:textSize="16sp" />
+                style="@style/FreeBoardCnt"/>
 
             <TextView
                 android:id="@+id/createdAt"
-                android:layout_width="20dp"
+                android:layout_width="0dp"
                 android:gravity="center|end"
                 android:layout_height="match_parent"
                 android:layout_weight="15"
-                android:text="createdAt"
+                android:text=""
                 android:textSize="16sp" />
 
         </LinearLayout>

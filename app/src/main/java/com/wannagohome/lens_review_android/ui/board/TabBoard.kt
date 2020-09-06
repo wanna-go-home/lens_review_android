@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sackcentury.shinebuttonlib.ShineButton
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.ui.BoardViewModel
 import kotlinx.android.synthetic.main.fragment_board.*
@@ -33,7 +34,8 @@ class TabBoard : Fragment(), KoinComponent {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val shineButton = ShineButton(context)
+        shineButton.init(activity)
         initBoardListRecyclerView()
 
         observeEvent()
