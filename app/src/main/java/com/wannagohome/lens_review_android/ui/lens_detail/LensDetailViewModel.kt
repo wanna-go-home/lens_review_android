@@ -11,14 +11,31 @@ import timber.log.Timber
 
 class LensDetailViewModel : BaseViewModel(), KoinComponent {
 
-    val detailedLens = MutableLiveData<DetailedLens>()
+//    val detailedLens = MutableLiveData<DetailedLens>()
+
+    val lensName = MutableLiveData<String>()
+
+    val lensPrice = MutableLiveData<String>()
+
+    val productImage = MutableLiveData<String>()
 
     private val lensClient: LensApiClient by inject()
 
     fun getLensDetail(lensId: Int) {
         disposable.add(lensClient.getLensById(lensId).subscribe({
             Timber.d(it.body()?.name)
-            detailedLens.value = it.body()
+//            detailedLens.value = it.body()
+            val lensDetail = it.body()
+
+            lensDetail?.let{lens->
+                lensName.value = lens.name
+
+                lensPrice.value = lens.price.toString()
+
+                if(lens.productImage.isNotEmpty())
+                    productImage.value = lens.productImage[0]
+            }
+
         }, {
 
             //TODO error notification
