@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+app:cardCornerRadius="5dp"
+app:cardElevation="5dp"
+android:layout_marginTop="10dp"
+tools:context=".ui.article.ArticleActivity"
+android:orientation="horizontal">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="5dp"
+    android:weightSum="10">
+
+    <TextView
+        android:id="@+id/articleTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:gravity="center_vertical"
+        android:text="Title"
+        android:textSize="24sp" />
+    <TextView
+        android:id="@+id/author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:text="author"
+        android:textSize="16sp" />
+    <TextView
+        android:id="@+id/createdAt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:text="createdAt"
+        android:textSize="16sp" />
+    <TextView
+        android:id="@+id/contentText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:text="contentText"
+        android:textSize="20sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:layout_marginHorizontal="10dp"
+        android:weightSum="3"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_height="match_parent">
+            <com.sackcentury.shinebuttonlib.ShineButton
+                android:id="@+id/likesIcon"
+                style="@style/FreeBoardIcon"
+                android:src="@android:color/darker_gray"
+                app:btn_color="@android:color/darker_gray"
+                android:layout_weight="1"
+                app:btn_fill_color="@android:color/holo_red_dark"
+                app:siShape="@raw/baseline_thumb_up_alt_black_18dp"/>
+            <TextView
+                android:id="@+id/likes"
+                style="@style/FreeBoardCnt"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/commentsIcon"
+                style="@style/FreeBoardIcon"
+                android:layout_weight="1"
+                android:src="@drawable/baseline_comment_black_18dp"/>
+            <TextView
+                android:id="@+id/comments"
+                style="@style/FreeBoardCnt"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/shareIcon"
+            style="@style/FreeBoardIcon"
+            android:layout_weight="1"
+            android:src="@drawable/baseline_share_black_18dp"/>
+        </LinearLayout>
+<!-- TODO : Optimize code duplication...-->
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/replyRecyclerView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" />-->
+    </LinearLayout>
+
+</LinearLayout>
+</androidx.cardview.widget.CardView>

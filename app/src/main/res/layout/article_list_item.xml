@@ -24,7 +24,7 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/contentText"
+            android:id="@+id/preview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
