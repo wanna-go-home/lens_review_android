@@ -9,13 +9,11 @@ app:cardElevation="5dp"
 android:layout_marginTop="10dp"
 tools:context=".ui.article.ArticleActivity"
 android:orientation="horizontal">
-<LinearLayout
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_margin="5dp"
-    android:weightSum="10">
-
+    android:layout_margin="5dp">
     <TextView
         android:id="@+id/articleTitle"
         android:layout_width="match_parent"
@@ -29,6 +27,7 @@ android:orientation="horizontal">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
+        android:layout_below="@id/articleTitle"
         android:text="author"
         android:textSize="16sp" />
     <TextView
@@ -36,6 +35,7 @@ android:orientation="horizontal">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
+        android:layout_below="@id/author"
         android:text="createdAt"
         android:textSize="16sp" />
     <TextView
@@ -43,65 +43,63 @@ android:orientation="horizontal">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
+        android:layout_below="@id/createdAt"
         android:text="contentText"
         android:textSize="20sp" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
+
+    <com.sackcentury.shinebuttonlib.ShineButton
+        android:id="@+id/likesIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginLeft="50dp"
+        android:layout_below="@id/contentText"
+        android:layout_alignParentLeft="true"
+        android:src="@android:color/darker_gray"
+        app:btn_color="@android:color/darker_gray"
+        app:btn_fill_color="@android:color/holo_red_dark"
+        app:siShape="@raw/baseline_thumb_up_alt_black_18dp"/>
+    <TextView
+        android:id="@+id/likes"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
         android:layout_marginHorizontal="10dp"
-        android:weightSum="3"
-        android:baselineAligned="false"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_height="match_parent">
-            <com.sackcentury.shinebuttonlib.ShineButton
-                android:id="@+id/likesIcon"
-                style="@style/FreeBoardIcon"
-                android:src="@android:color/darker_gray"
-                app:btn_color="@android:color/darker_gray"
-                android:layout_weight="1"
-                app:btn_fill_color="@android:color/holo_red_dark"
-                app:siShape="@raw/baseline_thumb_up_alt_black_18dp"/>
-            <TextView
-                android:id="@+id/likes"
-                style="@style/FreeBoardCnt"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_height="match_parent">
-            <ImageView
-                android:id="@+id/commentsIcon"
-                style="@style/FreeBoardIcon"
-                android:layout_weight="1"
-                android:src="@drawable/baseline_comment_black_18dp"/>
-            <TextView
-                android:id="@+id/comments"
-                style="@style/FreeBoardCnt"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/shareIcon"
-            style="@style/FreeBoardIcon"
-            android:layout_weight="1"
-            android:src="@drawable/baseline_share_black_18dp"/>
-        </LinearLayout>
+        android:layout_below="@id/contentText"
+        android:layout_toRightOf="@id/likesIcon"/>
+    <ImageView
+        android:id="@+id/commentsIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginLeft="50dp"
+        android:layout_below="@id/contentText"
+        android:layout_toRightOf="@id/likes"
+        android:src="@drawable/baseline_comment_black_18dp"/>
+    <TextView
+        android:id="@+id/comments"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:layout_below="@id/contentText"
+        android:layout_marginHorizontal="10dp"
+        android:layout_toRightOf="@id/commentsIcon"/>
+
+    <ImageView
+        android:id="@+id/shareIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginRight="50dp"
+        android:layout_below="@id/contentText"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/baseline_share_black_18dp"/>
 <!-- TODO : Optimize code duplication...-->
 
 <!--        <androidx.recyclerview.widget.RecyclerView-->
 <!--            android:id="@+id/replyRecyclerView"-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content" />-->
-    </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout >
 </androidx.cardview.widget.CardView>
