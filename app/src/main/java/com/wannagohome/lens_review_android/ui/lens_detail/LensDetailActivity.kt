@@ -33,6 +33,10 @@ class LensDetailActivity : AppCompatActivity() {
         observeEvent()
 
         lensDetailViewModel.getLensDetail(lensId)
+
+        //TODO 하드코딩 제거 혹은 api 부착
+        lensMaker.text="메이커"
+
     }
 
     private fun observeEvent() {
@@ -46,6 +50,10 @@ class LensDetailActivity : AppCompatActivity() {
 
         lensDetailViewModel.productImage.observe(this, Observer {
             Glide.with(this).load(it).into(lensProductImage)
+        })
+
+        lensDetailViewModel.lensGraphicDia.observe(this, Observer {
+            lensGrahicDia.text = it
         })
     }
 }

@@ -15,4 +15,7 @@
     <string name="lenslist_price"> | 가격: </string>
     <string name="lenslist_score"> | 평점: </string>
 
+    <string name="lensdetail_graphic_dia">그래픽직경</string>
+    <string name="lensdetail_price">가격</string>
+
 </resources>

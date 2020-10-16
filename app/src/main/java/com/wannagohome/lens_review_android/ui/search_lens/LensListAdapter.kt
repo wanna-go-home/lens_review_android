@@ -57,7 +57,7 @@ class LensListAdapter(val itemClickListener: OnItemClickListener) : RecyclerView
             //TODO 함수분리
             itemView.lensNumber.text = "${lens.lensId}"
             itemView.graphicDia.text = "${lens.graphicDia}"
-            itemView.price.text = "${lens.price}"
+            itemView.price.text = "${lens.price}원"
             itemView.score.text = "4.15"
 
         }
