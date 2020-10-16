@@ -17,6 +17,8 @@ class LensDetailViewModel : BaseViewModel(), KoinComponent {
 
     val lensPrice = MutableLiveData<String>()
 
+    val lensGraphicDia = MutableLiveData<String>()
+
     val productImage = MutableLiveData<String>()
 
     private val lensClient: LensApiClient by inject()
@@ -31,6 +33,8 @@ class LensDetailViewModel : BaseViewModel(), KoinComponent {
                 lensName.value = lens.name
 
                 lensPrice.value = lens.price.toString()
+
+                lensGraphicDia.value = lens.graphicDia.toString()
 
                 if(lens.productImage.isNotEmpty())
                     productImage.value = lens.productImage[0]
