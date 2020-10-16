@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.wannagohome.lens_review_android.AppComponents
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.ui.board.TabBoard
+import com.wannagohome.lens_review_android.ui.review.TabReview
 import com.wannagohome.lens_review_android.ui.search_lens.TabSearch
 
 
@@ -14,7 +15,8 @@ class MainViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAV
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            1 -> TabBoard.instance
+            1-> TabReview.instance
+            2 -> TabBoard.instance
             else -> TabSearch.instance
         }
     }
