@@ -9,8 +9,8 @@ data class Lens(
     @SerializedName("name")
     val name: String = "",
 
-//    @SerializedName("graphicDia")
-//    val graphicDia: Float = 0f,
+    @SerializedName("graphicDia")
+    val graphicDia: Float = 0f,
 
     @SerializedName("perPackage")
     val perPackage: Int = 0,
