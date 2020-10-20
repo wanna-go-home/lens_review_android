@@ -27,7 +27,7 @@ data class Article(
     @SerializedName("replyCnt")
     val comments: Int = 0,
 
-    @SerializedName("created_at")
+    @SerializedName("createdAt")
     val createdAt:  String = ""
 
 )
