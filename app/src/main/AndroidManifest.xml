@@ -17,6 +17,7 @@
 
 
         <activity android:name=".ui.lens_detail.LensDetailActivity"></activity>
+        <activity android:name=".ui.article.ArticleActivity"></activity>
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

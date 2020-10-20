@@ -8,7 +8,7 @@ import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.network.model.Article
 import kotlinx.android.synthetic.main.article_list_item.view.*
 
-class BoardListAdapter : RecyclerView.Adapter<BoardListAdapter.BookListViewHolder>() {
+class BoardListAdapter(val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<BoardListAdapter.BookListViewHolder>() {
 
     var articleList = ArrayList<Article>()
         set(shops) {
@@ -27,12 +27,24 @@ class BoardListAdapter : RecyclerView.Adapter<BoardListAdapter.BookListViewHolde
         holder.bind(articleList[position])
     }
 
+    interface OnItemClickListener {
+        fun onItemClick(clickedArticle: Article)
+    }
+
     inner class BookListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        lateinit var currentArticle : Article
+
+        init{
+            itemView.setOnClickListener{
+                itemClickListener.onItemClick(currentArticle)
+            }
+        }
 
         fun bind(article: Article) {
+            currentArticle = article
             itemView.title.text = article.title
-            itemView.contentText.text = article.contentText
-            //itemView.author.text = article.authorId.findname()
+            itemView.content.text = article.content
+            itemView.author.text = article.nickName
             itemView.views.text = article.views.toString()
             itemView.likes.text = article.likes.toString()
             itemView.comments.text = article.comments.toString()
