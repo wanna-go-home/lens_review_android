@@ -18,4 +18,8 @@
     <string name="lensdetail_graphic_dia">그래픽직경</string>
     <string name="lensdetail_price">가격</string>
 
+    <string name="like_text">좋아요</string>
+    <string name="comment_text">댓글쓰기</string>
+    <string name="share_text">공유하기</string>
+
 </resources>

@@ -8,6 +8,7 @@ import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.network.model.ReviewPreview
 import kotlinx.android.synthetic.main.review_list_item.view.*
 
+
 class ReviewListAdapter(val itemClickListener: OnItemClickListener? = null) : RecyclerView.Adapter<ReviewListAdapter.BookListViewHolder>() {
 
     var reviewPreviewList = listOf<ReviewPreview>()
@@ -45,7 +46,13 @@ class ReviewListAdapter(val itemClickListener: OnItemClickListener? = null) : Re
 
             itemView.reviewTitle.text = reviewPreview.title
 
-            itemView.reviewContent.text = reviewPreview.content
+            itemView.reviewContents.text = reviewPreview.content
+
+            itemView.pageviewNum.text = "0"
+            itemView.commentNum.text = "0"
+            itemView.likeNum.text = "0"
+
+
         }
 
 

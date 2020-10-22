@@ -3,20 +3,149 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="7dp"
+    android:background="@color/review_background"
     android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/reviewTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/reviewContent"
-            android:layout_width="wrap_content"
+        <!-- 게시글 상단  -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="295dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/reviewTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="25dp"
+                            android:layout_marginRight="20dp"
+                            android:textSize="14sp" />
+
+                        <kr.co.prnd.readmore.ReadMoreTextView
+                            android:id="@+id/reviewContents"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginBottom="20dp"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:textColor="@color/review_subtext"
+                            android:textSize="10sp"
+                            app:readMoreColor="#8f8f8f"
+                            app:readMoreMaxLine="2"
+                            app:readMoreText="…더보기" />
+                </LinearLayout>
+
+                <!--            <LinearLayout-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="match_parent"-->
+                <!--                android:orientation="horizontal">-->
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/postImage"-->
+                <!--                    android:layout_width="65dp"-->
+                <!--                    android:layout_height="65dp"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:layout_marginStart="25dp"-->
+                <!--                    android:contentDescription="@string/post_image_description"-->
+                <!--                    tools:srcCompat="@tools:sample/avatars" />-->
+                <!--            </LinearLayout>-->
+        </LinearLayout>
+
+        <!-- 게시글 하단 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/item_border"
+                    android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/pageviewImg"
+                            style="@style/reviewListFooterIcon"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="20dp"
+                            app:srcCompat="@drawable/pageviews" />
+
+                        <TextView
+                            android:id="@+id/pageviewNum"
+                            style="@style/reviewListFooterText"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="5dp"
+                            android:textColor="@color/review_subtext" />
+
+                        <ImageView
+                            android:id="@+id/likeImg"
+                            style="@style/reviewListFooterIcon"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="20dp"
+                            app:srcCompat="@drawable/like" />
+
+                        <TextView
+                            android:id="@+id/likeNum"
+                            style="@style/reviewListFooterText"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="5dp"
+                            android:textColor="@color/review_subtext"/>
+
+                        <ImageView
+                            android:id="@+id/commentImg"
+                            style="@style/reviewListFooterIcon"
+
+                            android:layout_gravity="center"
+                            android:layout_marginStart="20dp"
+                            app:srcCompat="@drawable/comment" />
+
+                        <TextView
+                            android:id="@+id/commentNum"
+                            style="@style/reviewListFooterText"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="5dp"
+                            android:textColor="@color/review_subtext"/>
+
+                        <!-- 글 작성 시간 나타내는 text -->
+                        <TextView
+                            android:id="@+id/time"
+                            style="@style/reviewListFooterText"
+                            android:layout_width="40dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="140dp"
+                            android:gravity="center"
+                            android:text="time"
+                            android:textColor="@color/review_subtext" />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bookmark_border">
+
+                        <ImageView
+                            android:id="@+id/bookmarkImg"
+                            style="@style/reviewListFooterIcon"
+                            android:layout_gravity="center"
+                            android:src="@drawable/bookmark" />
+                </FrameLayout>
+
+        </LinearLayout>
 
 
 </LinearLayout>
