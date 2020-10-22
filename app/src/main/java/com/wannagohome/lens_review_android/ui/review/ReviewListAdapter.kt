@@ -51,7 +51,7 @@ class ReviewListAdapter(val itemClickListener: OnItemClickListener? = null) : Re
             itemView.pageviewNum.text = "0"
             itemView.commentNum.text = "0"
             itemView.likeNum.text = "0"
-
+            itemView.reviewWriter.text = "글쓴이"
 
         }
 
