@@ -21,4 +21,14 @@
         <item name="android:textSize">16sp</item>
         <item name="android:layout_marginLeft">5dp</item>
     </style>
+
+    <style name="reviewListFooterIcon">
+        <item name="android:layout_height">14dp</item>
+        <item name="android:layout_width">14dp</item>
+    </style>
+
+    <style name="reviewListFooterText">
+        <item name="android:textSize">10sp</item>
+    </style>
+
 </resources>
