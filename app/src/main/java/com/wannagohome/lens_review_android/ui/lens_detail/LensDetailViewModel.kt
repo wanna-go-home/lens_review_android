@@ -2,7 +2,6 @@ package com.wannagohome.lens_review_android.ui.lens_detail
 
 import androidx.lifecycle.MutableLiveData
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
-import com.wannagohome.lens_review_android.network.model.DetailedLens
 import com.wannagohome.lens_review_android.support.basemodel.BaseViewModel
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -24,7 +23,7 @@ class LensDetailViewModel : BaseViewModel(), KoinComponent {
     private val lensClient: LensApiClient by inject()
 
     fun getLensDetail(lensId: Int) {
-        disposable.add(lensClient.getLensById(lensId).subscribe({
+        compositeDisposable.add(lensClient.getLensById(lensId).subscribe({
             Timber.d(it.body()?.name)
 //            detailedLens.value = it.body()
             val lensDetail = it.body()

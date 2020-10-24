@@ -16,7 +16,7 @@ class ArticleViewModel : BaseViewModel(), KoinComponent {
     private val lensClient: LensApiClient by inject()
 
     fun getArticle(articleId: Int) {
-        disposable.add(lensClient.getArticleById(articleId).subscribe({
+        compositeDisposable.add(lensClient.getArticleById(articleId).subscribe({
             Timber.d(it.body()?.title)
             article.value = it.body()
         }, {

@@ -6,12 +6,12 @@ import org.koin.core.KoinComponent
 
 open class BaseViewModel : ViewModel(), KoinComponent {
 
-    val disposable = CompositeDisposable()
+    val compositeDisposable = CompositeDisposable()
 
     override fun onCleared() {
         super.onCleared()
-        if (!disposable.isDisposed) {
-            disposable.dispose()
+        if (!compositeDisposable.isDisposed) {
+            compositeDisposable.dispose()
         }
     }
 }
