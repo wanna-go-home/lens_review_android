@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.network.model.Lens
+import com.wannagohome.lens_review_android.network.model.LensPreview
 import kotlinx.android.synthetic.main.lens_list_item.view.*
 import timber.log.Timber
 
 class LensListAdapter(val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<LensListAdapter.BookListViewHolder>() {
 
-    var lensList = ArrayList<Lens>()
+    var lensList = ArrayList<LensPreview>()
         set(shops) {
             field = shops
 
@@ -30,11 +31,11 @@ class LensListAdapter(val itemClickListener: OnItemClickListener) : RecyclerView
     }
 
     interface OnItemClickListener {
-        fun onItemClick(clickedLens: Lens)
+        fun onItemClick(clickedLens: LensPreview)
     }
 
     inner class BookListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        lateinit var currentLens: Lens
+        lateinit var currentLens: LensPreview
 
         init {
             itemView.setOnClickListener {
@@ -42,10 +43,10 @@ class LensListAdapter(val itemClickListener: OnItemClickListener) : RecyclerView
             }
         }
 
-        fun bind(lens: Lens) {
+        fun bind(lens: LensPreview) {
             currentLens = lens
 
-            bindProductImage(lens.productImage[0])
+            bindProductImage(lens.productImages[0])
 
 
 
@@ -56,7 +57,7 @@ class LensListAdapter(val itemClickListener: OnItemClickListener) : RecyclerView
 
             //TODO 함수분리
             itemView.lensNumber.text = "${lens.lensId}"
-            itemView.graphicDia.text = "${lens.graphicDia}"
+//            itemView.graphicDia.text = "${lens.graphicDia}"
             itemView.price.text = "${lens.price}원"
             itemView.score.text = "4.15"
 

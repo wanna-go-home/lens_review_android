@@ -2,10 +2,7 @@ package com.wannagohome.lens_review_android.network.lensapi
 
 import android.content.Context
 import com.wannagohome.lens_review_android.AppComponents
-import com.wannagohome.lens_review_android.network.model.Article
-import com.wannagohome.lens_review_android.network.model.DetailedArticle
-import com.wannagohome.lens_review_android.network.model.DetailedLens
-import com.wannagohome.lens_review_android.network.model.Lens
+import com.wannagohome.lens_review_android.network.model.*
 import com.wannagohome.lens_review_android.network.model.user.LoginRequest
 import com.wannagohome.lens_review_android.network.model.user.LoginResponse
 import com.wannagohome.lens_review_android.support.AccessKeyHelper
@@ -19,7 +16,7 @@ import retrofit2.Response
 
 class LensApiClient(private val lensApiInterface: LensApiInterface) {
 
-    fun getLensList(): Observable<Response<List<Lens>>> {
+    fun getLensList(): Observable<Response<List<LensPreview>>> {
         return lensApiInterface.getLensList()
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }

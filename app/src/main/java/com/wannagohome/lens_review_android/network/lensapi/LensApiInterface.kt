@@ -1,9 +1,6 @@
 package com.wannagohome.lens_review_android.network.lensapi
 
-import com.wannagohome.lens_review_android.network.model.Article
-import com.wannagohome.lens_review_android.network.model.DetailedArticle
-import com.wannagohome.lens_review_android.network.model.DetailedLens
-import com.wannagohome.lens_review_android.network.model.Lens
+import com.wannagohome.lens_review_android.network.model.*
 import com.wannagohome.lens_review_android.network.model.user.LoginRequest
 import com.wannagohome.lens_review_android.network.model.user.LoginResponse
 import io.reactivex.Observable
@@ -13,10 +10,10 @@ import retrofit2.http.*
 
 interface LensApiInterface {
 
-    @GET("api/lensinfo")
-    fun getLensList(): Observable<Response<List<Lens>>>
+    @GET("api/lens")
+    fun getLensList(): Observable<Response<List<LensPreview>>>
 
-    @GET("api/lensinfo")
+    @GET("api/lens")
     fun getLensById(@Query("id") lensId: Int): Observable<Response<DetailedLens>>
 
     @GET("api/free-board/preview")
