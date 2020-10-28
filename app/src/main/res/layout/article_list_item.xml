@@ -1,115 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="5dp"
-    app:cardElevation="5dp"
-    android:layout_marginTop="10dp"
-    android:orientation="horizontal">
+    android:layout_marginTop="7dp"
+    android:background="@color/board_background"
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <!-- 게시글 상단  -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="5dp">
-        <TextView
-            android:id="@+id/title"
+        android:orientation="horizontal">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:gravity="center_vertical"
-            android:text="Title"
-            android:textSize="24sp" />
-        <TextView
-            android:id="@+id/content"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/articleTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/board_maintext"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground"
+                android:textColor="@color/board_subtext"
+                android:textSize="10sp"/>
+
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:textColor="@color/board_maintext"
+                android:textSize="8sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 게시글 하단 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/item_border"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/pageviewImg"
+                style="@style/boardListFooterIcon"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                app:srcCompat="@drawable/pageviews" />
+
+            <TextView
+                android:id="@+id/views"
+                style="@style/boardListFooterText"
+                android:layout_width="20dp"
+                android:layout_height="15dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/board_subtext" />
+
+            <com.sackcentury.shinebuttonlib.ShineButton
+                android:id="@+id/likesIcon"
+                style="@style/boardListFooterIcon"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:src="@android:color/darker_gray"
+                app:btn_color="@android:color/darker_gray"
+                app:btn_fill_color="@android:color/holo_red_dark"
+                app:siShape="@raw/baseline_thumb_up_alt_black_18dp"/>
+
+            <TextView
+                android:id="@+id/likes"
+                style="@style/boardListFooterText"
+                android:layout_width="20dp"
+                android:layout_height="15dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/board_subtext"/>
+
+            <ImageView
+                android:id="@+id/commentImg"
+                style="@style/boardListFooterIcon"
+
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                app:srcCompat="@drawable/comment" />
+
+            <TextView
+                android:id="@+id/comments"
+                style="@style/boardListFooterText"
+                android:layout_width="20dp"
+                android:layout_height="15dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/board_subtext"/>
+
+            <!-- 글 작성 시간 나타내는 text -->
+            <TextView
+                android:id="@+id/createdAt"
+                style="@style/boardListFooterText"
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="140dp"
+                android:gravity="center"
+                android:text="time"
+                android:textColor="@color/board_subtext" />
+        </LinearLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_below="@id/title"
-            android:text="contentText"
-            android:textSize="20sp" />
-        <TextView
-            android:id="@+id/author"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_below="@id/content"
-            android:text="author"
-            android:textSize="16sp" />
+            android:layout_height="match_parent"
+            android:background="@drawable/bookmark_border">
 
-        <ImageView
-            android:id="@+id/viewsIcon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginVertical="10dp"
-            android:layout_marginLeft="30dp"
-            android:layout_below="@id/author"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/baseline_remove_red_eye_black_18dp"/>
-        <TextView
-            android:id="@+id/views"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="10dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_below="@id/author"
-            android:gravity="center"
-            android:layout_toRightOf="@id/viewsIcon"/>
+            <ImageView
+                android:id="@+id/bookmarkImg"
+                style="@style/boardListFooterIcon"
+                android:layout_gravity="center"
+                android:src="@drawable/bookmark" />
+        </FrameLayout>
 
-        <com.sackcentury.shinebuttonlib.ShineButton
-            android:id="@+id/likesIcon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginVertical="10dp"
-            android:layout_marginLeft="30dp"
-            android:layout_below="@id/author"
-            android:layout_toRightOf="@id/views"
-            android:src="@android:color/darker_gray"
-            app:btn_color="@android:color/darker_gray"
-            app:btn_fill_color="@android:color/holo_red_dark"
-            app:siShape="@raw/baseline_thumb_up_alt_black_18dp"/>
-        <TextView
-            android:id="@+id/likes"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="10dp"
-            android:layout_marginHorizontal="10dp"
-            android:gravity="center"
-            android:layout_below="@id/author"
-            android:layout_toRightOf="@id/likesIcon"/>
-        <ImageView
-            android:id="@+id/commentsIcon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginVertical="10dp"
-            android:layout_marginLeft="30dp"
-            android:layout_below="@id/author"
-            android:layout_toRightOf="@id/likes"
-            android:src="@drawable/baseline_comment_black_18dp"/>
-        <TextView
-            android:id="@+id/comments"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="10dp"
-            android:layout_below="@id/author"
-            android:layout_marginHorizontal="10dp"
-            android:gravity="center"
-            android:layout_toRightOf="@id/commentsIcon"
-            android:layout_toLeftOf="@id/createdAt"/>
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/createdAt"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginVertical="10dp"
-            android:layout_marginRight="30dp"
-            android:layout_below="@id/author"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:text="1분전"
 
-            android:textSize="16sp" />
-    </RelativeLayout >
-
-</androidx.cardview.widget.CardView>
+</LinearLayout>

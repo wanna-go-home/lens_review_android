@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="7dp"
-    android:background="@color/review_background"
+    android:background="@color/board_background"
     android:orientation="vertical">
 
 
@@ -25,7 +25,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:textColor="@color/review_maintext"
+                            android:textColor="@color/board_maintext"
                             android:textSize="14sp" />
 
                         <kr.co.prnd.readmore.ReadMoreTextView
@@ -33,7 +33,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:foreground="?attr/selectableItemBackground"
-                            android:textColor="@color/review_subtext"
+                            android:textColor="@color/board_subtext"
                             android:textSize="10sp"
                             app:readMoreColor="#8f8f8f"
                             app:readMoreMaxLine="2"
@@ -44,7 +44,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="25dp"
-                            android:textColor="@color/review_maintext"
+                            android:textColor="@color/board_maintext"
                             android:textSize="8sp" />
                 </LinearLayout>
 
@@ -79,39 +79,39 @@
 
                         <ImageView
                             android:id="@+id/pageviewImg"
-                            style="@style/reviewListFooterIcon"
+                            style="@style/boardListFooterIcon"
                             android:layout_gravity="center"
                             android:layout_marginStart="20dp"
                             app:srcCompat="@drawable/pageviews" />
 
                         <TextView
                             android:id="@+id/pageviewNum"
-                            style="@style/reviewListFooterText"
+                            style="@style/boardListFooterText"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:layout_marginStart="5dp"
-                            android:textColor="@color/review_subtext" />
+                            android:textColor="@color/board_subtext" />
 
                         <ImageView
                             android:id="@+id/likeImg"
-                            style="@style/reviewListFooterIcon"
+                            style="@style/boardListFooterIcon"
                             android:layout_gravity="center"
                             android:layout_marginStart="20dp"
                             app:srcCompat="@drawable/like" />
 
                         <TextView
                             android:id="@+id/likeNum"
-                            style="@style/reviewListFooterText"
+                            style="@style/boardListFooterText"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:layout_marginStart="5dp"
-                            android:textColor="@color/review_subtext"/>
+                            android:textColor="@color/board_subtext"/>
 
                         <ImageView
                             android:id="@+id/commentImg"
-                            style="@style/reviewListFooterIcon"
+                            style="@style/boardListFooterIcon"
 
                             android:layout_gravity="center"
                             android:layout_marginStart="20dp"
@@ -119,24 +119,24 @@
 
                         <TextView
                             android:id="@+id/commentNum"
-                            style="@style/reviewListFooterText"
+                            style="@style/boardListFooterText"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:layout_marginStart="5dp"
-                            android:textColor="@color/review_subtext"/>
+                            android:textColor="@color/board_subtext"/>
 
                         <!-- 글 작성 시간 나타내는 text -->
                         <TextView
                             android:id="@+id/time"
-                            style="@style/reviewListFooterText"
+                            style="@style/boardListFooterText"
                             android:layout_width="40dp"
                             android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:layout_marginStart="140dp"
                             android:gravity="center"
                             android:text="time"
-                            android:textColor="@color/review_subtext" />
+                            android:textColor="@color/board_subtext" />
                 </LinearLayout>
 
                 <FrameLayout
@@ -146,7 +146,7 @@
 
                         <ImageView
                             android:id="@+id/bookmarkImg"
-                            style="@style/reviewListFooterIcon"
+                            style="@style/boardListFooterIcon"
                             android:layout_gravity="center"
                             android:src="@drawable/bookmark" />
                 </FrameLayout>
