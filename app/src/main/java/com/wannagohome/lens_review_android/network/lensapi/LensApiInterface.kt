@@ -13,14 +13,14 @@ interface LensApiInterface {
     @GET("api/lens")
     fun getLensList(): Observable<Response<List<LensPreview>>>
 
-    @GET("api/lens")
-    fun getLensById(@Query("id") lensId: Int): Observable<Response<DetailedLens>>
+    @GET("api/lens/{id}")
+    fun getLensById(@Path("id") lensId: Int): Observable<Response<DetailedLens>>
 
-    @GET("api/free-board/preview")
+    @GET("api/boards/free-board")
     fun getArticleList(): Observable<Response<List<Article>>>
 
-    @GET("api/articleinfo")
-    fun getArticleById(@Query("id") articleId: Int): Observable<Response<DetailedArticle>>
+    @GET("api/boards/free-board/{id}")
+    fun getArticleById(@Path("id") articleId: Int): Observable<Response<DetailedArticle>>
 
     @POST("api/user/login")
     fun login(@Header("account") account: String, @Header("pw") pw: String): Observable<Response<ResponseBody>>

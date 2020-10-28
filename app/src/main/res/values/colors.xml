@@ -8,8 +8,8 @@
     <color name="dark_text">#3E3E3E</color>
     <color name="light_text">#B1B2B4</color>
 
-    <color name="review_maintext">@android:color/black</color>
-    <color name="review_subtext">#8E8E8E</color>
-    <color name="review_background">#FFFFFF</color>
+    <color name="board_maintext">@android:color/black</color>
+    <color name="board_subtext">#8E8E8E</color>
+    <color name="board_background">#FFFFFF</color>
 
 </resources>

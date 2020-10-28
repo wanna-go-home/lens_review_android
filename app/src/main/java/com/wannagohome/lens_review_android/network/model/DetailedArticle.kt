@@ -24,12 +24,12 @@ data class DetailedArticle(
     @SerializedName("likeCnt")
     val likes: Int = 0,
 
-    @SerializedName("replyCnt")
+    @SerializedName("commentCnt")
     val comments: Int = 0,
 
     @SerializedName("createdAt")
-    val createdAt:  String = "",
+    val createdAt:  String = ""
 
-    @SerializedName("uri")
-    val uri:  String = ""
+//    @SerializedName("uri")
+//    val uri:  String = ""
 )

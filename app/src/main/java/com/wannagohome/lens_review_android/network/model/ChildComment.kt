@@ -2,30 +2,24 @@ package com.wannagohome.lens_review_android.network.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Article(
+data class ChildComment(
     @SerializedName("id")
-    val articleId: Int = 0,
+    val commentId: Int = 0,
 
     @SerializedName("account")
-    val author: String = "",
+    val authorId: Int = 0,
 
-    @SerializedName("nickname")
-    val nickName: String = "",
+    @SerializedName("articleId")
+    val articleId: Int = 0,
 
-    @SerializedName("title")
-    val title: String = "",
+    @SerializedName("parentId")
+    val parentCommentId: Int = 0,
 
     @SerializedName("content")
     val content: String = "",
 
-    @SerializedName("viewCnt")
-    val views: Int = 0,
-
     @SerializedName("likeCnt")
     val likes: Int = 0,
-
-    @SerializedName("commentCnt")
-    val comments: Int = 0,
 
     @SerializedName("createdAt")
     val createdAt:  String = ""

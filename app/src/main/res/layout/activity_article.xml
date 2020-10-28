@@ -1,105 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-app:cardCornerRadius="5dp"
-app:cardElevation="5dp"
-android:layout_marginTop="10dp"
-tools:context=".ui.article.ArticleActivity"
-android:orientation="horizontal">
-<RelativeLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_margin="5dp">
-    <TextView
-        android:id="@+id/articleTitle"
+    android:layout_marginTop="7dp"
+    android:background="@color/board_background"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/backImg"
+                android:layout_height="35dp"
+                android:layout_width="35dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/arrow_left" />
+
+            <TextView
+                android:id="@+id/backText"
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:text="목록"
+                android:textColor="@color/board_subtext"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layoutDirection="rtl"
+            android:layout_alignParentRight="true">
+
+            <ImageView
+                android:id="@+id/moreImg"
+                style="@style/singlePageHeaderIcon"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                app:srcCompat="@drawable/more" />
+            <ImageView
+                android:id="@+id/bookmarkImg"
+                style="@style/singlePageHeaderIcon"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                app:srcCompat="@drawable/bookmark" />
+            <ImageView
+                android:id="@+id/notiImg"
+                style="@style/singlePageHeaderIcon"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                app:srcCompat="@drawable/noti_off" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 게시글 중단  -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:gravity="center_vertical"
-        android:text="Title"
-        android:textSize="24sp" />
-    <TextView
-        android:id="@+id/author"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/articleTitle"
+                style="@style/singlePageTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/board_maintext"/>
+
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/board_subtext"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/createdAt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/board_subtext"
+                android:textSize="14sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/light_text"/>
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:textColor="@color/board_maintext"
+                android:textSize="18sp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 게시글 하단 -->
+    <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_below="@id/articleTitle"
-        android:text="author"
-        android:textSize="16sp" />
-    <TextView
-        android:id="@+id/createdAt"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:columnCount="5"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_columnWeight="1">
+
+            <com.sackcentury.shinebuttonlib.ShineButton
+                android:id="@+id/likesIcon"
+                style="@style/singlePageFooterIcon"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:src="@android:color/darker_gray"
+                app:btn_color="@android:color/darker_gray"
+                app:btn_fill_color="@android:color/holo_red_dark"
+                app:siShape="@raw/baseline_thumb_up_alt_black_18dp"/>
+
+            <TextView
+                android:id="@+id/likes"
+                style="@style/singlePageFooterText"
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/board_subtext"/>
+        </LinearLayout>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/light_text"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_columnWeight="1">
+            <ImageView
+                android:id="@+id/commentImg"
+                style="@style/singlePageFooterIcon"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                app:srcCompat="@drawable/comment" />
+
+            <TextView
+                android:id="@+id/comments"
+                style="@style/singlePageFooterText"
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/board_subtext"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/light_text"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:layout_columnWeight="1">
+            <ImageView
+                android:id="@+id/shareImg"
+                style="@style/singlePageFooterIcon"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                app:srcCompat="@drawable/share" />
+
+            <TextView
+                android:id="@+id/share"
+                style="@style/singlePageFooterText"
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:text="공유"
+                android:textColor="@color/board_subtext"/>
+        </LinearLayout>
+
+    </GridLayout>
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_below="@id/author"
-        android:text="createdAt"
-        android:textSize="16sp" />
-    <TextView
-        android:id="@+id/contentText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_below="@id/createdAt"
-        android:text="contentText"
-        android:textSize="20sp" />
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/light_text"/>
 
-    <com.sackcentury.shinebuttonlib.ShineButton
-        android:id="@+id/likesIcon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginVertical="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_below="@id/contentText"
-        android:layout_alignParentLeft="true"
-        android:src="@android:color/darker_gray"
-        app:btn_color="@android:color/darker_gray"
-        app:btn_fill_color="@android:color/holo_red_dark"
-        app:siShape="@raw/baseline_thumb_up_alt_black_18dp"/>
-    <TextView
-        android:id="@+id/likes"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_margin="10dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_below="@id/contentText"
-        android:layout_toRightOf="@id/likesIcon"/>
-    <ImageView
-        android:id="@+id/commentsIcon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginVertical="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_below="@id/contentText"
-        android:layout_toRightOf="@id/likes"
-        android:src="@drawable/baseline_comment_black_18dp"/>
-    <TextView
-        android:id="@+id/comments"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_margin="10dp"
-        android:layout_below="@id/contentText"
-        android:layout_marginHorizontal="10dp"
-        android:layout_toRightOf="@id/commentsIcon"/>
-
-    <ImageView
-        android:id="@+id/shareIcon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginVertical="10dp"
-        android:layout_marginRight="50dp"
-        android:layout_below="@id/contentText"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/baseline_share_black_18dp"/>
-<!-- TODO : Optimize code duplication...-->
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/replyRecyclerView"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content" />-->
-
-</RelativeLayout >
-</androidx.cardview.widget.CardView>
+</LinearLayout>
