@@ -22,4 +22,7 @@
     <string name="comment_text">댓글쓰기</string>
     <string name="share_text">공유하기</string>
 
+
+    <string name="login_login">로그인</string>
+
 </resources>
