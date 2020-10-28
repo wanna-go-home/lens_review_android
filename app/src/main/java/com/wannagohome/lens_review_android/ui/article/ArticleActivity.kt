@@ -9,7 +9,6 @@ import com.wannagohome.lens_review_android.R
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import kotlinx.android.synthetic.main.activity_article.*
-import kotlinx.android.synthetic.main.fragment_board.*
 
 class ArticleActivity : AppCompatActivity() {
 
@@ -30,23 +29,23 @@ class ArticleActivity : AppCompatActivity() {
             //TODO error handling with UI
 
         }
-//        initReplyRecyclerView()
+//        initCommentRecyclerView()
         observeEvent()
 
         articleViewModel.getArticle(articleId)
     }
-//    private fun initReplyRecyclerView() {
-//        replyRecyclerView.run {
+//    private fun initCommentRecyclerView() {
+//        commentRecyclerView.run {
 //            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
 //            layoutManager = LinearLayoutManager(context)
 //        }
 //    }
     private fun observeEvent(){
         articleViewModel.article.observe(this, Observer {
-            contentText.text = it.content
+
             articleTitle.text = it.title
-//           TODO: fix 'title' collision
-            author.text = it.nickName
+            content.text = it.content
+            author.text = it.author
             likes.text = it.likes.toString()
             comments.text = it.comments.toString()
             createdAt.text = it.createdAt

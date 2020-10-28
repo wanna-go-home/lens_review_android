@@ -1,11 +1,13 @@
 package com.wannagohome.lens_review_android.ui.board
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.network.model.Article
+import kotlinx.android.synthetic.main.activity_article.*
 import kotlinx.android.synthetic.main.article_list_item.view.*
 
 class BoardListAdapter(val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<BoardListAdapter.BookListViewHolder>() {
@@ -42,7 +44,7 @@ class BoardListAdapter(val itemClickListener: OnItemClickListener) : RecyclerVie
 
         fun bind(article: Article) {
             currentArticle = article
-            itemView.title.text = article.title
+            itemView.articleTitle.text = article.title
             itemView.content.text = article.content
             itemView.author.text = article.nickName
             itemView.views.text = article.views.toString()
