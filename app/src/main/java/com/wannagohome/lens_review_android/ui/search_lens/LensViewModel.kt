@@ -1,24 +1,21 @@
 package com.wannagohome.lens_review_android.ui.search_lens
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
-import com.wannagohome.lens_review_android.network.model.Lens
 import com.wannagohome.lens_review_android.network.model.LensPreview
-import io.reactivex.disposables.CompositeDisposable
+import com.wannagohome.lens_review_android.support.basemodel.BaseViewModel
+import com.wannagohome.lens_review_android.support.disposableExt.addTo
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class LensViewModel : ViewModel(), KoinComponent {
+class LensViewModel : BaseViewModel(), KoinComponent {
 
     val lensList = MutableLiveData<List<LensPreview>>()
-
-    private val disposable = CompositeDisposable()
 
     private val lensClient: LensApiClient by inject()
 
     fun getLensList() {
-        val lensListReq = lensClient.getLensList()
+        lensClient.getLensList()
             .subscribe(
                 {
                     lensList.value = it.body()
@@ -27,8 +24,6 @@ class LensViewModel : ViewModel(), KoinComponent {
                     it.printStackTrace()
 
                 }
-            )
-
-        disposable.add(lensListReq)
+            ).addTo(compositeDisposable)
     }
 }

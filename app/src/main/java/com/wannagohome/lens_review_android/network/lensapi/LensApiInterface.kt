@@ -1,12 +1,16 @@
 package com.wannagohome.lens_review_android.network.lensapi
 
-import com.wannagohome.lens_review_android.network.model.*
-import com.wannagohome.lens_review_android.network.model.user.LoginRequest
-import com.wannagohome.lens_review_android.network.model.user.LoginResponse
-import io.reactivex.Observable
+import com.wannagohome.lens_review_android.network.model.Article
+import com.wannagohome.lens_review_android.network.model.DetailedArticle
+import com.wannagohome.lens_review_android.network.model.DetailedLens
+import com.wannagohome.lens_review_android.network.model.LensPreview
+import io.reactivex.rxjava3.core.Observable
 import okhttp3.ResponseBody
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface LensApiInterface {
 
@@ -23,5 +27,8 @@ interface LensApiInterface {
     fun getArticleById(@Path("id") articleId: Int): Observable<Response<DetailedArticle>>
 
     @POST("api/user/login")
-    fun login(@Header("account") account: String, @Header("pw") pw: String): Observable<Response<ResponseBody>>
+    fun login(
+        @Header("account") account: String,
+        @Header("pw") pw: String
+    ): Observable<Response<ResponseBody>>
 }
