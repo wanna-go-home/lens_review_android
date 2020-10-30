@@ -7,7 +7,6 @@ import androidx.lifecycle.Observer
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.ui.MainActivity
 import com.wannagohome.lens_review_android.ui.signup.SignUpActivity
-import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
