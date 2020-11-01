@@ -4,6 +4,7 @@ import com.wannagohome.lens_review_android.network.model.Article
 import com.wannagohome.lens_review_android.network.model.DetailedArticle
 import com.wannagohome.lens_review_android.network.model.DetailedLens
 import com.wannagohome.lens_review_android.network.model.LensPreview
+import com.wannagohome.lens_review_android.network.model.user.LoginRequest
 import com.wannagohome.lens_review_android.support.AccessKeyHelper
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -44,8 +45,9 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
     }
 
     fun login(account: String, pw: String): Observable<Response<ResponseBody>> {
+        val loginRequest = LoginRequest(account, pw)
 
-        return lensApiInterface.login(account, pw)
+        return lensApiInterface.login(loginRequest)
             .subscribeOn(Schedulers.io())
             .map { t ->
                 if (t.isSuccessful) {
