@@ -9,6 +9,9 @@ data class Comment(
     @SerializedName("account")
     val authorId: Int = 0,
 
+    @SerializedName("nickname")
+    val nickName: String = "",
+
     @SerializedName("articleId")
     val articleId: Int = 0,
 

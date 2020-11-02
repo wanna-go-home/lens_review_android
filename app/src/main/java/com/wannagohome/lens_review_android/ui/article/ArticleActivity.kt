@@ -18,6 +18,8 @@ class ArticleActivity : AppCompatActivity() {
 
     private val articleViewModel : ArticleViewModel by viewModel()
 
+    private val commentAdapter = CommentAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_article)
@@ -29,17 +31,18 @@ class ArticleActivity : AppCompatActivity() {
             //TODO error handling with UI
 
         }
-//        initCommentRecyclerView()
+        initCommentRecyclerView()
         observeEvent()
 
         articleViewModel.getArticle(articleId)
     }
-//    private fun initCommentRecyclerView() {
-//        commentRecyclerView.run {
-//            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
-//            layoutManager = LinearLayoutManager(context)
-//        }
-//    }
+    private fun initCommentRecyclerView() {
+        commentRecyclerView.run {
+            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+            layoutManager = LinearLayoutManager(context)
+            adapter = commentAdapter
+        }
+    }
     private fun observeEvent(){
         articleViewModel.article.observe(this, Observer {
 
