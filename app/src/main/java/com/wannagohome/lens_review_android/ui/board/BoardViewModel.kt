@@ -1,19 +1,16 @@
 package com.wannagohome.lens_review_android.ui.board
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
 import com.wannagohome.lens_review_android.network.model.Article
-import io.reactivex.disposables.CompositeDisposable
+import com.wannagohome.lens_review_android.support.basemodel.BaseViewModel
+import com.wannagohome.lens_review_android.support.disposableExt.addTo
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class BoardViewModel : ViewModel(), KoinComponent {
+class BoardViewModel : BaseViewModel(), KoinComponent {
 
     val articleList = MutableLiveData<List<Article>>()
-
-    private val disposable = CompositeDisposable()
-
     private val lensClient: LensApiClient by inject()
 
     fun getArticleList() {
@@ -26,8 +23,7 @@ class BoardViewModel : ViewModel(), KoinComponent {
                     it.printStackTrace()
 
                 }
-            )
+            ).addTo(compositeDisposable)
 
-        disposable.add(boardListReq)
     }
 }
