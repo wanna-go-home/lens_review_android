@@ -28,7 +28,7 @@
     </style>
 
     <style name="singlePageTitle">
-        <item name="android:textSize">30sp</item>
+        <item name="android:textSize">28sp</item>
     </style>
 
 </resources>

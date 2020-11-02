@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="7dp"
+    android:background="@color/board_background"
+    android:padding="20dp"
+    android:orientation="vertical">
+<!--    댓글-->
+    <TextView
+        android:id="@+id/author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="wrap_content"
+        android:textColor="@color/board_subtext"/>
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:textColor="@color/board_maintext"
+        android:text="board_maintext"
+        android:textSize="18sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/createdAt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/board_subtext"
+            android:text="createdAt"
+            android:textSize="14sp" />
+
+        <com.sackcentury.shinebuttonlib.ShineButton
+            android:id="@+id/likesIcon"
+            style="@style/singlePageFooterIcon"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:src="@android:color/darker_gray"
+            app:btn_color="@android:color/darker_gray"
+            app:btn_fill_color="@android:color/holo_red_dark"
+            app:siShape="@raw/baseline_thumb_up_alt_black_18dp"/>
+
+        <TextView
+            android:id="@+id/likes"
+            style="@style/singlePageFooterText"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/board_subtext"/>
+
+        <ImageView
+            android:id="@+id/commentImg"
+            style="@style/singlePageFooterIcon"
+            android:layout_gravity="center"
+            android:layout_marginStart="30dp"
+            app:srcCompat="@drawable/comment" />
+
+        <TextView
+            android:id="@+id/comments"
+            style="@style/singlePageFooterText"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:text="대댓글"
+            android:textColor="@color/board_subtext"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layoutDirection="rtl"
+            android:layout_alignParentRight="true">
+
+            <ImageView
+                android:id="@+id/moreImg"
+                style="@style/singlePageHeaderIcon"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                app:srcCompat="@drawable/more" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
