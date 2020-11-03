@@ -1,6 +1,7 @@
 package com.wannagohome.lens_review_android.network.lensapi
 
 import com.wannagohome.lens_review_android.network.model.*
+import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
 import com.wannagohome.lens_review_android.network.model.user.LoginRequest
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.ResponseBody
@@ -26,4 +27,7 @@ interface LensApiInterface {
 
     @GET("api/boards/review-board")
     fun getAllReviews(): Observable<Response<List<ReviewPreview>>>
+
+//    @GET("api/boards/review-board/{id}")
+//    fun getReviewById(@Path("id") id : Int) : Observable<Response<DetailedReview>>
 }
