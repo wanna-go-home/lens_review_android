@@ -46,7 +46,7 @@ class BoardListAdapter(val itemClickListener: OnItemClickListener) : RecyclerVie
             currentArticle = article
             itemView.articleTitle.text = article.title
             itemView.content.text = article.content
-            itemView.author.text = article.nickName
+            itemView.author.text = article.author
             itemView.views.text = article.views.toString()
             itemView.likes.text = article.likes.toString()
             itemView.comments.text = article.comments.toString()

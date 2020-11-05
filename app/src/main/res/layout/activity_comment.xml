@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="7dp"
     android:background="@color/board_background"
     android:orientation="vertical">
 
@@ -19,8 +18,8 @@
 
             <ImageView
                 android:id="@+id/backImg"
-                android:layout_height="35dp"
                 android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center"
                 app:srcCompat="@drawable/arrow_left" />
 
@@ -29,130 +28,142 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
-                android:textSize="16sp"
                 android:text="돌아가기"
-                android:textColor="@color/board_subtext"/>
+                android:textColor="@color/board_subtext"
+                android:textSize="16sp" />
         </LinearLayout>
-
-
     </LinearLayout>
 
-    <!-- 게시글 중단  -->
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="20dp"
+        android:layout_weight="1"
+        android:background="@color/board_background"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/author"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="wrap_content"
-            android:textColor="@color/board_subtext"/>
-
-        <TextView
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:textColor="@color/board_maintext"
-            android:text="board_maintext"
-            android:textSize="18sp"/>
+        <!-- 게시글 중단  -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/createdAt"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/board_subtext"
-                android:text="createdAt"
-                android:textSize="14sp" />
-
-            <com.sackcentury.shinebuttonlib.ShineButton
-                android:id="@+id/likesIcon"
-                style="@style/singlePageFooterIcon"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                android:src="@android:color/darker_gray"
-                app:btn_color="@android:color/darker_gray"
-                app:btn_fill_color="@android:color/holo_red_dark"
-                app:siShape="@raw/baseline_thumb_up_alt_black_18dp"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp">
 
             <TextView
-                android:id="@+id/likes"
-                style="@style/singlePageFooterText"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/board_subtext"/>
+                android:id="@+id/author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="wrap_content"
+                android:textColor="@color/board_subtext" />
 
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:text="board_maintext"
+                android:textColor="@color/board_maintext"
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layoutDirection="rtl"
-                android:layout_alignParentRight="true">
+                android:layout_height="30dp"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/moreImg"
-                    style="@style/singlePageHeaderIcon"
+                <TextView
+                    android:id="@+id/createdAt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:text="createdAt"
+                    android:textColor="@color/board_subtext"
+                    android:textSize="14sp" />
+
+                <com.sackcentury.shinebuttonlib.ShineButton
+                    android:id="@+id/likesIcon"
+                    style="@style/singlePageFooterIcon"
                     android:layout_gravity="center"
                     android:layout_marginStart="20dp"
-                    app:srcCompat="@drawable/more" />
+                    android:src="@android:color/darker_gray"
+                    app:btn_color="@android:color/darker_gray"
+                    app:btn_fill_color="@android:color/holo_red_dark"
+                    app:siShape="@raw/baseline_thumb_up_alt_black_18dp" />
+
+                <TextView
+                    android:id="@+id/likes"
+                    style="@style/singlePageFooterText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/board_subtext" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layoutDirection="rtl"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/moreImg"
+                        style="@style/singlePageHeaderIcon"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="20dp"
+                        app:srcCompat="@drawable/more" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+        <!--Comments-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider" />
+            <!--Comments List-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/commentRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
 
-    </LinearLayout>
-    <!--Comments-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/divider"/>
-        <!--Comments List-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="20dp"
-            android:orientation="vertical">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/commentRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/divider"/>
+        android:background="@color/divider" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:paddingHorizontal="20dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp">
+
         <ImageView
             android:id="@+id/cameraImg"
             style="@style/singlePageFooterIcon"
             android:layout_gravity="center"
             app:srcCompat="@drawable/camera" />
+
         <EditText
             android:id="@+id/commentInput"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="15dp"
             android:background="@null"
-            android:hint=" 댓글을 남겨주세요"
-            />
+            android:hint=" 댓글을 남겨주세요" />
     </LinearLayout>
 </LinearLayout>

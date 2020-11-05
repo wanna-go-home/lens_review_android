@@ -9,7 +9,7 @@ data class Comment(
     @SerializedName("accountId")
     val authorId: String = "",
 
-    @SerializedName("post_id")
+    @SerializedName("postId")
     val articleId: Int = 0,
 
     @SerializedName("content")

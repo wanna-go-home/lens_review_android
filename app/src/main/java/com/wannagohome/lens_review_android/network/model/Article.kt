@@ -9,9 +9,6 @@ data class Article(
     @SerializedName("account")
     val author: String = "",
 
-    @SerializedName("nickname")
-    val nickName: String = "",
-
     @SerializedName("title")
     val title: String = "",
 
@@ -24,7 +21,7 @@ data class Article(
     @SerializedName("likeCnt")
     val likes: Int = 0,
 
-    @SerializedName("commentCnt")
+    @SerializedName("replyCnt")
     val comments: Int = 0,
 
     @SerializedName("createdAt")

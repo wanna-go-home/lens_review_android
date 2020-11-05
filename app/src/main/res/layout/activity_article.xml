@@ -1,15 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!-- Top Navigator-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/board_background"
     android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <!-- Top Navigator-->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="35dp">
@@ -21,8 +18,8 @@
 
             <ImageView
                 android:id="@+id/backImg"
-                android:layout_height="35dp"
                 android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center"
                 app:srcCompat="@drawable/arrow_left" />
 
@@ -31,17 +28,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
-                android:textSize="16sp"
                 android:text="돌아가기"
-                android:textColor="@color/board_subtext"/>
+                android:textColor="@color/board_subtext"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
             android:layoutDirection="rtl"
-            android:layout_alignParentRight="true">
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/moreImg"
@@ -49,12 +46,14 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
                 app:srcCompat="@drawable/more" />
+
             <ImageView
                 android:id="@+id/bookmarkImg"
                 style="@style/singlePageHeaderIcon"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
                 app:srcCompat="@drawable/bookmark" />
+
             <ImageView
                 android:id="@+id/notiImg"
                 style="@style/singlePageHeaderIcon"
@@ -65,242 +64,270 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- 게시글 중단  -->
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingHorizontal="20dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/articleTitle"
-                style="@style/singlePageTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/board_maintext"/>
-
-            <TextView
-                android:id="@+id/author"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/board_subtext"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/createdAt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/board_subtext"
-                android:textSize="14sp" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/divider"/>
-            <TextView
-                android:id="@+id/content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:foreground="?attr/selectableItemBackground"
-                android:textColor="@color/board_maintext"
-                android:textSize="18sp"/>
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- 게시글 하단 -->
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:columnCount="5"
-        >
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_columnWeight="1">
-
-            <com.sackcentury.shinebuttonlib.ShineButton
-                android:id="@+id/likesIcon"
-                style="@style/singlePageFooterIcon"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                android:src="@android:color/darker_gray"
-                app:btn_color="@android:color/darker_gray"
-                app:btn_fill_color="@android:color/holo_red_dark"
-                app:siShape="@raw/baseline_thumb_up_alt_black_18dp"/>
-
-            <TextView
-                android:id="@+id/likes"
-                style="@style/singlePageFooterText"
-                android:layout_width="40dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/board_subtext"/>
-        </LinearLayout>
-        <View
-            android:layout_width="1dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="15dp"
-            android:background="@color/divider"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_columnWeight="1">
-            <ImageView
-                android:id="@+id/commentImg"
-                style="@style/singlePageFooterIcon"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                app:srcCompat="@drawable/comment" />
-
-            <TextView
-                android:id="@+id/comments"
-                style="@style/singlePageFooterText"
-                android:layout_width="40dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/board_subtext"/>
-        </LinearLayout>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="15dp"
-            android:background="@color/divider"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginEnd="10dp"
-            android:layout_columnWeight="1">
-            <ImageView
-                android:id="@+id/shareImg"
-                style="@style/singlePageFooterIcon"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                app:srcCompat="@drawable/share" />
-
-            <TextView
-                android:id="@+id/share"
-                style="@style/singlePageFooterText"
-                android:layout_width="40dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:text="공유"
-                android:textColor="@color/board_subtext"/>
-        </LinearLayout>
-
-    </GridLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:layout_marginTop="15dp"
-        android:background="@color/divider"/>
-    <!--Comments-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:background="@color/board_background"
+        android:layout_weight="1"
         android:orientation="vertical">
-        <!--Comment Header-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:paddingHorizontal="20dp"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/sort"
-                style="@style/singlePageFooterText"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:text="시간순"
-                android:textColor="@color/board_subtext"/>
-            <ImageView
-                android:id="@+id/sortImg"
-                style="@style/singlePageFooterIcon"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/arrow_down" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layoutDirection="rtl"
-                android:layout_alignParentRight="true">
-                <TextView
-                    android:id="@+id/goToBot"
-                    style="@style/singlePageFooterText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:text="마지막 댓글로 이동"
-                    android:textColor="@color/board_subtext"/>
-                <ImageView
-                    android:id="@+id/goToBotImg"
-                    style="@style/singlePageHeaderIcon"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/arrow_down_bot" />
-            </LinearLayout>
-        </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/divider"/>
-        <!--Comments List-->
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/commentRecyclerView"
-                android:nestedScrollingEnabled="false"
+            <!-- 게시글 중단  -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        </RelativeLayout>
-    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="20dp">
+
+                    <TextView
+                        android:id="@+id/articleTitle"
+                        style="@style/singlePageTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/board_maintext" />
+
+                    <TextView
+                        android:id="@+id/author"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/board_subtext"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/createdAt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/board_subtext"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/divider" />
+
+                    <TextView
+                        android:id="@+id/content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:textColor="@color/board_maintext"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 게시글 하단 -->
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:columnCount="5"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp">
+
+                    <com.sackcentury.shinebuttonlib.ShineButton
+                        android:id="@+id/likesIcon"
+                        style="@style/singlePageFooterIcon"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="20dp"
+                        android:src="@android:color/darker_gray"
+                        app:btn_color="@android:color/darker_gray"
+                        app:btn_fill_color="@android:color/holo_red_dark"
+                        app:siShape="@raw/baseline_thumb_up_alt_black_18dp" />
+
+                    <TextView
+                        android:id="@+id/likes"
+                        style="@style/singlePageFooterText"
+                        android:layout_width="40dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/board_subtext" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/divider" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="center">
+
+                    <ImageView
+                        android:id="@+id/commentImg"
+                        style="@style/singlePageFooterIcon"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="20dp"
+                        app:srcCompat="@drawable/comment" />
+
+                    <TextView
+                        android:id="@+id/comments"
+                        style="@style/singlePageFooterText"
+                        android:layout_width="40dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/board_subtext" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/divider" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="10dp">
+
+                    <ImageView
+                        android:id="@+id/shareImg"
+                        style="@style/singlePageFooterIcon"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="20dp"
+                        app:srcCompat="@drawable/share" />
+
+                    <TextView
+                        android:id="@+id/share"
+                        style="@style/singlePageFooterText"
+                        android:layout_width="40dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:text="공유"
+                        android:textColor="@color/board_subtext" />
+                </LinearLayout>
+
+            </GridLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/divider" />
+            <!--Comments-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!--Comment Header-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp">
+
+                    <TextView
+                        android:id="@+id/sort"
+                        style="@style/singlePageFooterText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:text="시간순"
+                        android:textColor="@color/board_subtext" />
+
+                    <ImageView
+                        android:id="@+id/sortImg"
+                        style="@style/singlePageFooterIcon"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/arrow_down" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layoutDirection="rtl"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/goToBot"
+                            style="@style/singlePageFooterText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center"
+                            android:text="마지막 댓글로 이동"
+                            android:textColor="@color/board_subtext" />
+
+                        <ImageView
+                            android:id="@+id/goToBotImg"
+                            style="@style/singlePageHeaderIcon"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/arrow_down_bot" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider" />
+                <!--Comments List-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/commentRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/divider"/>
+        android:background="@color/divider" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:paddingHorizontal="20dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp">
+
         <ImageView
             android:id="@+id/cameraImg"
             style="@style/singlePageFooterIcon"
             android:layout_gravity="center"
             app:srcCompat="@drawable/camera" />
+
         <EditText
             android:id="@+id/commentInput"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="15dp"
             android:background="@null"
-            android:hint=" 댓글을 남겨주세요"
-            />
+            android:hint=" 댓글을 남겨주세요" />
     </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>
