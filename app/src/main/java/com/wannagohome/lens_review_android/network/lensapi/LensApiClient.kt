@@ -1,9 +1,6 @@
 package com.wannagohome.lens_review_android.network.lensapi
 
-import com.wannagohome.lens_review_android.network.model.Article
-import com.wannagohome.lens_review_android.network.model.DetailedArticle
-import com.wannagohome.lens_review_android.network.model.DetailedLens
-import com.wannagohome.lens_review_android.network.model.LensPreview
+import com.wannagohome.lens_review_android.network.model.*
 import com.wannagohome.lens_review_android.network.model.user.LoginRequest
 import com.wannagohome.lens_review_android.support.AccessKeyHelper
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -39,6 +36,13 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
 
     fun getArticleById(articleId: Int): Observable<Response<DetailedArticle>> {
         return lensApiInterface.getArticleById(articleId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getCommentsByArticleId(articleId: Int): Observable<Response<List<Comment>>> {
+        return lensApiInterface.getCommentsByArticleId(articleId)
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())

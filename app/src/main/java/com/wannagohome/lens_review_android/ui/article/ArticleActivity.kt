@@ -18,16 +18,6 @@ class ArticleActivity : AppCompatActivity() {
     }
 
     private val articleViewModel : ArticleViewModel by viewModel()
-//    Comment TEST
-    private val comments = mutableListOf<Comment>().apply{
-        add(Comment(1,"damon",1,"댓글이야",1,"232412424214",0,0))
-        add(Comment(3,"afafa",1,"대댓글이야",1,"232412424214",1,1))
-        add(Comment(2,"dawd",1,"댓글이야",1,"232412424214",0,0))
-        add(Comment(4,"afw",1,"댓글이야",1,"232412424214",0,0))
-        add(Comment(6,"adw",1,"대댓글이야",1,"232412424214",1,4))
-        add(Comment(7,"grfg",1,"대댓글이야",1,"232412424214",1,4))
-        add(Comment(5,"adwadw",1,"댓글이야",1,"232412424214",0,0))
-    }
 
     private val commentAdapter = CommentMultiViewAdapter()
 
@@ -45,6 +35,7 @@ class ArticleActivity : AppCompatActivity() {
         initCommentRecyclerView()
         observeEvent()
         articleViewModel.getArticle(articleId)
+        articleViewModel.getComments(articleId)
     }
     private fun initCommentRecyclerView() {
         commentRecyclerView.run {
@@ -61,7 +52,9 @@ class ArticleActivity : AppCompatActivity() {
             author.text = it.author
             likes.text = it.likes.toString()
             createdAt.text = it.createdAt
-            commentAdapter.commentList = ArrayList(comments)
+        })
+        articleViewModel.comments.observe(this, Observer {
+            commentAdapter.commentList = ArrayList(it)
         })
     }
 }
