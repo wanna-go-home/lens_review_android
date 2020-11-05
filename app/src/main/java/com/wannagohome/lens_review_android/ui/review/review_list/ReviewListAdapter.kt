@@ -56,7 +56,7 @@ class ReviewListAdapter(val itemClickListener: OnItemClickListener? = null) : Re
 
             itemView.reviewWriter.text = reviewPreview.nickname
 
-            itemView.time.text = reviewPreview.getDateTime()
+            itemView.time.text = reviewPreview.getDateTime() ?: ""
 
         }
     }

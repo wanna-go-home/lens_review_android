@@ -36,6 +36,8 @@ data class ReviewPreview(
 ){
 
     fun getDateTime(): String {
+        return "수정예정"
+
         return if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
             val dateTime = ZonedDateTime.parse(createdAt)
 //            .withZoneSameInstant(ZoneId.systemDefault())

@@ -1,5 +1,6 @@
 package com.wannagohome.lens_review_android.ui.review.review_list
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
 import com.wannagohome.lens_review_android.ui.review.review_detail.ReviewDetailActivity
-import kotlinx.android.synthetic.main.fragment_tab_review.*
+import com.wannagohome.lens_review_android.ui.review.write.WriteReviewActivity
+import kotlinx.android.synthetic.main.fragment_review.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -23,11 +25,11 @@ class TabReview : Fragment() {
         ReviewListAdapter.OnItemClickListener {
         override fun onItemClick(clickedReviewPreview: ReviewPreview) {
             ReviewDetailActivity.startReviewDetailActivity(context!!, clickedReviewPreview.id)
-          }
+        }
     })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_tab_review, container, false)
+        return inflater.inflate(R.layout.fragment_review, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,21 +37,30 @@ class TabReview : Fragment() {
 
         initReviewPreviewRecyclerView()
 
+        addListener()
+
         observeEvents()
 
         reviewPreviewViewModel.fetchReviewPreview()
     }
 
-    private fun initReviewPreviewRecyclerView(){
-        reviewRecyclerView.run{
+    private fun addListener() {
+        writeBtn.setOnClickListener {
+            val intent = Intent(requireContext(), WriteReviewActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun initReviewPreviewRecyclerView() {
+        reviewRecyclerView.run {
             addItemDecoration((DividerItemDecoration(context, LinearLayoutManager.VERTICAL)))
             layoutManager = LinearLayoutManager(context)
             adapter = reviewPreviewAdapter
         }
     }
 
-    private fun observeEvents(){
-        reviewPreviewViewModel.reviewPreviewList.observe(viewLifecycleOwner, Observer{
+    private fun observeEvents() {
+        reviewPreviewViewModel.reviewPreviewList.observe(viewLifecycleOwner, Observer {
             reviewPreviewAdapter.reviewPreviewList = it
         })
     }
