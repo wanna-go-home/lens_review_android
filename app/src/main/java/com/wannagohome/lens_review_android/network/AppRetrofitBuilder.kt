@@ -50,13 +50,18 @@ class AppRetrofitBuilder(private val baseUrl: String, private val interceptor: I
             val originalRequest = chain.request()
             val url = originalRequest.url()
 
-            if (url.toString().contains("login")) {
+            if (url.toString().contains("user")) {
+                Timber.d("aaaaaaaaaaaaa")
                 return chain.proceed(originalRequest)
             }
+            Timber.d("bbbbb")
 
             if (accessToken.isBlank() || accessToken.isEmpty()) {
                 accessToken = AccessKeyHelper.readToken()
+                Timber.d("ccccc")
+
             }
+            Timber.d("ddddd")
 
             val newRequest = originalRequest.newBuilder()
                 .addHeader("authorization", accessToken)

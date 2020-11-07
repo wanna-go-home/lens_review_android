@@ -5,6 +5,7 @@ import com.wannagohome.lens_review_android.network.model.DetailedArticle
 import com.wannagohome.lens_review_android.network.model.DetailedLens
 import com.wannagohome.lens_review_android.network.model.LensPreview
 import com.wannagohome.lens_review_android.network.model.user.LoginRequest
+import com.wannagohome.lens_review_android.network.model.user.SignUpRequest
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -26,4 +27,7 @@ interface LensApiInterface {
 
     @POST("api/user/login")
     fun login(@Body loginRequest: LoginRequest): Observable<Response<ResponseBody>>
+
+    @POST("api/user/signup")
+    fun signUp(@Body signUpRequestRequest: SignUpRequest): Observable<Response<ResponseBody>>
 }

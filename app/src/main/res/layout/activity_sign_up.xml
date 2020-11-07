@@ -37,6 +37,7 @@
             android:hint="@string/signup_pw_check_hint" />
 
         <EditText
+            android:id="@+id/phoneNumberEdit"
             style="@style/signUpEditStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
