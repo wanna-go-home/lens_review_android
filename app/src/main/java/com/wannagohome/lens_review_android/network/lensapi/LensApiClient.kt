@@ -43,6 +43,12 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    fun getCommentsByArticleId(articleId: Int): Observable<Response<List<Comment>>> {
+        return lensApiInterface.getCommentsByArticleId(articleId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
 
     fun login(account: String, pw: String): Observable<Response<ResponseBody>> {
         val loginRequest = LoginRequest(account, pw)

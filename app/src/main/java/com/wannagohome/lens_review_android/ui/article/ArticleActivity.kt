@@ -6,9 +6,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wannagohome.lens_review_android.R
+import com.wannagohome.lens_review_android.network.model.Comment
+import kotlinx.android.synthetic.main.activity_article.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
-import kotlinx.android.synthetic.main.activity_article.*
 
 class ArticleActivity : AppCompatActivity() {
 
@@ -17,6 +18,8 @@ class ArticleActivity : AppCompatActivity() {
     }
 
     private val articleViewModel : ArticleViewModel by viewModel()
+
+    private val commentAdapter = CommentMultiViewAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,17 +32,18 @@ class ArticleActivity : AppCompatActivity() {
             //TODO error handling with UI
 
         }
-//        initCommentRecyclerView()
+        initCommentRecyclerView()
         observeEvent()
-
         articleViewModel.getArticle(articleId)
+        articleViewModel.getComments(articleId)
     }
-//    private fun initCommentRecyclerView() {
-//        commentRecyclerView.run {
-//            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
-//            layoutManager = LinearLayoutManager(context)
-//        }
-//    }
+    private fun initCommentRecyclerView() {
+        commentRecyclerView.run {
+            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+            layoutManager = LinearLayoutManager(context)
+            adapter = commentAdapter
+        }
+    }
     private fun observeEvent(){
         articleViewModel.article.observe(this, Observer {
 
@@ -47,8 +51,10 @@ class ArticleActivity : AppCompatActivity() {
             content.text = it.content
             author.text = it.author
             likes.text = it.likes.toString()
-            comments.text = it.comments.toString()
             createdAt.text = it.createdAt
+        })
+        articleViewModel.comments.observe(this, Observer {
+            commentAdapter.commentList = ArrayList(it)
         })
     }
 }

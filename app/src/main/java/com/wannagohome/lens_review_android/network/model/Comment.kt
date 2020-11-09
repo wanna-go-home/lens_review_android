@@ -6,10 +6,10 @@ data class Comment(
     @SerializedName("id")
     val commentId: Int = 0,
 
-    @SerializedName("account")
-    val authorId: Int = 0,
+    @SerializedName("accountId")
+    val authorId: String = "",
 
-    @SerializedName("articleId")
+    @SerializedName("postId")
     val articleId: Int = 0,
 
     @SerializedName("content")
@@ -19,5 +19,12 @@ data class Comment(
     val likes: Int = 0,
 
     @SerializedName("createdAt")
-    val createdAt:  String = ""
+    val createdAt:  String = "",
+
+    @SerializedName("depth")
+    val depth: Int = 0,
+
+    @SerializedName("bundleId")
+    val bundleId: Int = 0
+
 )

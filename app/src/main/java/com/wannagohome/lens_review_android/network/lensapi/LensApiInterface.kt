@@ -23,6 +23,10 @@ interface LensApiInterface {
     @GET("api/boards/free-board/{id}")
     fun getArticleById(@Path("id") articleId: Int): Observable<Response<DetailedArticle>>
 
+    @GET("/api/boards/free-board/{id}/comments")
+    fun getCommentsByArticleId(@Path("id") articleId: Int): Observable<Response<List<Comment>>>
+
+
     @POST("api/user/login")
     fun login(@Body loginRequest: LoginRequest): Observable<Response<ResponseBody>>
 

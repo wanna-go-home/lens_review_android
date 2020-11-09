@@ -9,9 +9,6 @@ data class DetailedArticle(
     @SerializedName("account")
     val author: String = "",
 
-    @SerializedName("nickname")
-    val nickName: String = "",
-
     @SerializedName("title")
     val title: String = "",
 
