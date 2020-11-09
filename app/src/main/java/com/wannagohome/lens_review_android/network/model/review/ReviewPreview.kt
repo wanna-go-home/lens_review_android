@@ -33,14 +33,14 @@ data class ReviewPreview(
     @SerializedName("title")
     val title: String
 
-){
+) {
 
     fun getDateTime(): String {
-        return "수정예정"
+
 
         return if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
-            val dateTime = ZonedDateTime.parse(createdAt)
-//            .withZoneSameInstant(ZoneId.systemDefault())
+            val dateTime = ZonedDateTime.parse(createdAt + "Z")
+                .withZoneSameInstant(ZoneId.systemDefault())
 
             val month = dateTime.monthValue
             val date = dateTime.dayOfMonth
@@ -50,7 +50,7 @@ data class ReviewPreview(
             "${month}/$date-$hours:$minutes"
         } else {
             val dateTime = org.threeten.bp.ZonedDateTime.parse(createdAt)
-//            .withZoneSameInstant(org.threeten.bp.ZoneId.systemDefault())
+                .withZoneSameInstant(org.threeten.bp.ZoneId.systemDefault())
 
             val month = dateTime.monthValue
             val date = dateTime.dayOfMonth

@@ -15,6 +15,7 @@ import com.wannagohome.lens_review_android.ui.review.review_detail.ReviewDetailA
 import com.wannagohome.lens_review_android.ui.review.write.WriteReviewActivity
 import kotlinx.android.synthetic.main.fragment_review.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 
 class TabReview : Fragment() {
@@ -34,12 +35,15 @@ class TabReview : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initReviewPreviewRecyclerView()
 
         addListener()
 
         observeEvents()
+    }
+
+    override fun onStart() {
+        super.onStart()
 
         reviewPreviewViewModel.fetchReviewPreview()
     }
