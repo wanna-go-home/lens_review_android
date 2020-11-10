@@ -1,6 +1,8 @@
 package com.wannagohome.lens_review_android.network.lensapi
 
 import com.wannagohome.lens_review_android.network.model.*
+import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
+import com.wannagohome.lens_review_android.network.model.review.WriteReviewRequest
 import com.wannagohome.lens_review_android.network.model.user.LoginRequest
 import com.wannagohome.lens_review_android.support.AccessKeyHelper
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -69,5 +71,21 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    fun getAllReviews(): Observable<Response<List<ReviewPreview>>> {
+        return lensApiInterface.getAllReviews()
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun writeReview(title: String, content: String, lensId: Int): Observable<Response<ResponseBody>> {
+
+        val writeReviewRequest = WriteReviewRequest(title, content, lensId)
+
+        return lensApiInterface.writeReview(writeReviewRequest)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
 
 }

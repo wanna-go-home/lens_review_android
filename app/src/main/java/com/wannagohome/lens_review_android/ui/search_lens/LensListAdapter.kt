@@ -6,12 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.wannagohome.lens_review_android.R
-import com.wannagohome.lens_review_android.network.model.Lens
 import com.wannagohome.lens_review_android.network.model.LensPreview
 import kotlinx.android.synthetic.main.lens_list_item.view.*
-import timber.log.Timber
 
-class LensListAdapter(val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<LensListAdapter.BookListViewHolder>() {
+class LensListAdapter(val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<LensListAdapter.LensListViewHolder>() {
 
     var lensList = ArrayList<LensPreview>()
         set(shops) {
@@ -20,13 +18,13 @@ class LensListAdapter(val itemClickListener: OnItemClickListener) : RecyclerView
             notifyDataSetChanged()
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookListViewHolder {
-        return BookListViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.lens_list_item, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LensListViewHolder {
+        return LensListViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.lens_list_item, parent, false))
     }
 
     override fun getItemCount() = lensList.size
 
-    override fun onBindViewHolder(holder: BookListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: LensListViewHolder, position: Int) {
         holder.bind(lensList[position])
     }
 
@@ -34,7 +32,7 @@ class LensListAdapter(val itemClickListener: OnItemClickListener) : RecyclerView
         fun onItemClick(clickedLens: LensPreview)
     }
 
-    inner class BookListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class LensListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         lateinit var currentLens: LensPreview
 
         init {

@@ -1,11 +1,11 @@
-package com.wannagohome.lens_review_android.ui.review
+package com.wannagohome.lens_review_android.ui.review.review_list
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.wannagohome.lens_review_android.R
-import com.wannagohome.lens_review_android.network.model.ReviewPreview
+import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
 import kotlinx.android.synthetic.main.review_list_item.view.*
 
 
@@ -49,12 +49,15 @@ class ReviewListAdapter(val itemClickListener: OnItemClickListener? = null) : Re
             itemView.reviewContents.text = reviewPreview.content
 
             itemView.pageviewNum.text = "0"
-            itemView.commentNum.text = "0"
-            itemView.likeNum.text = "0"
-            itemView.reviewWriter.text = "글쓴이"
+
+            itemView.commentNum.text = reviewPreview.replyCnt.toString()
+
+            itemView.likeNum.text = reviewPreview.likeCnt.toString()
+
+            itemView.reviewWriter.text = reviewPreview.nickname
+
+            itemView.time.text = reviewPreview.getDateTime() ?: ""
 
         }
-
-
     }
 }

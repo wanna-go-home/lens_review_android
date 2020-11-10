@@ -31,4 +31,7 @@
     <string name="signup_nickname_hint">닉네임을 입력해주세요 (두글자 이상)</string>
     <string name="signup_hp_hint">연락처를 입력해주세요</string>
 
+    <string name="write_review_title_hint">제목을 입력하세요</string>
+    <string name="write_review_content_hint">내용을 입력하세요</string>
+    <string name="write_review_write_button">글쓰기</string>
 </resources>
