@@ -50,12 +50,9 @@ class TabSearch : Fragment(), KoinComponent {
             layoutManager = LinearLayoutManager(activity)
 
             lensListAdapter.onItemClick = {pos ->
-                Timber.d("adapter pos $pos")
                 val lens = lensListAdapter.getItem(pos)
-                Timber.d("adapter id ${lens.lensId}")
 
                 val intent = Intent(activity, LensDetailActivity::class.java)
-
                 intent.putExtra(DETAILED_LENS_ID, lens.lensId)
                 activity?.startActivity(intent)
             }

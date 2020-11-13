@@ -22,12 +22,7 @@ class TabReview : Fragment() {
 
     private val reviewPreviewViewModel: ReviewPreviewViewModel by viewModel()
 
-    private val reviewPreviewAdapter = ReviewListAdapter(object :
-        ReviewListAdapter.OnItemClickListener {
-        override fun onItemClick(clickedReviewPreview: ReviewPreview) {
-            ReviewDetailActivity.startReviewDetailActivity(context!!, clickedReviewPreview.id)
-        }
-    })
+    private val reviewPreviewAdapter = ReviewListAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_review, container, false)
@@ -59,13 +54,20 @@ class TabReview : Fragment() {
         reviewRecyclerView.run {
             addItemDecoration((DividerItemDecoration(context, LinearLayoutManager.VERTICAL)))
             layoutManager = LinearLayoutManager(context)
+
+            reviewPreviewAdapter.onItemClick = {pos->
+                val clickedReviewPreview = reviewPreviewAdapter.getItem(pos)
+
+                ReviewDetailActivity.startReviewDetailActivity(context!!, clickedReviewPreview.id)
+            }
+
             adapter = reviewPreviewAdapter
         }
     }
 
     private fun observeEvents() {
         reviewPreviewViewModel.reviewPreviewList.observe(viewLifecycleOwner, Observer {
-            reviewPreviewAdapter.reviewPreviewList = it
+            reviewPreviewAdapter.items = it
         })
     }
 
