@@ -3,7 +3,7 @@ package com.wannagohome.lens_review_android.ui.board
 import androidx.lifecycle.MutableLiveData
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
 import com.wannagohome.lens_review_android.network.model.Article
-import com.wannagohome.lens_review_android.support.basemodel.BaseViewModel
+import com.wannagohome.lens_review_android.support.baseclass.BaseViewModel
 import com.wannagohome.lens_review_android.support.disposableExt.addTo
 import org.koin.core.KoinComponent
 import org.koin.core.inject
