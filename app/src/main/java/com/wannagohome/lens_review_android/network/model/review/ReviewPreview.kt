@@ -39,7 +39,7 @@ data class ReviewPreview(
 
 
         return if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
-            val dateTime = ZonedDateTime.parse(createdAt + "Z")
+            val dateTime = ZonedDateTime.parse(createdAt)
                 .withZoneSameInstant(ZoneId.systemDefault())
 
             val month = dateTime.monthValue
