@@ -3,7 +3,7 @@ package com.wannagohome.lens_review_android.network.model
 import com.google.gson.annotations.SerializedName
 
 class LensPreview(
-    @SerializedName("lens_id")
+    @SerializedName("lensId")
     val lensId: Int,
 
     @SerializedName("name")

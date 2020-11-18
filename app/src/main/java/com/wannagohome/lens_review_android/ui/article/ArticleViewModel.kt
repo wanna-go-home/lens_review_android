@@ -4,8 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
 import com.wannagohome.lens_review_android.network.model.Comment
 import com.wannagohome.lens_review_android.network.model.DetailedArticle
-import com.wannagohome.lens_review_android.support.basemodel.BaseViewModel
-import com.wannagohome.lens_review_android.support.disposableExt.addTo
+import com.wannagohome.lens_review_android.support.baseclass.BaseViewModel
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import retrofit2.HttpException

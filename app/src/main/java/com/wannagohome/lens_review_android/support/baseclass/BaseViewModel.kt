@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.support.basemodel
+package com.wannagohome.lens_review_android.support.baseclass
 
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
