@@ -2,7 +2,7 @@ package com.wannagohome.lens_review_android.network.model
 
 import com.google.gson.annotations.SerializedName
 
-data class DetailedArticle(
+data class ArticlePreview(
     @SerializedName("id")
     val articleId: Int = 0,
 
@@ -21,12 +21,10 @@ data class DetailedArticle(
     @SerializedName("likeCnt")
     val likes: Int = 0,
 
-    @SerializedName("commentCnt")
+    @SerializedName("replyCnt")
     val comments: Int = 0,
 
     @SerializedName("createdAt")
     val createdAt:  String = ""
 
-//    @SerializedName("uri")
-//    val uri:  String = ""
 )

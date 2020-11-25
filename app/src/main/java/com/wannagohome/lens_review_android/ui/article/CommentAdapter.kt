@@ -5,10 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.wannagohome.lens_review_android.R
-import com.wannagohome.lens_review_android.network.model.Article
 import com.wannagohome.lens_review_android.network.model.Comment
 import kotlinx.android.synthetic.main.article_list_item.view.*
 
+const val COMMENT = 0
+const val INNER_COMMENT = 1
 class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var commentList = ArrayList<Comment>()
@@ -20,12 +21,13 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view: View?
+
         return when (viewType) {
-            (0) -> {
+            COMMENT -> {
                 view = LayoutInflater.from(parent.context).inflate(R.layout.comment_list_item, parent, false)
                 CommentViewHolder(view)
             }
-            (1) -> {
+            INNER_COMMENT -> {
                 view = LayoutInflater.from(parent.context).inflate(R.layout.child_comment_list_item, parent, false)
                 ChildCommentViewHolder(view)
             }
@@ -38,8 +40,8 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val obj = commentList[position]
         when (obj.depth) {
-            0 -> (holder as CommentViewHolder).bind(obj)
-            1 -> (holder as ChildCommentViewHolder).bind(obj)
+            COMMENT -> (holder as CommentViewHolder).bind(obj)
+            INNER_COMMENT -> (holder as ChildCommentViewHolder).bind(obj)
         }
     }
 

@@ -29,14 +29,14 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getArticleList(): Observable<Response<List<Article>>> {
+    fun getArticleList(): Observable<Response<List<ArticlePreview>>> {
         return lensApiInterface.getArticleList()
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getArticleById(articleId: Int): Observable<Response<DetailedArticle>> {
+    fun getArticleById(articleId: Int): Observable<Response<Article>> {
         return lensApiInterface.getArticleById(articleId)
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }

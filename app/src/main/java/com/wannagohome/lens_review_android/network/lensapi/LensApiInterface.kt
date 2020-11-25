@@ -18,10 +18,10 @@ interface LensApiInterface {
     fun getLensById(@Path("id") lensId: Int): Observable<Response<DetailedLens>>
 
     @GET("api/boards/free-board")
-    fun getArticleList(): Observable<Response<List<Article>>>
+    fun getArticleList(): Observable<Response<List<ArticlePreview>>>
 
     @GET("api/boards/free-board/{id}")
-    fun getArticleById(@Path("id") articleId: Int): Observable<Response<DetailedArticle>>
+    fun getArticleById(@Path("id") articleId: Int): Observable<Response<Article>>
 
     @GET("/api/boards/free-board/{id}/comments")
     fun getCommentsByArticleId(@Path("id") articleId: Int): Observable<Response<List<Comment>>>
