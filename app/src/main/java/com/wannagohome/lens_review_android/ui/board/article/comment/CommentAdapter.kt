@@ -1,12 +1,13 @@
-package com.wannagohome.lens_review_android.ui.article
+package com.wannagohome.lens_review_android.ui.board.article.comment
 
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.network.model.Comment
-import kotlinx.android.synthetic.main.article_list_item.view.*
+import kotlinx.android.synthetic.main.comment_list_item.view.*
 
 const val COMMENT = 0
 const val INNER_COMMENT = 1
@@ -74,6 +75,7 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
             itemView.content.text = comment.content
             itemView.author.text = comment.authorId
             itemView.createdAt.text = comment.createdAt
+            itemView.likes.text = comment.likes.toString()
         }
     }
 }

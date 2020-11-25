@@ -38,6 +38,26 @@
             android:text="createdAt"
             android:textSize="14sp" />
 
+        <com.sackcentury.shinebuttonlib.ShineButton
+            android:id="@+id/likesIcon"
+            style="@style/singlePageFooterIcon"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:src="@android:color/darker_gray"
+            app:btn_color="@android:color/darker_gray"
+            app:btn_fill_color="@android:color/holo_red_dark"
+            app:siShape="@raw/baseline_thumb_up_alt_black_18dp" />
+
+        <TextView
+            android:id="@+id/likes"
+            style="@style/singlePageFooterText"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:text="Like!"
+            android:textColor="@color/board_subtext" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

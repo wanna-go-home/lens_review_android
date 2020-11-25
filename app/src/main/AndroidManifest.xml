@@ -26,7 +26,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.lens_detail.LensDetailActivity" />
-        <activity android:name=".ui.article.ArticleActivity" />
+        <activity android:name=".ui.board.article.ArticleActivity" />
+        <activity android:name=".ui.board.article.comment.CommentActivity" />
         <activity android:name=".ui.MainActivity" />
     </application>
 

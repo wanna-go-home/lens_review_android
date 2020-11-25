@@ -12,6 +12,9 @@ data class Comment(
     @SerializedName("postId")
     val articleId: Int = 0,
 
+    @SerializedName("childrenCnt")
+    val childrenCnt: Int = 0,
+
     @SerializedName("content")
     val content: String = "",
 

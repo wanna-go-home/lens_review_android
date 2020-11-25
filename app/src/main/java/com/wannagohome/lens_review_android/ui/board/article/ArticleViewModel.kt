@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.ui.article
+package com.wannagohome.lens_review_android.ui.board.article
 
 import androidx.lifecycle.MutableLiveData
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
