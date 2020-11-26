@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.network.model.ArticlePreview
+import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.support.baseclass.BaseSimpleAdapter
 import kotlinx.android.synthetic.main.article_list_item.view.*
 
@@ -42,7 +43,7 @@ class BoardListAdapter() : BaseSimpleAdapter<ArticlePreview, BoardListAdapter.Bo
             itemView.views.text = article.views.toString()
             itemView.likes.text = article.likes.toString()
             itemView.comments.text = article.comments.toString()
-            itemView.createdAt.text = article.createdAt
+            itemView.createdAt.text = dateHelper.calcCreatedBefore(article.createdAt) ?: ""
         }
     }
 }

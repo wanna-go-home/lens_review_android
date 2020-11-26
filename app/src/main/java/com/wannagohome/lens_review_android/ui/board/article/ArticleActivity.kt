@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.network.model.Comment
+import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import kotlinx.android.synthetic.main.activity_article.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -66,7 +67,7 @@ class ArticleActivity : AppCompatActivity() {
             content.text = it.content
             author.text = it.author
             likes.text = it.likes.toString()
-            createdAt.text = it.createdAt
+            createdAt.text = dateHelper.calcCreatedBefore(it.createdAt) ?: ""
         })
         articleViewModel.comments.observe(this, Observer {
             commentAdapter.commentList = ArrayList(it)

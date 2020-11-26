@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.network.model.Comment
 import kotlinx.android.synthetic.main.comment_list_item.view.*
+import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 
 const val COMMENT = 0
 const val INNER_COMMENT = 1
@@ -61,7 +62,7 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
             itemView.content.text = comment.content
             itemView.author.text = comment.authorId
             itemView.likes.text = comment.likes.toString()
-            itemView.createdAt.text = comment.createdAt
+            itemView.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt) ?: ""
         }
     }
     inner class ChildCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -74,7 +75,7 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
             currentComment = comment
             itemView.content.text = comment.content
             itemView.author.text = comment.authorId
-            itemView.createdAt.text = comment.createdAt
+            itemView.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt) ?: ""
             itemView.likes.text = comment.likes.toString()
         }
     }

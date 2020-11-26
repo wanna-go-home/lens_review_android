@@ -1,11 +1,6 @@
 package com.wannagohome.lens_review_android.network.model
 
-import android.os.Build
 import com.google.gson.annotations.SerializedName
-import java.time.Duration
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.util.*
 
 data class Article(
     @SerializedName("id")
@@ -30,7 +25,7 @@ data class Article(
     val comments: Int = 0,
 
     @SerializedName("createdAt")
-    val createdAt:  String = ""
+    val createdAt: String = ""
 
 )
 
