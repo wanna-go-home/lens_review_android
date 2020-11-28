@@ -11,7 +11,7 @@
         android:id="@+id/userId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="admin" />
+        android:text="admin@admin.com" />
 
     <EditText
         android:id="@+id/userPw"
