@@ -73,9 +73,27 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    fun checkSameId(email: String): Observable<Response<ResponseBody>> {
+        return lensApiInterface.checkSameId(email)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+
+    }
+
+    fun checkSameNickname(nickname: String): Observable<Response<ResponseBody>> {
+        return lensApiInterface.checkSameNickname(nickname)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
     fun signUp(email: String, pw: String, phoneNumber: String, nickname: String): Observable<Response<ResponseBody>> {
-        val signUpRequest = SignUpRequest("aaa", email, pw, phoneNumber, nickname)
+        val signUpRequest = SignUpRequest(email, pw, phoneNumber, nickname)
         return lensApiInterface.signUp(signUpRequest)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun getAllReviews(): Observable<Response<List<ReviewPreview>>> {

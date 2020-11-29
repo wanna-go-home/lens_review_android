@@ -22,12 +22,27 @@
             android:layout_height="wrap_content"
             android:hint="@string/signup_email_hint" />
 
+        <TextView
+            android:id="@+id/emailWarnText"
+            style="@style/signUpWarnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/signup_warn_text" />
+
         <EditText
             android:id="@+id/pwEdit"
             style="@style/signUpEditStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/signup_pw_hint" />
+
+        <TextView
+            android:id="@+id/pwWarnText"
+            style="@style/signUpWarnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/signup_warn_text" />
+
 
         <EditText
             android:id="@+id/pwCheckEdit"
@@ -36,12 +51,28 @@
             android:layout_height="wrap_content"
             android:hint="@string/signup_pw_check_hint" />
 
+        <TextView
+            android:id="@+id/pwCheckWarnText"
+            style="@style/signUpWarnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/signup_warn_text" />
+
         <EditText
             android:id="@+id/phoneNumberEdit"
             style="@style/signUpEditStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="11"
             android:hint="@string/signup_hp_hint" />
+
+        <TextView
+            android:id="@+id/phoneNumWarnText"
+            style="@style/signUpWarnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/signup_warn_text" />
 
         <EditText
             android:id="@+id/nicknameEdit"
@@ -49,6 +80,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/signup_nickname_hint" />
+
+        <TextView
+            android:id="@+id/nicknameWarnText"
+            style="@style/signUpWarnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/signup_warn_text" />
     </LinearLayout>
 
 

@@ -6,9 +6,6 @@ data class SignUpRequest(
     @SerializedName("account")
     val userId: String,
 
-    @SerializedName("email")
-    val userEmail: String,
-
     @SerializedName("accountPw")
     val userPw: String,
 
