@@ -18,21 +18,14 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.KoinComponent
 
 class TabBoard : Fragment(), KoinComponent {
-    companion object{
+
+    companion object {
         val instance = TabBoard()
     }
 
     private val boardViewModel: BoardViewModel by viewModel()
 
-    private val onBoardItemClickListener = object : BoardListAdapter.OnItemClickListener {
-        override fun onItemClick(clickedArticle: Article) {
-            val intent = Intent(activity, ArticleActivity::class.java)
-            intent.putExtra(ArticleActivity.ARTICLE_ID, clickedArticle.articleId)
-            activity?.startActivity(intent)
-        }
-    }
-
-    private val boardListAdapter = BoardListAdapter(onBoardItemClickListener)
+    private val boardListAdapter = BoardListAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,13 +50,22 @@ class TabBoard : Fragment(), KoinComponent {
         articleListRecyclerView.run {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
+
+            boardListAdapter.onItemClick = { pos ->
+                val clickedArticle = boardListAdapter.getItem(pos)
+
+                val intent = Intent(activity, ArticleActivity::class.java)
+                intent.putExtra(ArticleActivity.ARTICLE_ID, clickedArticle.articleId)
+                activity?.startActivity(intent)
+            }
+
             adapter = boardListAdapter
         }
     }
 
     private fun observeEvent() {
         boardViewModel.articleList.observe(viewLifecycleOwner, Observer {
-            boardListAdapter.articleList = ArrayList(it)
+            boardListAdapter.items = it
         })
     }
 

@@ -1,31 +1,24 @@
-package com.wannagohome.lens_review_android.ui.review
+package com.wannagohome.lens_review_android.ui.review.review_list
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.wannagohome.lens_review_android.R
-import com.wannagohome.lens_review_android.network.model.ReviewPreview
+import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
+import com.wannagohome.lens_review_android.support.baseclass.BaseSimpleAdapter
 import kotlinx.android.synthetic.main.review_list_item.view.*
 
 
-class ReviewListAdapter(val itemClickListener: OnItemClickListener? = null) : RecyclerView.Adapter<ReviewListAdapter.BookListViewHolder>() {
+class ReviewListAdapter : BaseSimpleAdapter<ReviewPreview, ReviewListAdapter.BookListViewHolder>() {
 
-    var reviewPreviewList = listOf<ReviewPreview>()
-        set(shops) {
-            field = shops
-
-            notifyDataSetChanged()
-        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookListViewHolder {
         return BookListViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.review_list_item, parent, false))
     }
 
-    override fun getItemCount() = reviewPreviewList.size
-
     override fun onBindViewHolder(holder: BookListViewHolder, position: Int) {
-        holder.bind(reviewPreviewList[position])
+        holder.bind(items[position])
     }
 
     interface OnItemClickListener {
@@ -33,28 +26,29 @@ class ReviewListAdapter(val itemClickListener: OnItemClickListener? = null) : Re
     }
 
     inner class BookListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        lateinit var currentReviewPreview: ReviewPreview
 
         init {
             itemView.setOnClickListener {
-                itemClickListener?.onItemClick(currentReviewPreview)
+                onItemClick?.invoke(adapterPosition)
             }
         }
 
         fun bind(reviewPreview: ReviewPreview) {
-            currentReviewPreview = reviewPreview
 
             itemView.reviewTitle.text = reviewPreview.title
 
             itemView.reviewContents.text = reviewPreview.content
 
             itemView.pageviewNum.text = "0"
-            itemView.commentNum.text = "0"
-            itemView.likeNum.text = "0"
-            itemView.reviewWriter.text = "글쓴이"
+
+            itemView.commentNum.text = reviewPreview.replyCnt.toString()
+
+            itemView.likeNum.text = reviewPreview.likeCnt.toString()
+
+            itemView.reviewWriter.text = reviewPreview.nickname
+
+            itemView.time.text = reviewPreview.getDateTime() ?: ""
 
         }
-
-
     }
 }

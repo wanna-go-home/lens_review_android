@@ -17,6 +17,7 @@ import com.wannagohome.lens_review_android.ui.lens_detail.LensDetailActivity.Com
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.core.KoinComponent
+import timber.log.Timber
 
 class TabSearch : Fragment(), KoinComponent {
     companion object {
@@ -25,15 +26,7 @@ class TabSearch : Fragment(), KoinComponent {
 
     private val lensViewModel: LensViewModel by sharedViewModel()
 
-    private val onLensItemClickListener = object : LensListAdapter.OnItemClickListener {
-        override fun onItemClick(clickedLens: LensPreview) {
-            val intent = Intent(activity, LensDetailActivity::class.java)
-            intent.putExtra(DETAILED_LENS_ID, clickedLens.lensId)
-            activity?.startActivity(intent)
-        }
-    }
-
-    private val lensListAdapter = LensListAdapter(onLensItemClickListener)
+    private val lensListAdapter = LensListAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_search, container, false)
@@ -55,13 +48,22 @@ class TabSearch : Fragment(), KoinComponent {
         lensListRecyclerView.run {
             addItemDecoration(DividerItemDecoration(activity, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(activity)
+
+            lensListAdapter.onItemClick = {pos ->
+                val lens = lensListAdapter.getItem(pos)
+
+                val intent = Intent(activity, LensDetailActivity::class.java)
+                intent.putExtra(DETAILED_LENS_ID, lens.lensId)
+                activity?.startActivity(intent)
+            }
+
             adapter = lensListAdapter
         }
     }
 
     private fun observeEvent() {
         lensViewModel.lensList.observe(activity!!, Observer {
-            lensListAdapter.lensList = ArrayList(it)
+            lensListAdapter.items = it
         })
     }
 

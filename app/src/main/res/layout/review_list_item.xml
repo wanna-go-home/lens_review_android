@@ -130,12 +130,11 @@
                         <TextView
                             android:id="@+id/time"
                             style="@style/boardListFooterText"
-                            android:layout_width="40dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:layout_marginStart="140dp"
                             android:gravity="center"
-                            android:text="time"
                             android:textColor="@color/board_subtext" />
                 </LinearLayout>
 

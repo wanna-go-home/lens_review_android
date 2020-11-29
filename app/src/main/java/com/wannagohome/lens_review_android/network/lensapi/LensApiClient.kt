@@ -1,9 +1,8 @@
 package com.wannagohome.lens_review_android.network.lensapi
 
-import com.wannagohome.lens_review_android.network.model.Article
-import com.wannagohome.lens_review_android.network.model.DetailedArticle
-import com.wannagohome.lens_review_android.network.model.DetailedLens
-import com.wannagohome.lens_review_android.network.model.LensPreview
+import com.wannagohome.lens_review_android.network.model.*
+import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
+import com.wannagohome.lens_review_android.network.model.review.WriteReviewRequest
 import com.wannagohome.lens_review_android.network.model.user.LoginRequest
 import com.wannagohome.lens_review_android.network.model.user.SignUpRequest
 import com.wannagohome.lens_review_android.support.AccessKeyHelper
@@ -46,6 +45,13 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    fun getCommentsByArticleId(articleId: Int): Observable<Response<List<Comment>>> {
+        return lensApiInterface.getCommentsByArticleId(articleId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
     fun login(account: String, pw: String): Observable<Response<ResponseBody>> {
         val loginRequest = LoginRequest(account, pw)
 
@@ -69,8 +75,21 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
 
     fun signUp(email: String, pw: String, phoneNumber: String, nickname: String): Observable<Response<ResponseBody>> {
         val signUpRequest = SignUpRequest("aaa", email, pw, phoneNumber, nickname)
-        Timber.d("sfsfslslsl")
         return lensApiInterface.signUp(signUpRequest)
+    }
+
+    fun getAllReviews(): Observable<Response<List<ReviewPreview>>> {
+        return lensApiInterface.getAllReviews()
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun writeReview(title: String, content: String, lensId: Int): Observable<Response<ResponseBody>> {
+
+        val writeReviewRequest = WriteReviewRequest(title, content, lensId)
+
+        return lensApiInterface.writeReview(writeReviewRequest)
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
