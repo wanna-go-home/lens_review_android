@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.support.disposableExt
+package com.wannagohome.lens_review_android.extension
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable

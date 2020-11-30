@@ -31,6 +31,24 @@
     <string name="signup_nickname_hint">닉네임을 입력해주세요 (두글자 이상)</string>
     <string name="signup_hp_hint">연락처를 입력해주세요</string>
 
+    <string name="signup_warn_empty_email">이메일을 입력해주세요.</string>
+    <string name="signup_warn_not_email_form">올바른 이메일을 입력해 주세요</string>
+    <string name="signup_warn_duplicate_email">이미 가입된 이메일이에요</string>
+
+    <string name="signup_warn_empty_pw">비밀번호를 입력해주세요</string>
+    <string name="signup_warn_not_acceptable_pw">6~15자의 영문 대 소문자, 숫자만 사용가능합니다</string>
+
+    <string name="signup_warn_different_with_pw">비밀번호가 일치하지 않아요</string>
+
+    <string name="signup_warn_wrong_phone_number">전화번호를 확인해주세요</string>
+
+    <string name="signup_warn_duplicate_nickname">이미 존재하는 닉네임이에요</string>
+
+    <string name="signup_success">가입한 메일로 로그인해주세요</string>
+
+
+
+
     <string name="write_review_title_hint">제목을 입력하세요</string>
     <string name="write_review_content_hint">내용을 입력하세요</string>
     <string name="write_review_write_button">글쓰기</string>
