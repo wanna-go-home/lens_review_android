@@ -2,12 +2,9 @@ package com.wannagohome.lens_review_android.ui.article
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.wannagohome.lens_review_android.R
-import com.wannagohome.lens_review_android.network.model.Comment
-import kotlinx.android.synthetic.main.activity_article.*
+import com.wannagohome.lens_review_android.databinding.ActivityArticleBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -17,13 +14,16 @@ class ArticleActivity : AppCompatActivity() {
         const val ARTICLE_ID = "articleId"
     }
 
-    private val articleViewModel : ArticleViewModel by viewModel()
+    private val articleViewModel: ArticleViewModel by viewModel()
 
     private val commentAdapter = CommentMultiViewAdapter()
 
+    private lateinit var binding: ActivityArticleBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_article)
+        binding = ActivityArticleBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val articleId = intent.getIntExtra(ARTICLE_ID, -1)
 
@@ -37,23 +37,25 @@ class ArticleActivity : AppCompatActivity() {
         articleViewModel.getArticle(articleId)
         articleViewModel.getComments(articleId)
     }
+
     private fun initCommentRecyclerView() {
-        commentRecyclerView.run {
+        binding.commentRecyclerView.run {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
             adapter = commentAdapter
         }
     }
-    private fun observeEvent(){
-        articleViewModel.article.observe(this, Observer {
 
-            articleTitle.text = it.title
-            content.text = it.content
-            author.text = it.author
-            likes.text = it.likes.toString()
-            createdAt.text = it.createdAt
+    private fun observeEvent() {
+        articleViewModel.article.observe(this, {
+
+            binding.articleTitle.text = it.title
+            binding.content.text = it.content
+            binding.author.text = it.author
+            binding.likes.text = it.likes.toString()
+            binding.createdAt.text = it.createdAt
         })
-        articleViewModel.comments.observe(this, Observer {
+        articleViewModel.comments.observe(this, {
             commentAdapter.commentList = ArrayList(it)
         })
     }
