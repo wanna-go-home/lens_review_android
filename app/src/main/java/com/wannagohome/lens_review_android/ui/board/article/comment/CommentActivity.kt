@@ -17,6 +17,7 @@ class CommentActivity : AppCompatActivity() {
 
     companion object {
         const val COMMENT_ID = "commentId"
+        const val ARTICLE_ID = "commentId"
     }
     //todo : remove after server api enabled
     var testComment = ArrayList<Comment>()
@@ -29,11 +30,11 @@ class CommentActivity : AppCompatActivity() {
         setContentView(R.layout.activity_comment)
 
         val commentId = intent.getIntExtra(COMMENT_ID, -1)
+        val articleId = intent.getIntExtra(ARTICLE_ID, -1)
 
         if (commentId == -1) {
             Timber.d("comment Id $commentId")
             //TODO error handling with UI
-
         }
         initCommentRecyclerView()
 
@@ -47,7 +48,7 @@ class CommentActivity : AppCompatActivity() {
         commentAdapter.commentList = testComment
 
 //        observeEvent()
-//        commentViewModel.getComments(commentId)
+//        commentViewModel.getComments(articleId, commentId)
     }
     private fun initCommentRecyclerView() {
         commentRecyclerView.run {

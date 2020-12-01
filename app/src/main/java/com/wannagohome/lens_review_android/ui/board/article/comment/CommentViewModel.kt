@@ -14,8 +14,8 @@ class CommentViewModel : BaseViewModel(), KoinComponent {
     val comments = MutableLiveData<List<Comment>>()
     private val lensClient: LensApiClient by inject()
 
-    fun getComments(commentId: Int) {
-        compositeDisposable.add(lensClient.getCommentsByCommentId(commentId).subscribe({
+    fun getComments(articleId: Int, commentId: Int) {
+        compositeDisposable.add(lensClient.getCommentsByCommentId(articleId, commentId).subscribe({
             comments.value = it.body()
         }, {
             //TODO error notification

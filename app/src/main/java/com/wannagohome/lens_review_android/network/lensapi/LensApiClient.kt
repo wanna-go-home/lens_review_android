@@ -49,8 +49,8 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
-    fun getCommentsByCommentId(commentId: Int): Observable<Response<List<Comment>>> {
-        return lensApiInterface.getCommentsByCommentId(commentId)
+    fun getCommentsByCommentId(articleId: Int, commentId: Int): Observable<Response<List<Comment>>> {
+        return lensApiInterface.getCommentsByCommentId(articleId, commentId)
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())

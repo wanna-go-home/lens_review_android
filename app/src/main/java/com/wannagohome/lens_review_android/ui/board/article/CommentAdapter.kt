@@ -68,10 +68,12 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
             itemView.comments.setOnClickListener {
                 // Handler code here.
                 val intent = Intent(parent.context, CommentActivity::class.java)
+                intent.putExtra("articleId", comment.articleId);
                 parent.context.startActivity(intent)
             }
 
             if (comment.childrenCnt > 3) {
+                //TODO : Change visibility to layout inflate
                 itemView.moreComment.visibility = VISIBLE
                 itemView.moreComment.text = "+ 댓글 ${comment.childrenCnt-3}개 더 보기"
                 itemView.moreComment.setOnClickListener {
