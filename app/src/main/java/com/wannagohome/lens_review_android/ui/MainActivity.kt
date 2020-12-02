@@ -2,22 +2,24 @@ package com.wannagohome.lens_review_android.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.wannagohome.lens_review_android.R
-import kotlinx.android.synthetic.main.activity_main.*
+import com.wannagohome.lens_review_android.databinding.ActivityMainBinding
 import org.koin.core.KoinComponent
 
 class MainActivity : AppCompatActivity(), KoinComponent {
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         initViewPager()
 
     }
 
     private fun initViewPager() {
-        mainViewPager.adapter = MainViewPagerAdapter(supportFragmentManager)
-        mainTabLayout.setupWithViewPager(mainViewPager)
+        binding.mainViewPager.adapter = MainViewPagerAdapter(supportFragmentManager)
+        binding.mainTabLayout.setupWithViewPager(binding.mainViewPager)
     }
 }

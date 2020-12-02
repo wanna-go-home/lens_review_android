@@ -1,31 +1,26 @@
 package com.wannagohome.lens_review_android.ui.review.review_list
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.wannagohome.lens_review_android.R
+import com.wannagohome.lens_review_android.databinding.ReviewListItemBinding
 import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
 import com.wannagohome.lens_review_android.support.baseclass.BaseSimpleAdapter
-import kotlinx.android.synthetic.main.review_list_item.view.*
 
 
 class ReviewListAdapter : BaseSimpleAdapter<ReviewPreview, ReviewListAdapter.BookListViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookListViewHolder {
-        return BookListViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.review_list_item, parent, false))
+        val binding = ReviewListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return BookListViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: BookListViewHolder, position: Int) {
         holder.bind(items[position])
     }
 
-    interface OnItemClickListener {
-        fun onItemClick(clickedReviewPreview: ReviewPreview)
-    }
-
-    inner class BookListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class BookListViewHolder(private val itemBinding: ReviewListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
 
         init {
             itemView.setOnClickListener {
@@ -35,19 +30,19 @@ class ReviewListAdapter : BaseSimpleAdapter<ReviewPreview, ReviewListAdapter.Boo
 
         fun bind(reviewPreview: ReviewPreview) {
 
-            itemView.reviewTitle.text = reviewPreview.title
+            itemBinding.reviewTitle.text = reviewPreview.title
 
-            itemView.reviewContents.text = reviewPreview.content
+            itemBinding.reviewContents.text = reviewPreview.content
 
-            itemView.pageviewNum.text = "0"
+            itemBinding.pageviewNum.text = "0"
 
-            itemView.commentNum.text = reviewPreview.replyCnt.toString()
+            itemBinding.commentNum.text = reviewPreview.replyCnt.toString()
 
-            itemView.likeNum.text = reviewPreview.likeCnt.toString()
+            itemBinding.likeNum.text = reviewPreview.likeCnt.toString()
 
-            itemView.reviewWriter.text = reviewPreview.nickname
+            itemBinding.reviewWriter.text = reviewPreview.nickname
 
-            itemView.time.text = reviewPreview.getDateTime() ?: ""
+            itemBinding.time.text = reviewPreview.getDateTime()
 
         }
     }

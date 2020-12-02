@@ -48,7 +48,7 @@ class AppRetrofitBuilder(private val baseUrl: String, private val interceptor: I
 
         override fun intercept(chain: Interceptor.Chain): Response {
             val originalRequest = chain.request()
-            val url = originalRequest.url()
+            val url = originalRequest.url
 
             if (url.toString().contains("user")) {
                 return chain.proceed(originalRequest)

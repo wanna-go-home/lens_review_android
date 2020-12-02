@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.wannagohome.lens_review_android.R
+import com.wannagohome.lens_review_android.databinding.ActivityReviewDetailBinding
 
 class ReviewDetailActivity : AppCompatActivity() {
 
@@ -18,17 +19,17 @@ class ReviewDetailActivity : AppCompatActivity() {
         }
     }
 
+    private lateinit var binding : ActivityReviewDetailBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_review_detail)
+        binding = ActivityReviewDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val reviewId = intent.getIntExtra(REVIEW_ID, -1)
 
         if(reviewId == -1){
             finish()
         }
-
-
-
     }
 }
