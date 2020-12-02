@@ -1,18 +1,16 @@
 package com.wannagohome.lens_review_android.ui.board.article.comment
 
 import android.view.LayoutInflater
-import android.view.View
-import android.view.View.VISIBLE
+import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.wannagohome.lens_review_android.R
+import com.wannagohome.lens_review_android.databinding.ChildCommentListItemBinding
+import com.wannagohome.lens_review_android.databinding.CommentListItemBinding
 import com.wannagohome.lens_review_android.network.model.Comment
-import kotlinx.android.synthetic.main.comment_list_item.view.*
-import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 
 const val COMMENT = 0
 const val INNER_COMMENT = 1
-class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CommentMultiViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var commentList = ArrayList<Comment>()
         set(shops) {
@@ -22,16 +20,14 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view: View?
-
         return when (viewType) {
             COMMENT -> {
-                view = LayoutInflater.from(parent.context).inflate(R.layout.comment_list_item, parent, false)
-                CommentViewHolder(view)
+                val binding = CommentListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                CommentViewHolder(binding)
             }
             INNER_COMMENT -> {
-                view = LayoutInflater.from(parent.context).inflate(R.layout.child_comment_list_item, parent, false)
-                ChildCommentViewHolder(view)
+                val binding = ChildCommentListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                ChildCommentViewHolder(binding)
             }
             else -> throw RuntimeException("알 수 없는 뷰 타입 에러")
         }
@@ -51,32 +47,27 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
         return commentList[position].depth
     }
 
-    inner class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        lateinit var currentComment : Comment
-
-        init{
-        }
+    inner class CommentViewHolder(private val itemBinding: CommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
+        private lateinit var currentComment: Comment
 
         fun bind(comment: Comment) {
             currentComment = comment
-            itemView.content.text = comment.content
-            itemView.author.text = comment.authorId
-            itemView.likes.text = comment.likes.toString()
-            itemView.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt) ?: ""
+            itemBinding.content.text = comment.content
+            itemBinding.author.text = comment.authorId
+            itemBinding.likes.text = comment.likes.toString()
+            itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
         }
     }
-    inner class ChildCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        lateinit var currentComment : Comment
 
-        init{
-        }
+    inner class ChildCommentViewHolder(private val itemBinding: ChildCommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
+        private lateinit var currentComment: Comment
 
         fun bind(comment: Comment) {
             currentComment = comment
-            itemView.content.text = comment.content
-            itemView.author.text = comment.authorId
-            itemView.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt) ?: ""
-            itemView.likes.text = comment.likes.toString()
+            itemBinding.content.text = comment.content
+            itemBinding.author.text = comment.authorId
+            itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
+            itemBinding.likes.text = comment.likes.toString()
         }
     }
 }

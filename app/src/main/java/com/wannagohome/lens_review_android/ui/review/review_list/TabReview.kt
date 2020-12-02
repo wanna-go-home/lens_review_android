@@ -6,26 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.wannagohome.lens_review_android.R
-import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
+import com.wannagohome.lens_review_android.databinding.FragmentReviewBinding
 import com.wannagohome.lens_review_android.ui.review.review_detail.ReviewDetailActivity
 import com.wannagohome.lens_review_android.ui.review.write.WriteReviewActivity
-import kotlinx.android.synthetic.main.fragment_review.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 
 class TabReview : Fragment() {
+
+    private var _binding: FragmentReviewBinding? = null
+    private val binding get() = _binding!!
 
     private val reviewPreviewViewModel: ReviewPreviewViewModel by viewModel()
 
     private val reviewPreviewAdapter = ReviewListAdapter()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_review, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentReviewBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,18 +44,18 @@ class TabReview : Fragment() {
     }
 
     private fun addListener() {
-        writeBtn.setOnClickListener {
+        binding.writeBtn.setOnClickListener {
             val intent = Intent(requireContext(), WriteReviewActivity::class.java)
             startActivity(intent)
         }
     }
 
     private fun initReviewPreviewRecyclerView() {
-        reviewRecyclerView.run {
+        binding.reviewRecyclerView.run {
             addItemDecoration((DividerItemDecoration(context, LinearLayoutManager.VERTICAL)))
             layoutManager = LinearLayoutManager(context)
 
-            reviewPreviewAdapter.onItemClick = {pos->
+            reviewPreviewAdapter.onItemClick = { pos ->
                 val clickedReviewPreview = reviewPreviewAdapter.getItem(pos)
 
                 ReviewDetailActivity.startReviewDetailActivity(context!!, clickedReviewPreview.id)
@@ -66,9 +66,15 @@ class TabReview : Fragment() {
     }
 
     private fun observeEvents() {
-        reviewPreviewViewModel.reviewPreviewList.observe(viewLifecycleOwner, Observer {
+        reviewPreviewViewModel.reviewPreviewList.observe(viewLifecycleOwner, {
             reviewPreviewAdapter.items = it
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        _binding = null
     }
 
     companion object {

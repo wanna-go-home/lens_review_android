@@ -2,11 +2,8 @@ package com.wannagohome.lens_review_android.ui.lens_detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.wannagohome.lens_review_android.R
-import kotlinx.android.synthetic.main.activity_detailed_lens.*
-import kotlinx.android.synthetic.main.lens_list_item.view.*
+import com.wannagohome.lens_review_android.databinding.ActivityDetailedLensBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -18,9 +15,12 @@ class LensDetailActivity : AppCompatActivity() {
 
     private val lensDetailViewModel: LensDetailViewModel by viewModel()
 
+    private lateinit var binding: ActivityDetailedLensBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detailed_lens)
+        binding = ActivityDetailedLensBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val lensId = intent.getIntExtra(DETAILED_LENS_ID, -1)
 
@@ -35,25 +35,25 @@ class LensDetailActivity : AppCompatActivity() {
         lensDetailViewModel.getLensDetail(lensId)
 
         //TODO 하드코딩 제거 혹은 api 부착
-        lensMaker.text="메이커"
+        binding.lensMaker.text = "메이커"
 
     }
 
     private fun observeEvent() {
-        lensDetailViewModel.lensName.observe(this, Observer {
-            lensName.text = it
+        lensDetailViewModel.lensName.observe(this, {
+            binding.lensName.text = it
         })
 
-        lensDetailViewModel.lensPrice.observe(this, Observer {
-            lensPrice.text = it
+        lensDetailViewModel.lensPrice.observe(this, {
+            binding.lensPrice.text = it
         })
 
-        lensDetailViewModel.productImage.observe(this, Observer {
-            Glide.with(this).load(it).into(lensProductImage)
+        lensDetailViewModel.productImage.observe(this, {
+            Glide.with(this).load(it).into(binding.lensProductImage)
         })
 
-        lensDetailViewModel.lensGraphicDia.observe(this, Observer {
-            lensGrahicDia.text = it
+        lensDetailViewModel.lensGraphicDia.observe(this, {
+            binding.lensGrahicDia.text = it
         })
     }
 }

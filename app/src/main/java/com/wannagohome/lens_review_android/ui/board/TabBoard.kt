@@ -4,14 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import androidx.lifecycle.Observer
-import androidx.fragment.app.Fragment
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.wannagohome.lens_review_android.R
+import com.wannagohome.lens_review_android.databinding.FragmentBoardBinding
 import com.wannagohome.lens_review_android.ui.board.article.ArticleActivity
-import kotlinx.android.synthetic.main.fragment_board.*
+import com.wannagohome.lens_review_android.ui.board.article.write.WriteArticleActivity
+import com.wannagohome.lens_review_android.ui.review.write.WriteReviewActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.KoinComponent
 
@@ -21,29 +21,36 @@ class TabBoard : Fragment(), KoinComponent {
         val instance = TabBoard()
     }
 
+    private var _binding: FragmentBoardBinding? = null
+    private val binding get() = _binding!!
+
     private val boardViewModel: BoardViewModel by viewModel()
 
     private val boardListAdapter = BoardListAdapter()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_board, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentBoardBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initBoardListRecyclerView()
-
+        addListener()
         observeEvent()
 
         boardViewModel.getArticleList()
 
     }
 
+    private fun addListener() {
+        binding.writeBtn.setOnClickListener {
+            val intent = Intent(requireContext(), WriteArticleActivity::class.java)
+            startActivity(intent)
+        }
+    }
     private fun initBoardListRecyclerView() {
-        articleListRecyclerView.run {
+        binding.articleListRecyclerView.run {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
 
@@ -56,14 +63,19 @@ class TabBoard : Fragment(), KoinComponent {
             }
 
             adapter = boardListAdapter
-
         }
     }
 
     private fun observeEvent() {
-        boardViewModel.articleList.observe(viewLifecycleOwner, Observer {
+        boardViewModel.articleList.observe(viewLifecycleOwner, {
             boardListAdapter.items = it
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        _binding = null
     }
 
 }

@@ -4,6 +4,7 @@ import com.wannagohome.lens_review_android.network.model.*
 import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
 import com.wannagohome.lens_review_android.network.model.review.WriteReviewRequest
 import com.wannagohome.lens_review_android.network.model.user.LoginRequest
+import com.wannagohome.lens_review_android.network.model.user.SignUpRequest
 import com.wannagohome.lens_review_android.support.AccessKeyHelper
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -11,6 +12,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.ResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
+import timber.log.Timber
 
 
 class LensApiClient(private val lensApiInterface: LensApiInterface) {
@@ -38,6 +40,17 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
 
     fun getArticleById(articleId: Int): Observable<Response<Article>> {
         return lensApiInterface.getArticleById(articleId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+
+    fun writeArticle(title: String, content: String): Observable<Response<ResponseBody>> {
+
+        val writeArticleRequest = WriteArticleRequest(title, content)
+
+        return lensApiInterface.writeArticle(writeArticleRequest)
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
@@ -75,6 +88,29 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
                     else throw HttpException(t)
                 } else throw HttpException(t)
             }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun checkSameId(email: String): Observable<Response<ResponseBody>> {
+        return lensApiInterface.checkSameId(email)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+
+    }
+
+    fun checkSameNickname(nickname: String): Observable<Response<ResponseBody>> {
+        return lensApiInterface.checkSameNickname(nickname)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun signUp(email: String, pw: String, phoneNumber: String, nickname: String): Observable<Response<ResponseBody>> {
+        val signUpRequest = SignUpRequest(email, pw, phoneNumber, nickname)
+        return lensApiInterface.signUp(signUpRequest)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
 

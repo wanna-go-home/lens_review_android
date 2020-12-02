@@ -15,8 +15,8 @@
         <item name="android:textSize">10sp</item>
     </style>
     <style name="singlePageFooterIcon">
-        <item name="android:layout_height">20dp</item>
-        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">23dp</item>
+        <item name="android:layout_width">23dp</item>
     </style>
 
     <style name="singlePageFooterText">
@@ -32,7 +32,9 @@
     </style>
 
     <style name="signUpEditStyle">
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
-
+    <style name="signUpWarnStyle">
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

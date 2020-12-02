@@ -12,9 +12,6 @@ data class Comment(
     @SerializedName("postId")
     val articleId: Int = 0,
 
-    @SerializedName("childrenCnt")
-    val childrenCnt: Int = 0,
-
     @SerializedName("content")
     val content: String = "",
 
@@ -28,6 +25,9 @@ data class Comment(
     val depth: Int = 0,
 
     @SerializedName("bundleId")
-    val bundleId: Int = 0
+    val bundleId: Int = 0,
+
+    @SerializedName("bundleSize")
+    val bundleSize: Int = 0
 
 )
