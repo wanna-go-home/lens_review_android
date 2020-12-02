@@ -44,6 +44,12 @@ class SignUpActivity : AppCompatActivity() {
             binding.nicknameWarnText.text = it
         })
 
+        signUpViewModel.errMessage.observe(this, {
+            if(it.isNotBlank()){
+                Utils.showToast(it)
+            }
+        })
+
         signUpViewModel.signUpResult.observe(this, {
             if (it.isNotBlank() && it.isNotEmpty()) {
                 Utils.showToast(it)
@@ -66,14 +72,14 @@ class SignUpActivity : AppCompatActivity() {
             .skip(1)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                signUpViewModel.checkPw(it.toString())
+                signUpViewModel.isValidPw(it.toString())
             }
 
         binding.pwCheckEdit.textChanges()
             .debounce(400, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                signUpViewModel.checkPwCheck(binding.pwEdit.text.toString(), it.toString())
+                signUpViewModel.isValidPwCheck(binding.pwEdit.text.toString(), it.toString())
             }
 
         binding.phoneNumberEdit.textChanges()
@@ -81,7 +87,7 @@ class SignUpActivity : AppCompatActivity() {
             .skip(1)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                signUpViewModel.checkPhoneNum(it.toString())
+                signUpViewModel.isValidPhoneNumber(it.toString())
             }
 
         binding.nicknameEdit.textChanges()
@@ -89,7 +95,7 @@ class SignUpActivity : AppCompatActivity() {
             .skip(1)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                signUpViewModel.checkNickname(it.toString())
+                signUpViewModel.nicknameCheck(it.toString())
             }
 
         binding.signUp.clicks()

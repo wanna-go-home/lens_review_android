@@ -24,6 +24,8 @@
 
 
     <string name="login_login">로그인</string>
+    <string name="login_fail_for_server">서버이상으로 로그인에 실패했어요. 관리자에게 문의해주세요</string>
+    <string name="login_fail_wrong_input">이메일과 비밀번호를 확인해주세요</string>
 
     <string name="signup_email_hint">이메일을 입력해주세요.</string>
     <string name="signup_pw_hint">비밀번호를 입력해주세요 (6자리 이상)</string>
@@ -45,11 +47,14 @@
     <string name="signup_warn_duplicate_nickname">이미 존재하는 닉네임이에요</string>
 
     <string name="signup_success">가입한 메일로 로그인해주세요</string>
+    <string name="signup_signup_btn">회원가입</string>
 
-
-
+    <string name="signup_fail_for_server">서버이상으로 회원가입에 실패했어요. 관리자에게 문의해주세요</string>
+    <string name="signup_fail_wrong_input">먼가 틀렷삼 ㅜㅜ </string>
 
     <string name="write_review_title_hint">제목을 입력하세요</string>
     <string name="write_review_content_hint">내용을 입력하세요</string>
     <string name="write_review_write_button">글쓰기</string>
+
+
 </resources>
