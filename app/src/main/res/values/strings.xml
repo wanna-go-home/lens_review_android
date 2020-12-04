@@ -50,7 +50,7 @@
     <string name="signup_signup_btn">회원가입</string>
 
     <string name="signup_fail_for_server">서버이상으로 회원가입에 실패했어요. 관리자에게 문의해주세요</string>
-    <string name="signup_fail_wrong_input">먼가 틀렷삼 ㅜㅜ </string>
+    <string name="signup_fail_wrong_input">서버이상으로 회원가입에 실패했어요. 관리자에게 문의해주세요 </string>
 
     <string name="write_review_title_hint">제목을 입력하세요</string>
     <string name="write_review_content_hint">내용을 입력하세요</string>

@@ -6,6 +6,7 @@ import com.wannagohome.lens_review_android.extension.addTo
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
 import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.PublishSubject
 import org.koin.core.inject
@@ -165,7 +166,7 @@ class SignUpViewModel : BaseViewModel() {
 
                 errMessage.value = when (it) {
                     is SocketTimeoutException -> Utils.getString(R.string.login_fail_for_server)
-                    is HttpException -> Utils.getString(R.string.login_fail_wrong_input)
+                    is HttpException -> Utils.getString(R.string.signup_fail_wrong_input)
                     else -> "" //TODO 서버로 로그전송
                 }
 

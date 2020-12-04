@@ -1,5 +1,6 @@
 package com.wannagohome.lens_review_android.network
 
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.wannagohome.lens_review_android.support.AccessKeyHelper
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -31,7 +32,7 @@ class AppRetrofitBuilder(private val baseUrl: String, private val interceptor: I
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(httpLogging)
             .addNetworkInterceptor(AuthenticationInterceptor())
-//            .addNetworkInterceptor(StethoInterceptor())
+            .addNetworkInterceptor(StethoInterceptor())
             .connectTimeout(NetworkConfig.ALL_TIMEOUT, TimeUnit.SECONDS)
             .writeTimeout(NetworkConfig.ALL_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(NetworkConfig.ALL_TIMEOUT, TimeUnit.SECONDS)
