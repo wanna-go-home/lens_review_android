@@ -1,43 +1,43 @@
-package com.wannagohome.lens_review_android.ui.article
+package com.wannagohome.lens_review_android.ui.board.article.comment
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.wannagohome.lens_review_android.databinding.ActivityArticleBinding
+import com.wannagohome.lens_review_android.network.model.Comment
+import com.wannagohome.lens_review_android.databinding.ActivityCommentBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class ArticleActivity : AppCompatActivity() {
+class CommentActivity : AppCompatActivity() {
 
     companion object {
-        const val ARTICLE_ID = "articleId"
+        const val COMMENT_ID = "commentId"
+        const val ARTICLE_ID = "commentId"
     }
-
-    private val articleViewModel: ArticleViewModel by viewModel()
+    //todo : remove after server api enabled
+    private val commentViewModel : CommentViewModel by viewModel()
 
     private val commentAdapter = CommentMultiViewAdapter()
-
-    private lateinit var binding: ActivityArticleBinding
+    private lateinit var binding: ActivityCommentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityArticleBinding.inflate(layoutInflater)
+        binding = ActivityCommentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val commentId = intent.getIntExtra(COMMENT_ID, -1)
         val articleId = intent.getIntExtra(ARTICLE_ID, -1)
 
-        if (articleId == -1) {
-            Timber.d("article Id $articleId")
+        if (commentId == -1) {
+            Timber.d("comment Id $commentId")
             //TODO error handling with UI
-
         }
         initCommentRecyclerView()
         observeEvent()
-        articleViewModel.getArticle(articleId)
-        articleViewModel.getComments(articleId)
+        commentViewModel.getComments(articleId, commentId)
     }
-
     private fun initCommentRecyclerView() {
         binding.commentRecyclerView.run {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
@@ -45,17 +45,8 @@ class ArticleActivity : AppCompatActivity() {
             adapter = commentAdapter
         }
     }
-
-    private fun observeEvent() {
-        articleViewModel.article.observe(this, {
-
-            binding.articleTitle.text = it.title
-            binding.content.text = it.content
-            binding.author.text = it.author
-            binding.likes.text = it.likes.toString()
-            binding.createdAt.text = it.createdAt
-        })
-        articleViewModel.comments.observe(this, {
+    private fun observeEvent(){
+        commentViewModel.comments.observe(this, Observer {
             commentAdapter.commentList = ArrayList(it)
         })
     }

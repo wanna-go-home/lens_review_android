@@ -25,6 +25,9 @@ data class Comment(
     val depth: Int = 0,
 
     @SerializedName("bundleId")
-    val bundleId: Int = 0
+    val bundleId: Int = 0,
+
+    @SerializedName("bundleSize")
+    val bundleSize: Int = 0
 
 )

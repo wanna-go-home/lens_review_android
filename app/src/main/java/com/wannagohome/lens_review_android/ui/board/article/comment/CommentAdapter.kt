@@ -1,12 +1,15 @@
-package com.wannagohome.lens_review_android.ui.article
+package com.wannagohome.lens_review_android.ui.board.article.comment
 
 import android.view.LayoutInflater
+import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.wannagohome.lens_review_android.databinding.ChildCommentListItemBinding
 import com.wannagohome.lens_review_android.databinding.CommentListItemBinding
 import com.wannagohome.lens_review_android.network.model.Comment
 
+const val COMMENT = 0
+const val INNER_COMMENT = 1
 class CommentMultiViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var commentList = ArrayList<Comment>()
@@ -18,11 +21,11 @@ class CommentMultiViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            0 -> {
+            COMMENT -> {
                 val binding = CommentListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 CommentViewHolder(binding)
             }
-            1 -> {
+            INNER_COMMENT -> {
                 val binding = ChildCommentListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 ChildCommentViewHolder(binding)
             }
@@ -35,8 +38,8 @@ class CommentMultiViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val obj = commentList[position]
         when (obj.depth) {
-            0 -> (holder as CommentViewHolder).bind(obj)
-            1 -> (holder as ChildCommentViewHolder).bind(obj)
+            COMMENT -> (holder as CommentViewHolder).bind(obj)
+            INNER_COMMENT -> (holder as ChildCommentViewHolder).bind(obj)
         }
     }
 
@@ -52,7 +55,7 @@ class CommentMultiViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
             itemBinding.content.text = comment.content
             itemBinding.author.text = comment.authorId
             itemBinding.likes.text = comment.likes.toString()
-            itemBinding.createdAt.text = comment.createdAt
+            itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
         }
     }
 
@@ -63,7 +66,8 @@ class CommentMultiViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
             currentComment = comment
             itemBinding.content.text = comment.content
             itemBinding.author.text = comment.authorId
-            itemBinding.createdAt.text = comment.createdAt
+            itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
+            itemBinding.likes.text = comment.likes.toString()
         }
     }
 }

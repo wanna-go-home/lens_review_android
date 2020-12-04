@@ -31,15 +31,26 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getArticleList(): Observable<Response<List<Article>>> {
+    fun getArticleList(): Observable<Response<List<ArticlePreview>>> {
         return lensApiInterface.getArticleList()
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getArticleById(articleId: Int): Observable<Response<DetailedArticle>> {
+    fun getArticleById(articleId: Int): Observable<Response<Article>> {
         return lensApiInterface.getArticleById(articleId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+
+    fun writeArticle(title: String, content: String): Observable<Response<ResponseBody>> {
+
+        val writeArticleRequest = WriteArticleRequest(title, content)
+
+        return lensApiInterface.writeArticle(writeArticleRequest)
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
@@ -51,6 +62,13 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
+    fun getCommentsByCommentId(articleId: Int, commentId: Int): Observable<Response<List<Comment>>> {
+        return lensApiInterface.getCommentsByCommentId(articleId, commentId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
 
     fun login(account: String, pw: String): Observable<Response<ResponseBody>> {
         val loginRequest = LoginRequest(account, pw)
