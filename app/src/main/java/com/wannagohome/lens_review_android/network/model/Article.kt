@@ -21,10 +21,11 @@ data class Article(
     @SerializedName("likeCnt")
     val likes: Int = 0,
 
-    @SerializedName("replyCnt")
+    @SerializedName("commentCnt")
     val comments: Int = 0,
 
     @SerializedName("createdAt")
-    val createdAt:  String = ""
+    val createdAt: String = ""
 
 )
+

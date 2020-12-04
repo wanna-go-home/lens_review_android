@@ -8,9 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sackcentury.shinebuttonlib.ShineButton
 import com.wannagohome.lens_review_android.databinding.FragmentBoardBinding
-import com.wannagohome.lens_review_android.ui.article.ArticleActivity
+import com.wannagohome.lens_review_android.ui.board.article.ArticleActivity
+import com.wannagohome.lens_review_android.ui.board.article.write.WriteArticleActivity
+import com.wannagohome.lens_review_android.ui.review.write.WriteReviewActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.KoinComponent
 
@@ -34,16 +35,20 @@ class TabBoard : Fragment(), KoinComponent {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val shineButton = ShineButton(context)
-        shineButton.init(activity)
         initBoardListRecyclerView()
-
+        addListener()
         observeEvent()
 
         boardViewModel.getArticleList()
 
     }
 
+    private fun addListener() {
+        binding.writeBtn.setOnClickListener {
+            val intent = Intent(requireContext(), WriteArticleActivity::class.java)
+            startActivity(intent)
+        }
+    }
     private fun initBoardListRecyclerView() {
         binding.articleListRecyclerView.run {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))

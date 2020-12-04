@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.review.write.WriteReviewActivity"></activity>
+        <activity android:name=".ui.board.article.write.WriteArticleActivity"/>
+        <activity android:name=".ui.review.write.WriteReviewActivity" />
         <activity android:name=".ui.review.review_detail.ReviewDetailActivity" />
         <activity
             android:name=".ui.signup.SignUpActivity"
@@ -26,7 +27,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.lens_detail.LensDetailActivity" />
-        <activity android:name=".ui.article.ArticleActivity" />
+        <activity android:name=".ui.board.article.ArticleActivity" />
+        <activity android:name=".ui.board.article.comment.CommentActivity" />
         <activity android:name=".ui.MainActivity" />
     </application>
 
