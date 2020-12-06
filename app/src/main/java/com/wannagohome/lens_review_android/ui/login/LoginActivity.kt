@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.wannagohome.lens_review_android.databinding.ActivityLoginBinding
+import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.ui.MainActivity
 import com.wannagohome.lens_review_android.ui.signup.SignUpActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -33,6 +34,11 @@ class LoginActivity : AppCompatActivity() {
                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
                 startActivity(intent)
                 finish()
+            }
+        })
+        loginViewModel.errMessage.observe(this, {
+            if(it.isNotEmpty()){
+                Utils.showToast(it)
             }
         })
     }
