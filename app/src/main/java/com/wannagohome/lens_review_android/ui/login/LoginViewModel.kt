@@ -73,7 +73,7 @@ class LoginViewModel : BaseViewModel() {
 
         //TODO 비밀번호 조건 어떻게 할것이지?
         val reg = Regex("[0-9|a-zA-Z]{5,15}")
-        if (pw.length < 6 || !pw.matches(reg)) {
+        if (pw.length < 5 || !pw.matches(reg)) {
             passwordWarn.value = Utils.getString(R.string.login_pw_invalid)
             return false
         }
