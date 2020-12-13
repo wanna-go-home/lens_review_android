@@ -4,10 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.wannagohome.lens_review_android.network.model.Comment
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.databinding.ActivityArticleBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.wannagohome.lens_review_android.ui.board.article.MoreDialog
+import androidx.fragment.app.Fragment
 import timber.log.Timber
 
 class ArticleActivity : AppCompatActivity() {
@@ -15,11 +16,9 @@ class ArticleActivity : AppCompatActivity() {
     companion object {
         const val ARTICLE_ID = "articleId"
     }
-    //todo : remove after server api enabled
     private val articleViewModel: ArticleViewModel by viewModel()
-
+    private val fm = getSupportFragmentManager();
     private val commentAdapter = CommentMultiViewAdapter()
-
     private lateinit var binding: ActivityArticleBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,18 +27,30 @@ class ArticleActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val articleId = intent.getIntExtra(ARTICLE_ID, -1)
-
         if (articleId == -1) {
             Timber.d("article Id $articleId")
             //TODO error handling with UI
-
         }
         initCommentRecyclerView()
+        addListener(articleId)
         observeEvent()
+    }
+
+    override fun onStart(){
+        super.onStart()
+        val articleId = intent.getIntExtra(ARTICLE_ID, -1)
+        if (articleId == -1) {
+            //TODO error handling with UI
+        }
         articleViewModel.getArticle(articleId)
         articleViewModel.getComments(articleId)
     }
-
+    private fun addListener(articleId: Int) {
+        binding.moreImg.setOnClickListener{
+            var moreDialogFragment = MoreDialog.newInstance(articleId);
+            moreDialogFragment.show(fm, null);
+        }
+    }
     private fun initCommentRecyclerView() {
         binding.commentRecyclerView.run {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
@@ -58,6 +69,12 @@ class ArticleActivity : AppCompatActivity() {
         })
         articleViewModel.comments.observe(this, {
             commentAdapter.commentList = ArrayList(it)
+        })
+
+        articleViewModel.deleteSuccess.observe(this, {
+            if (it) {
+                finish()
+            }
         })
     }
 }

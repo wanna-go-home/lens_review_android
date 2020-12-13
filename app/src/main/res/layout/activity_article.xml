@@ -43,6 +43,8 @@
             <ImageView
                 android:id="@+id/moreImg"
                 style="@style/singlePageHeaderIcon"
+                android:layout_width="13dp"
+                android:layout_height="14dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
                 app:srcCompat="@drawable/more" />
