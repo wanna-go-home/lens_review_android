@@ -20,8 +20,9 @@
             style="@style/signUpEditStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="false"
             android:hint="@string/signup_email_hint"
-            android:autofillHints="false" />
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/emailWarnText"
@@ -35,7 +36,8 @@
             style="@style/signUpEditStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/signup_pw_hint" />
+            android:hint="@string/signup_pw_hint"
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/pwWarnText"
@@ -50,7 +52,8 @@
             style="@style/signUpEditStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/signup_pw_check_hint" />
+            android:hint="@string/signup_pw_check_hint"
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/pwCheckWarnText"
@@ -64,10 +67,11 @@
             style="@style/signUpEditStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/signup_hp_hint"
             android:inputType="number"
             android:maxLength="11"
 
-            android:hint="@string/signup_hp_hint" />
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/phoneNumWarnText"
@@ -81,7 +85,8 @@
             style="@style/signUpEditStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/signup_nickname_hint" />
+            android:hint="@string/signup_nickname_hint"
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/nicknameWarnText"
