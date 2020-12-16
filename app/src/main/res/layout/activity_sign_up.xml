@@ -104,6 +104,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
+            style="@style/PrimaryButtonStyle"
             android:id="@+id/signUp"
             android:layout_width="match_parent"
             android:layout_height="70dp"
