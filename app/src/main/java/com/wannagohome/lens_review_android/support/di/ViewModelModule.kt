@@ -2,7 +2,9 @@ package com.wannagohome.lens_review_android.support.di
 
 import com.wannagohome.lens_review_android.ui.board.article.ArticleViewModel
 import com.wannagohome.lens_review_android.ui.board.BoardViewModel
+import com.wannagohome.lens_review_android.ui.board.article.modify.ModifyArticleViewModel
 import com.wannagohome.lens_review_android.ui.board.article.write.WriteArticleViewModel
+import com.wannagohome.lens_review_android.ui.board.article.comment.CommentViewModel
 import com.wannagohome.lens_review_android.ui.lens_detail.LensDetailViewModel
 import com.wannagohome.lens_review_android.ui.login.LoginViewModel
 import com.wannagohome.lens_review_android.ui.mypage.MypageViewModel
@@ -19,8 +21,10 @@ val viewModelModule = module {
     viewModel { BoardViewModel() }
     viewModel { LensDetailViewModel() }
     viewModel { ArticleViewModel() }
+    viewModel { ModifyArticleViewModel() }
     viewModel { WriteArticleViewModel() }
     viewModel { ReviewPreviewViewModel() }
+    viewModel { CommentViewModel() }
     viewModel { LoginViewModel() }
     viewModel { SignUpViewModel() }
     viewModel { WriteReviewViewModel() }

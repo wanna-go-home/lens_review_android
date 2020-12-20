@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.wannagohome.lens_review_android.databinding.FragmentBoardBinding
 import com.wannagohome.lens_review_android.ui.board.article.ArticleActivity
 import com.wannagohome.lens_review_android.ui.board.article.write.WriteArticleActivity
-import com.wannagohome.lens_review_android.ui.review.write.WriteReviewActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.KoinComponent
 
@@ -39,10 +38,12 @@ class TabBoard : Fragment(), KoinComponent {
         addListener()
         observeEvent()
 
-        boardViewModel.getArticleList()
 
     }
-
+    override fun onStart(){
+        super.onStart()
+        boardViewModel.getArticleList()
+    }
     private fun addListener() {
         binding.writeBtn.setOnClickListener {
             val intent = Intent(requireContext(), WriteArticleActivity::class.java)

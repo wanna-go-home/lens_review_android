@@ -45,10 +45,15 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
-
+    fun deleteArticleById(articleId: Int): Observable<Response<ResponseBody>> {
+        return lensApiInterface.deleteArticleById(articleId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
 
     fun writeArticle(title: String, content: String): Observable<Response<ResponseBody>> {
-
+        //@todo : write/modify shares same request body : modify name of data class
         val writeArticleRequest = WriteArticleRequest(title, content)
 
         return lensApiInterface.writeArticle(writeArticleRequest)
@@ -56,7 +61,15 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
+    fun modifyArticle(id: Int, title: String, content: String): Observable<Response<ResponseBody>> {
 
+        val writeArticleRequest = WriteArticleRequest(title, content)
+
+        return lensApiInterface.modifyArticle(id, writeArticleRequest)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
     fun getCommentsByArticleId(articleId: Int): Observable<Response<List<Comment>>> {
         return lensApiInterface.getCommentsByArticleId(articleId)
             .subscribeOn(Schedulers.io())

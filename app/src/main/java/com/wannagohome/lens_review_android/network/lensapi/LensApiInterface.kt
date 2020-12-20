@@ -26,8 +26,14 @@ interface LensApiInterface {
     @GET("api/boards/free-board/{id}")
     fun getArticleById(@Path("id") articleId: Int): Observable<Response<Article>>
 
+    @DELETE("api/boards/free-board/{id}")
+    fun deleteArticleById(@Path("id") articleId: Int): Observable<Response<ResponseBody>>
+
     @POST("api/boards/free-board")
     fun writeArticle(@Body writeArticleRequest: WriteArticleRequest): Observable<Response<ResponseBody>>
+
+    @PUT("api/boards/free-board/{id}")
+    fun modifyArticle(@Path("id") articleId: Int, @Body writeArticleRequest: WriteArticleRequest): Observable<Response<ResponseBody>>
 
     @GET("/api/boards/free-board/{id}/comments")
     fun getCommentsByArticleId(@Path("id") articleId: Int): Observable<Response<List<Comment>>>
