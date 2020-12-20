@@ -17,4 +17,8 @@
     <color name="signup_warn_text">#ff0000</color>
     <color name="login_warn_text">#FF0000</color>
 
+    <color name="mypage_myinfo_container">#42424A</color>
+    <color name="mypage_leave_text_color">#FF0000</color>
+
+
 </resources>

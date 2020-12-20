@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="LensCustomTitleBar">
+        <attr name="titleName" format="string" />
+
+        <attr name="leftImg" format="reference" />
+        <attr name="leftText" format="string" />
+
+        <attr name="rightImg" format="reference" />
+        <attr name="rightText" format="string"/>
+
+        <attr name="iconRightOfTitle" format="reference"/>
+    </declare-styleable>
+
+</resources>

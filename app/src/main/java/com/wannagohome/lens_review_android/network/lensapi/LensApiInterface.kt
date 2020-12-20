@@ -5,6 +5,7 @@ import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
 import com.wannagohome.lens_review_android.network.model.review.WriteReviewRequest
 import com.wannagohome.lens_review_android.network.model.WriteArticleRequest
 import com.wannagohome.lens_review_android.network.model.user.LoginRequest
+import com.wannagohome.lens_review_android.network.model.user.MyInfo
 import com.wannagohome.lens_review_android.network.model.user.SignUpRequest
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.ResponseBody
@@ -43,9 +44,11 @@ interface LensApiInterface {
     @GET("api/user/check/nickname")
     fun checkSameNickname(@Query("nickname") nickname: String): Observable<Response<ResponseBody>>
 
-
     @POST("api/user/signup")
     fun signUp(@Body signUpRequestRequest: SignUpRequest): Observable<Response<ResponseBody>>
+
+    @GET("api/user/me")
+    fun me() : Observable<Response<MyInfo>>
 
     @GET("api/boards/review-board")
     fun getAllReviews(): Observable<Response<List<ReviewPreview>>>

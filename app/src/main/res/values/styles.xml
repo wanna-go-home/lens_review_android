@@ -15,9 +15,11 @@
         <item name="android:layout_height">14dp</item>
         <item name="android:layout_width">14dp</item>
     </style>
+
     <style name="boardListFooterText">
         <item name="android:textSize">10sp</item>
     </style>
+
     <style name="singlePageFooterIcon">
         <item name="android:layout_height">23dp</item>
         <item name="android:layout_width">23dp</item>
@@ -26,6 +28,7 @@
     <style name="singlePageFooterText">
         <item name="android:textSize">16sp</item>
     </style>
+
     <style name="singlePageHeaderIcon">
         <item name="android:layout_height">20dp</item>
         <item name="android:layout_width">20dp</item>
@@ -38,7 +41,18 @@
     <style name="signUpEditStyle">
         <item name="android:textSize">16sp</item>
     </style>
+
     <style name="signUpWarnStyle">
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="mypageMyinfoHeader">
+        <item name="android:textColor">@android:color/secondary_text_dark</item>
+        <item name="android:textSize">9sp</item>
+    </style>
+
+    <style name="mypageMyinfoValue">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>
