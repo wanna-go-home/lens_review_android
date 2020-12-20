@@ -51,7 +51,7 @@ class AppRetrofitBuilder(private val baseUrl: String, private val interceptor: I
             val originalRequest = chain.request()
             val url = originalRequest.url
 
-            if (url.toString().contains("user")) {
+            if (url.toString().contains("check") || url.toString().contains("signup")) {
                 return chain.proceed(originalRequest)
             }
 

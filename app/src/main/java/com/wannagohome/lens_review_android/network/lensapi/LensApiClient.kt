@@ -4,6 +4,7 @@ import com.wannagohome.lens_review_android.network.model.*
 import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
 import com.wannagohome.lens_review_android.network.model.review.WriteReviewRequest
 import com.wannagohome.lens_review_android.network.model.user.LoginRequest
+import com.wannagohome.lens_review_android.network.model.user.MyInfo
 import com.wannagohome.lens_review_android.network.model.user.SignUpRequest
 import com.wannagohome.lens_review_android.support.AccessKeyHelper
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -62,6 +63,7 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
+
     fun getCommentsByCommentId(articleId: Int, commentId: Int): Observable<Response<List<Comment>>> {
         return lensApiInterface.getCommentsByCommentId(articleId, commentId)
             .subscribeOn(Schedulers.io())
@@ -101,6 +103,13 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
 
     fun checkSameNickname(nickname: String): Observable<Response<ResponseBody>> {
         return lensApiInterface.checkSameNickname(nickname)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun myInfo(): Observable<Response<MyInfo>> {
+        return lensApiInterface.me()
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
