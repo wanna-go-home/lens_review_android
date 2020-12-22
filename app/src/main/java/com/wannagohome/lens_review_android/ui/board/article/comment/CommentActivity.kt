@@ -14,7 +14,7 @@ class CommentActivity : AppCompatActivity() {
 
     companion object {
         const val COMMENT_ID = "commentId"
-        const val ARTICLE_ID = "commentId"
+        const val ARTICLE_ID = "articleId"
     }
     //todo : remove after server api enabled
     private val commentViewModel : CommentViewModel by viewModel()

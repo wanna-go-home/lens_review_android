@@ -60,9 +60,9 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
             itemBinding.likes.text = comment.likes.toString()
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
             itemBinding.comments.setOnClickListener {
-                // Handler code here.
                 val intent = Intent(parent.context, CommentActivity::class.java)
                 intent.putExtra("articleId", comment.articleId);
+                intent.putExtra("commentId", comment.commentId);
                 parent.context.startActivity(intent)
             }
 
@@ -71,8 +71,9 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
                 itemBinding.moreComment.visibility = VISIBLE
                 itemBinding.moreComment.text = "+ 댓글 ${comment.bundleSize-4}개 더 보기"
                 itemBinding.moreComment.setOnClickListener {
-                    // Handler code here.
                     val intent = Intent(parent.context, CommentActivity::class.java)
+                    intent.putExtra("articleId", comment.articleId);
+                    intent.putExtra("commentId", comment.commentId);
                     parent.context.startActivity(intent)
                 }
             }
