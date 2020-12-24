@@ -14,5 +14,9 @@ jobs:
           command: chmod +x ./gradlew
 
       - run:
-          name: build
-          command: ./gradlew build
+          name: debug apk build
+          command: ./gradlew assembleDebug
+
+      - store_artifacts:
+          path: ../app/build/outputs/apk/debug
+          destination: artifact-file
