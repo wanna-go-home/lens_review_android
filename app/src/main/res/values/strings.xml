@@ -30,7 +30,7 @@
     <string name="login_email_empty">이메일을 입력해 주세요</string>
     <string name="login_email_invalid">올바른 이메일을 입력해 주세요</string>
     <string name="login_pw_empty">비밀번호를 입력해 주세요</string>
-    <string name="login_pw_invalid">6~15자의 영문 대 소문자, 숫자만 사용가능합니다</string>
+    <string name="login_pw_invalid">6~15자의 영문 대 소문자, 숫자 및 !@#만 사용가능합니다</string>
     <string name="login_find_id">아이디찾기</string>
     <string name="login_find_password">비밀번호 찾기</string>
     <string name="login_signup">회원가입</string>
@@ -46,7 +46,7 @@
     <string name="signup_warn_duplicate_email">이미 가입된 이메일이에요</string>
 
     <string name="signup_warn_empty_pw">비밀번호를 입력해주세요</string>
-    <string name="signup_warn_not_acceptable_pw">6~15자의 영문 대 소문자, 숫자만 사용가능합니다</string>
+    <string name="signup_warn_not_acceptable_pw">6~15자의 영문 대 소문자, 숫자 및 !@#만 사용가능합니다</string>
 
     <string name="signup_warn_different_with_pw">비밀번호가 일치하지 않아요</string>
 

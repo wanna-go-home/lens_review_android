@@ -56,6 +56,9 @@ interface LensApiInterface {
     @GET("api/user/me")
     fun me() : Observable<Response<MyInfo>>
 
+    @DELETE("api/user")
+    fun leave() : Observable<Response<ResponseBody>>
+
     @GET("api/boards/review-board")
     fun getAllReviews(): Observable<Response<List<ReviewPreview>>>
 
