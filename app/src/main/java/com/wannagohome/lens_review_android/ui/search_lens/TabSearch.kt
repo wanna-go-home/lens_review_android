@@ -13,6 +13,7 @@ import com.wannagohome.lens_review_android.ui.lens_detail.LensDetailActivity
 import com.wannagohome.lens_review_android.ui.lens_detail.LensDetailActivity.Companion.DETAILED_LENS_ID
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.core.KoinComponent
+import timber.log.Timber
 
 class TabSearch : Fragment(), KoinComponent {
     companion object {
@@ -69,5 +70,10 @@ class TabSearch : Fragment(), KoinComponent {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.d("kkkkkkk")
     }
 }
