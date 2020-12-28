@@ -51,7 +51,8 @@ class AppRetrofitBuilder(private val baseUrl: String, private val interceptor: I
             val originalRequest = chain.request()
             val url = originalRequest.url
 
-            if (url.toString().contains("check") || url.toString().contains("signup")) {
+            //TODO NON-auth list를 만들거나, non-auth api builder를 따로 만들기
+            if (url.toString().contains("check") || url.toString().contains("signup") || url.toString().contains("login")) {
                 return chain.proceed(originalRequest)
             }
 

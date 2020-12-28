@@ -64,7 +64,7 @@ class SignUpViewModel : BaseViewModel() {
             return false
         }
 
-        val reg = Regex("[0-9|a-zA-Z]{6,15}")
+        val reg = Regex("[0-9|a-zA-Z|!|@|#]{6,15}")
         if (pw.length < 6 || !pw.matches(reg)) {
             pwWarn.value = Utils.getString(R.string.signup_warn_not_acceptable_pw)
             return false
