@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.ui.board.article.comment
+package com.wannagohome.lens_review_android.ui.article.article.comment
 
 import android.view.LayoutInflater
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper

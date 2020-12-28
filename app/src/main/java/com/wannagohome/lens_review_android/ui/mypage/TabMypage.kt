@@ -12,6 +12,7 @@ import com.wannagohome.lens_review_android.databinding.FragmentMypageBinding
 import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseFragment
 import com.wannagohome.lens_review_android.ui.login.LoginActivity
+import com.wannagohome.lens_review_android.ui.mypage.myarticle.MyArticleActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -37,11 +38,17 @@ class TabMypage : BaseFragment() {
     }
 
     private fun initListener(){
+        binding.myArticleListMenu.clicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                startActivityFromRight(requireActivity(), MyArticleActivity::class.java)
+            }
         binding.leaveMenu.clicks()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 showLeaveDialog()
             }
+
     }
     private fun showLeaveDialog() {
         val builder = AlertDialog.Builder(context).apply {

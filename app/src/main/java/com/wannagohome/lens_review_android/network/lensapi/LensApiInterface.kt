@@ -65,6 +65,9 @@ interface LensApiInterface {
     @POST("api/boards/review-board")
     fun writeReview(@Body writeReviewRequest: WriteReviewRequest): Observable<Response<ResponseBody>>
 
+    @GET("api/boards/article/me")
+    fun getMyArticle() : Observable<Response<List<ArticlePreview>>>
+
 //    @GET("api/boards/review-board/{id}")
 //    fun getReviewById(@Path("id") id : Int) : Observable<Response<DetailedReview>>
 }

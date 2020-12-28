@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.ui.board.article.modify
+package com.wannagohome.lens_review_android.ui.article.article.modify
 
 import android.os.Bundle
 import android.text.SpannableStringBuilder

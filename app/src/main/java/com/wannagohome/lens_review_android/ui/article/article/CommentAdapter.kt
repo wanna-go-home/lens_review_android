@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.ui.board.article
+package com.wannagohome.lens_review_android.ui.article.article
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.wannagohome.lens_review_android.network.model.Comment
-import com.wannagohome.lens_review_android.ui.board.article.comment.CommentActivity
+import com.wannagohome.lens_review_android.ui.article.article.comment.CommentActivity
 import com.wannagohome.lens_review_android.databinding.ChildCommentListItemBinding
 import com.wannagohome.lens_review_android.databinding.CommentListItemBinding
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
