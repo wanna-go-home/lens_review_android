@@ -86,8 +86,9 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
-    fun writeComment(articleId: Int, bundleId: Int, contents: String): Observable<Response<ResponseBody>> {
-        val writeCommentRequest = WriteCommentRequest(articleId, bundleId, contents)
+
+    fun writeComment(articleId: Int, contents: String, bundleId: Int?=null): Observable<Response<ResponseBody>> {
+        val writeCommentRequest = WriteCommentRequest(bundleId, contents)
 
         return lensApiInterface.writeComment(articleId, writeCommentRequest)
             .subscribeOn(Schedulers.io())
@@ -96,7 +97,7 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
     }
     fun modifyComment(articleId: Int, commentId: Int, bundleId: Int, contents: String): Observable<Response<ResponseBody>> {
 
-        val writeCommentRequest = WriteCommentRequest(articleId, bundleId, contents)
+        val writeCommentRequest = WriteCommentRequest(bundleId, contents)
 
         return lensApiInterface.modifyComment(articleId, commentId, writeCommentRequest)
             .subscribeOn(Schedulers.io())

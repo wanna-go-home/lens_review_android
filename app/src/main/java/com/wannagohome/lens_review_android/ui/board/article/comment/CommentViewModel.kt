@@ -30,7 +30,7 @@ class CommentViewModel : BaseViewModel(), KoinComponent {
 
     fun postComment(articleId: Int, parentId: Int, contents: String) {
         compositeDisposable.add(lensClient.writeComment(articleId,
-            parentId, contents).subscribe({
+            contents, parentId).subscribe({
             postCommentSuccess.value = true
         }, {
             //TODO error notification

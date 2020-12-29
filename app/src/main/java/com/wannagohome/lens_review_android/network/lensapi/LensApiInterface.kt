@@ -41,10 +41,10 @@ interface LensApiInterface {
     @GET("/api/boards/article/{articleId}/comment/{commentId}")
     fun getCommentsByCommentId(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int): Observable<Response<List<Comment>>>
 
-    @POST("api/boards/free-board/{id}/comments")
+    @POST("api/boards/article/{articleId}/comments")
     fun writeComment(@Path("articleId") articleId: Int, @Body writeCommentRequest: WriteCommentRequest): Observable<Response<ResponseBody>>
 
-    @PUT("api/boards/free-board/{id}/comments/{commentId}")
+    @PUT("api/boards/article/{articleId}/comments/{commentId}")
     fun modifyComment(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int, @Body writeCommentRequest: WriteCommentRequest): Observable<Response<ResponseBody>>
 
     @POST("api/user/login")
