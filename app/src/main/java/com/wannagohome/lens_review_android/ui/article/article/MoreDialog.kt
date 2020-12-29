@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.ui.board.article
+package com.wannagohome.lens_review_android.ui.article.article
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.wannagohome.lens_review_android.databinding.FragmentDialogOptionBinding
-import com.wannagohome.lens_review_android.ui.board.article.modify.ModifyArticleActivity
+import com.wannagohome.lens_review_android.ui.article.article.modify.ModifyArticleActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class MoreDialog : DialogFragment() {
 

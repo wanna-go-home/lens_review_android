@@ -1,11 +1,10 @@
-package com.wannagohome.lens_review_android.ui.board.article.comment
+package com.wannagohome.lens_review_android.ui.article.article.comment
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.wannagohome.lens_review_android.network.model.Comment
 import com.wannagohome.lens_review_android.databinding.ActivityCommentBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
