@@ -17,7 +17,6 @@ class CommentActivity : AppCompatActivity() {
         const val COMMENT_ID = "commentId"
         const val ARTICLE_ID = "articleId"
     }
-    //todo : remove after server api enabled
     private val commentViewModel : CommentViewModel by viewModel()
 
     private val commentAdapter = CommentMultiViewAdapter()
@@ -37,6 +36,7 @@ class CommentActivity : AppCompatActivity() {
         }
         initCommentRecyclerView()
         addCommentPostListener(articleId, commentId)
+        addOnRefreshListener(articleId, commentId)
         observeEvent()
         commentViewModel.getComments(articleId, commentId)
     }
@@ -54,19 +54,32 @@ class CommentActivity : AppCompatActivity() {
             if (content.isEmpty()) {
                 Utils.showToast(getString(R.string.write_need_content))
             }
-            commentViewModel.postComment(articleId, parentId, content)
+            else {
+                binding.swiperefresh.isRefreshing = true
+                commentViewModel.postComment(articleId, parentId, content)
+            }
         }
     }
 
+    private fun addOnRefreshListener(articleId: Int, commentId: Int) {
+        binding.swiperefresh.setOnRefreshListener{
+            commentViewModel.refreshComment(articleId, commentId)
+        }
+    }
     private fun observeEvent(){
         commentViewModel.comments.observe(this, {
             commentAdapter.commentList = ArrayList(it)
         })
 
+        commentViewModel.refreshSuccess.observe(this, {
+            if (it) {
+                binding.swiperefresh.isRefreshing = false
+            }
+        })
+
         commentViewModel.postCommentSuccess.observe(this, {
             if (it) {
                 binding.commentInput.text.clear()
-                //@todo : 내가 쓴 댓글이 보여야한다
                 commentViewModel.postCommentSuccess.value = false
             }
         })

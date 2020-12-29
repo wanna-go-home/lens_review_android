@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?><!-- Top Navigator-->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/board_background"
     android:orientation="vertical">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topNav"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:orientation="horizontal">
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent">
 
             <ImageView
                 android:id="@+id/backImg"
@@ -24,54 +31,54 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
-                android:text="@string/go_back"
+                android:text="돌아가기"
                 android:textColor="@color/board_subtext"
                 android:textSize="16sp" />
+        </LinearLayout>
 
-    </LinearLayout>
-
-    <ScrollView
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/board_background"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <LinearLayout
+        app:layout_constraintTop_toBottomOf="@+id/topNav"
+        app:layout_constraintBottom_toTopOf="@+id/footer">
+        <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/board_background"
             android:orientation="vertical">
 
-            <!--Comments-->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/divider" />
-                <!--Comments List-->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/commentRecyclerView"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                    <!--Comments List-->
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false" />
+                        android:orientation="vertical">
 
-                </RelativeLayout>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/commentRecyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false" />
 
-        </LinearLayout>
-    </ScrollView>
+                    </RelativeLayout>
+            </LinearLayout>
+        </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/divider" />
+
     <LinearLayout
+        android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:paddingHorizontal="20dp">
+        android:paddingHorizontal="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
         <LinearLayout
             android:layout_width="300dp"
             android:layout_height="match_parent"
@@ -88,23 +95,23 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="15dp"
                 android:background="@null"
-                android:inputType="text"
                 android:hint="@string/child_comment_hint" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
             android:layoutDirection="rtl"
             android:orientation="horizontal">
-            <TextView
-                android:id="@+id/writeBtn"
-                android:layout_width="40dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:text="@string/post"
-                android:textColor="@color/board_subtext"
-                android:textSize="16sp" />
+        <TextView
+            android:id="@+id/writeBtn"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:text="@string/post"
+            android:textColor="@color/board_subtext"
+            android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

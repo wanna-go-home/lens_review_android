@@ -72,7 +72,7 @@
     <string name="more_dialog_delete">삭제하기</string>
 
     <string name="child_comment_hint">대댓글을 남겨주세요</string>
-    <string name="omment_hint">댓글을 남겨주세요</string>
+    <string name="comment_hint">댓글을 남겨주세요</string>
 
     <string name="mypage_actionbar_text">마이페이지</string>
     <string name="mypage_change_nickname_button">수정</string>
