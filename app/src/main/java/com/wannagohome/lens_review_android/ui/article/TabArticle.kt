@@ -35,19 +35,23 @@ class TabArticle : Fragment(), KoinComponent {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initBoardListRecyclerView()
-        addListener()
+        addWriteBtnListener()
+        addOnRefreshListener()
         observeEvent()
-
-
     }
     override fun onStart(){
         super.onStart()
         boardViewModel.getArticleList()
     }
-    private fun addListener() {
+    private fun addWriteBtnListener() {
         binding.writeBtn.setOnClickListener {
             val intent = Intent(requireContext(), WriteArticleActivity::class.java)
             startActivity(intent)
+        }
+    }
+    private fun addOnRefreshListener() {
+        binding.swiperefresh.setOnRefreshListener{
+            boardViewModel.refreshArticleList()
         }
     }
     private fun initBoardListRecyclerView() {
@@ -70,6 +74,11 @@ class TabArticle : Fragment(), KoinComponent {
     private fun observeEvent() {
         boardViewModel.articleList.observe(viewLifecycleOwner, {
             boardListAdapter.items = it
+        })
+        boardViewModel.refreshSuccess.observe(viewLifecycleOwner, {
+            if (it) {
+                binding.swiperefresh.isRefreshing = false
+            }
         })
     }
 

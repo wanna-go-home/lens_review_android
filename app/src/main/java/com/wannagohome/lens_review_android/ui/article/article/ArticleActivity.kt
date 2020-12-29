@@ -7,6 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.databinding.ActivityArticleBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.wannagohome.lens_review_android.ui.article.article.MoreDialog
+import androidx.fragment.app.Fragment
+import com.wannagohome.lens_review_android.R
+import com.wannagohome.lens_review_android.support.Utils
 import timber.log.Timber
 
 class ArticleActivity : AppCompatActivity() {
@@ -15,7 +19,7 @@ class ArticleActivity : AppCompatActivity() {
         const val ARTICLE_ID = "articleId"
     }
     private val articleViewModel: ArticleViewModel by viewModel()
-    private val fm = getSupportFragmentManager();
+    private val fm = getSupportFragmentManager()
     private val commentAdapter = CommentMultiViewAdapter()
     private lateinit var binding: ActivityArticleBinding
 
@@ -30,7 +34,9 @@ class ArticleActivity : AppCompatActivity() {
             //TODO error handling with UI
         }
         initCommentRecyclerView()
-        addListener(articleId)
+        addDialogListener(articleId)
+        addCommentPostListener(articleId)
+        addOnRefreshListener(articleId)
         observeEvent()
     }
 
@@ -43,12 +49,33 @@ class ArticleActivity : AppCompatActivity() {
         articleViewModel.getArticle(articleId)
         articleViewModel.getComments(articleId)
     }
-    private fun addListener(articleId: Int) {
+
+
+    private fun addDialogListener(articleId: Int) {
         binding.moreImg.setOnClickListener{
-            var moreDialogFragment = MoreDialog.newInstance(articleId);
-            moreDialogFragment.show(fm, null);
+            val moreDialogFragment = MoreDialog.newInstance(articleId)
+            moreDialogFragment.show(fm, null)
         }
     }
+    private fun addCommentPostListener(articleId: Int) {
+        binding.writeBtn.setOnClickListener{
+            val content = binding.commentInput.text.toString()
+            if (content.isEmpty()) {
+                Utils.showToast(getString(R.string.write_need_content))
+            }
+            else {
+                binding.swiperefresh.isRefreshing = true
+                articleViewModel.postComment(articleId, content)
+            }
+        }
+    }
+
+    private fun addOnRefreshListener(articleId: Int) {
+        binding.swiperefresh.setOnRefreshListener{
+            articleViewModel.refreshArticle(articleId)
+        }
+    }
+
     private fun initCommentRecyclerView() {
         binding.commentRecyclerView.run {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
@@ -56,6 +83,7 @@ class ArticleActivity : AppCompatActivity() {
             adapter = commentAdapter
         }
     }
+
     private fun observeEvent() {
         articleViewModel.article.observe(this, {
 
@@ -69,9 +97,21 @@ class ArticleActivity : AppCompatActivity() {
             commentAdapter.commentList = ArrayList(it)
         })
 
+        articleViewModel.refreshSuccess.observe(this, {
+            if (it) {
+                binding.swiperefresh.isRefreshing = false
+            }
+        })
+
         articleViewModel.deleteSuccess.observe(this, {
             if (it) {
                 finish()
+            }
+        })
+        articleViewModel.postCommentSuccess.observe(this, {
+            if (it) {
+                binding.commentInput.text.clear()
+                articleViewModel.postCommentSuccess.value = false
             }
         })
     }

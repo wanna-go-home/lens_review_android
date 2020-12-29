@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ActivityCommentBinding
+import com.wannagohome.lens_review_android.support.Utils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -15,7 +17,6 @@ class CommentActivity : AppCompatActivity() {
         const val COMMENT_ID = "commentId"
         const val ARTICLE_ID = "articleId"
     }
-    //todo : remove after server api enabled
     private val commentViewModel : CommentViewModel by viewModel()
 
     private val commentAdapter = CommentMultiViewAdapter()
@@ -34,6 +35,8 @@ class CommentActivity : AppCompatActivity() {
             //TODO error handling with UI
         }
         initCommentRecyclerView()
+        addCommentPostListener(articleId, commentId)
+        addOnRefreshListener(articleId, commentId)
         observeEvent()
         commentViewModel.getComments(articleId, commentId)
     }
@@ -44,9 +47,41 @@ class CommentActivity : AppCompatActivity() {
             adapter = commentAdapter
         }
     }
+
+    private fun addCommentPostListener(articleId: Int, parentId: Int) {
+        binding.writeBtn.setOnClickListener{
+            val content = binding.commentInput.text.toString()
+            if (content.isEmpty()) {
+                Utils.showToast(getString(R.string.write_need_content))
+            }
+            else {
+                binding.swiperefresh.isRefreshing = true
+                commentViewModel.postComment(articleId, parentId, content)
+            }
+        }
+    }
+
+    private fun addOnRefreshListener(articleId: Int, commentId: Int) {
+        binding.swiperefresh.setOnRefreshListener{
+            commentViewModel.refreshComment(articleId, commentId)
+        }
+    }
     private fun observeEvent(){
-        commentViewModel.comments.observe(this, Observer {
+        commentViewModel.comments.observe(this, {
             commentAdapter.commentList = ArrayList(it)
+        })
+
+        commentViewModel.refreshSuccess.observe(this, {
+            if (it) {
+                binding.swiperefresh.isRefreshing = false
+            }
+        })
+
+        commentViewModel.postCommentSuccess.observe(this, {
+            if (it) {
+                binding.commentInput.text.clear()
+                commentViewModel.postCommentSuccess.value = false
+            }
         })
     }
 }

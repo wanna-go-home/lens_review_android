@@ -1,6 +1,7 @@
 package com.wannagohome.lens_review_android.network.lensapi
 
 import com.wannagohome.lens_review_android.network.model.*
+import com.wannagohome.lens_review_android.network.model.article.*
 import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
 import com.wannagohome.lens_review_android.network.model.review.WriteReviewRequest
 import com.wannagohome.lens_review_android.network.model.user.LoginRequest
@@ -13,7 +14,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.ResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
-import timber.log.Timber
 
 
 class LensApiClient(private val lensApiInterface: LensApiInterface) {
@@ -87,6 +87,23 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    fun writeComment(articleId: Int, contents: String, bundleId: Int?=null): Observable<Response<ResponseBody>> {
+        val writeCommentRequest = WriteCommentRequest(bundleId, contents)
+
+        return lensApiInterface.writeComment(articleId, writeCommentRequest)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+    fun modifyComment(articleId: Int, commentId: Int, bundleId: Int, contents: String): Observable<Response<ResponseBody>> {
+
+        val writeCommentRequest = WriteCommentRequest(bundleId, contents)
+
+        return lensApiInterface.modifyComment(articleId, commentId, writeCommentRequest)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
 
     fun login(account: String, pw: String): Observable<Response<ResponseBody>> {
         val loginRequest = LoginRequest(account, pw)
