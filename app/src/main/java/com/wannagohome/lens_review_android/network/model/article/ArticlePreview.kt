@@ -6,7 +6,7 @@ data class ArticlePreview(
     @SerializedName("id")
     val articleId: Int = 0,
 
-    @SerializedName("account")
+    @SerializedName("nickname")
     val author: String = "",
 
     @SerializedName("title")

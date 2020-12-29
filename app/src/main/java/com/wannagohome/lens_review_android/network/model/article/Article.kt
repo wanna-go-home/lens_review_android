@@ -6,7 +6,7 @@ data class Article(
     @SerializedName("id")
     val articleId: Int = 0,
 
-    @SerializedName("account")
+    @SerializedName("nickname")
     val author: String = "",
 
     @SerializedName("title")
@@ -21,7 +21,7 @@ data class Article(
     @SerializedName("likeCnt")
     val likes: Int = 0,
 
-    @SerializedName("commentCnt")
+    @SerializedName("replyCnt")
     val comments: Int = 0,
 
     @SerializedName("createdAt")
