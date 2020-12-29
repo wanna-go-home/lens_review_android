@@ -45,6 +45,7 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
+
     fun deleteArticleById(articleId: Int): Observable<Response<ResponseBody>> {
         return lensApiInterface.deleteArticleById(articleId)
             .subscribeOn(Schedulers.io())
@@ -61,6 +62,7 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
+
     fun modifyArticle(id: Int, title: String, content: String): Observable<Response<ResponseBody>> {
 
         val writeArticleRequest = WriteArticleRequest(title, content)
@@ -70,6 +72,7 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
+
     fun getCommentsByArticleId(articleId: Int): Observable<Response<List<Comment>>> {
         return lensApiInterface.getCommentsByArticleId(articleId)
             .subscribeOn(Schedulers.io())
@@ -119,6 +122,13 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
                     else throw HttpException(t)
                 } else throw HttpException(t)
             }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun leave(): Observable<Response<ResponseBody>>{
+        return lensApiInterface.leave()
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
 

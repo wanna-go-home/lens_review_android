@@ -20,25 +20,25 @@ interface LensApiInterface {
     @GET("api/lens/{id}")
     fun getLensById(@Path("id") lensId: Int): Observable<Response<DetailedLens>>
 
-    @GET("api/boards/free-board")
+    @GET("api/boards/article")
     fun getArticleList(): Observable<Response<List<ArticlePreview>>>
 
-    @GET("api/boards/free-board/{id}")
+    @GET("api/boards/article/{id}")
     fun getArticleById(@Path("id") articleId: Int): Observable<Response<Article>>
 
-    @DELETE("api/boards/free-board/{id}")
+    @DELETE("api/boards/article/{id}")
     fun deleteArticleById(@Path("id") articleId: Int): Observable<Response<ResponseBody>>
 
-    @POST("api/boards/free-board")
+    @POST("api/boards/article")
     fun writeArticle(@Body writeArticleRequest: WriteArticleRequest): Observable<Response<ResponseBody>>
 
-    @PUT("api/boards/free-board/{id}")
+    @PUT("api/boards/article/{id}")
     fun modifyArticle(@Path("id") articleId: Int, @Body writeArticleRequest: WriteArticleRequest): Observable<Response<ResponseBody>>
 
-    @GET("api/boards/free-board/{id}/comments")
+    @GET("/api/boards/article/{id}/comments")
     fun getCommentsByArticleId(@Path("id") articleId: Int): Observable<Response<List<Comment>>>
 
-    @GET("api/boards/free-board/{articleId}/comment/{commentId}")
+    @GET("/api/boards/article/{articleId}/comment/{commentId}")
     fun getCommentsByCommentId(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int): Observable<Response<List<Comment>>>
 
     @POST("api/boards/free-board/{id}/comments")
@@ -46,7 +46,6 @@ interface LensApiInterface {
 
     @PUT("api/boards/free-board/{id}/comments/{commentId}")
     fun modifyComment(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int, @Body writeCommentRequest: WriteCommentRequest): Observable<Response<ResponseBody>>
-
 
     @POST("api/user/login")
     fun login(@Body loginRequest: LoginRequest): Observable<Response<ResponseBody>>
@@ -62,6 +61,9 @@ interface LensApiInterface {
 
     @GET("api/user/me")
     fun me() : Observable<Response<MyInfo>>
+
+    @DELETE("api/user")
+    fun leave() : Observable<Response<ResponseBody>>
 
     @GET("api/boards/review-board")
     fun getAllReviews(): Observable<Response<List<ReviewPreview>>>

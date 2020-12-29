@@ -1,0 +1,22 @@
+version: 2.1
+
+orbs:
+  android: circleci/android@0.2.1
+
+jobs:
+  build:
+    executor: android/android
+
+    steps:
+      - checkout
+      - run:
+          name: chmod permissions
+          command: chmod +x ./gradlew
+
+      - run:
+          name: debug apk build
+          command: ./gradlew assembleDebug
+
+      - store_artifacts:
+          path: ~/project/app/build/outputs/apk/debug
+          destination: artifact-file

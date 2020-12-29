@@ -19,6 +19,8 @@ class MypageViewModel : BaseViewModel() {
 
     val myNickname = MutableLiveData<String>()
 
+    val successLeave = MutableLiveData<Boolean>()
+
     init{
         fetchMyInfo()
     }
@@ -40,5 +42,14 @@ class MypageViewModel : BaseViewModel() {
                 Timber.e(it)
             })
             .addTo(compositeDisposable)
+    }
+
+    fun leave(){
+        lensApiClient.leave()
+            .subscribe({
+                successLeave.value = true
+            },{
+
+            }).addTo(compositeDisposable)
     }
 }
