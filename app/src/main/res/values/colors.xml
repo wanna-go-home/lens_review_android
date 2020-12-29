@@ -20,5 +20,7 @@
     <color name="mypage_myinfo_container">#42424A</color>
     <color name="mypage_leave_text_color">#FF0000</color>
 
+    <color name="write_review_background">@android:color/white</color>
+
 
 </resources>

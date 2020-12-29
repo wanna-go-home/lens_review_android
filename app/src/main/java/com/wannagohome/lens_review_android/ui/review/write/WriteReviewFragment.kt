@@ -14,7 +14,6 @@ class WriteReviewFragment : Fragment() {
         val instance = WriteReviewFragment()
     }
 
-    private lateinit var viewModel: WriteLensViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,8 +24,6 @@ class WriteReviewFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(WriteLensViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }

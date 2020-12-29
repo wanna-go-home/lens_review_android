@@ -32,6 +32,5 @@ val viewModelModule = module {
     viewModel { WriteReviewViewModel() }
     viewModel { MypageViewModel() }
     viewModel { MyArticleViewModel() }
-    viewModel { WriteReviewViewModel() }
     viewModel { SelectLensViewModel() }
 }

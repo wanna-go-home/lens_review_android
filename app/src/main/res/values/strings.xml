@@ -66,6 +66,8 @@
     <string name="write_review_title_hint">제목을 입력하세요</string>
     <string name="write_review_content_hint">내용을 입력하세요</string>
     <string name="write_review_write_button">글쓰기</string>
+    <string name="write_review_select_lens">리뷰할 렌즈를 선택해주세요</string>
+    <string name="write_review_search_lens_hint">검색할 렌즈를 입력하세요</string>
 
     <string name="title_activity_wrtie_article">wrtie_article</string>
     <string name="write_need_content">내용을 입력해주세요</string>
@@ -96,5 +98,6 @@
     <string name="mypage_leave_dialog_negative">취소</string>
     <string name="mypage_leave_dialog_positive">탈퇴</string>
     <string name="mypage_leave_success_result">회원탈퇴 되었습니다.</string>
+
 
 </resources>
