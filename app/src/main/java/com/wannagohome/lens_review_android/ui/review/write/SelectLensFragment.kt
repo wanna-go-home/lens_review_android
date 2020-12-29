@@ -71,10 +71,7 @@ class SelectLensFragment : Fragment() {
         val dialogViewBinding = WriteReviewSelectLensDialogBinding.inflate(layoutInflater, null, false)
 
         dialogViewBinding.selectLensListRecyclerView.run {
-            adapter = selectLensAdapter.apply {
-                items.first{it.selected}.selected = false
-                items.first{it.lensId == selectedLensId}.selected = true
-            }
+            adapter = selectLensAdapter
 
             layoutManager = LinearLayoutManager(requireContext())
 
@@ -95,12 +92,13 @@ class SelectLensFragment : Fragment() {
             }
         dialogViewBinding.cancel.clicks()
             .subscribe {
+
                 builder.dismiss()
             }
         dialogViewBinding.confirm.clicks()
             .subscribe {
                 val selectedLensId = selectLensAdapter.items.first { it.selected }.lensId
-                selectLensAdapter.confirmSelectedLens()
+                selectLensAdapter.items.first { it.selected }.selected = false
                 writeReviewViewModel.selectLens(selectedLensId)
                 builder.dismiss()
             }
@@ -114,14 +112,12 @@ class SelectLensFragment : Fragment() {
     private fun observeEvents() {
         writeReviewViewModel.lensListLiveData.observe(viewLifecycleOwner, {
             selectLensAdapter.items = it.toMutableList()
+            selectLensAdapter.refreshAdapter(selectedLensId)
         })
 
         writeReviewViewModel.selectedLensLiveData.observe(viewLifecycleOwner, { selectedLens ->
             Glide.with(this).load(selectedLens.productImages[0]).into(binding.selectedLensImage)
             binding.selectedLensName.text = selectedLens.name
-
-            selectLensAdapter.items.first{it.lensId == selectedLens.lensId}.selected = true
-            selectLensAdapter.previousItems = selectLensAdapter.items.toMutableList().map{it.clone()}
 
             selectedLensId = selectedLens.lensId
         })
