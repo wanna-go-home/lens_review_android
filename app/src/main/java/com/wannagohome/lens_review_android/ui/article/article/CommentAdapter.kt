@@ -1,16 +1,19 @@
-package com.wannagohome.lens_review_android.ui.board.article.comment
+package com.wannagohome.lens_review_android.ui.article.article
 
+import android.content.Intent
 import android.view.LayoutInflater
-import com.wannagohome.lens_review_android.network.model.helper.dateHelper
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.wannagohome.lens_review_android.network.model.article.Comment
+import com.wannagohome.lens_review_android.ui.article.article.comment.CommentActivity
 import com.wannagohome.lens_review_android.databinding.ChildCommentListItemBinding
 import com.wannagohome.lens_review_android.databinding.CommentListItemBinding
-import com.wannagohome.lens_review_android.network.model.article.Comment
+import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 
 const val COMMENT = 0
 const val INNER_COMMENT = 1
-class CommentMultiViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var commentList = ArrayList<Comment>()
         set(shops) {
@@ -23,7 +26,7 @@ class CommentMultiViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         return when (viewType) {
             COMMENT -> {
                 val binding = CommentListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                CommentViewHolder(binding)
+                CommentViewHolder(parent, binding)
             }
             INNER_COMMENT -> {
                 val binding = ChildCommentListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -47,21 +50,38 @@ class CommentMultiViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         return commentList[position].depth
     }
 
-    inner class CommentViewHolder(private val itemBinding: CommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
-        private lateinit var currentComment: Comment
-
+    inner class CommentViewHolder(parent: ViewGroup, private val itemBinding: CommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
+        lateinit var currentComment : Comment
+        var parent = parent
         fun bind(comment: Comment) {
             currentComment = comment
             itemBinding.content.text = comment.content
             itemBinding.author.text = comment.authorId
             itemBinding.likes.text = comment.likes.toString()
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
+            itemBinding.comments.setOnClickListener {
+                val intent = Intent(parent.context, CommentActivity::class.java)
+                intent.putExtra("articleId", comment.articleId)
+                intent.putExtra("commentId", comment.commentId)
+                parent.context.startActivity(intent)
+            }
+
+            if (comment.bundleSize > 4) {
+                //TODO : Change visibility to layout inflate
+                itemBinding.moreComment.visibility = VISIBLE
+                itemBinding.moreComment.text = "+ 댓글 ${comment.bundleSize-4}개 더 보기"
+                itemBinding.moreComment.setOnClickListener {
+                    val intent = Intent(parent.context, CommentActivity::class.java)
+                    intent.putExtra("articleId", comment.articleId)
+                    intent.putExtra("commentId", comment.commentId)
+                    parent.context.startActivity(intent)
+                }
+            }
+
         }
     }
-
     inner class ChildCommentViewHolder(private val itemBinding: ChildCommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
-        private lateinit var currentComment: Comment
-
+        lateinit var currentComment : Comment
         fun bind(comment: Comment) {
             currentComment = comment
             itemBinding.content.text = comment.content

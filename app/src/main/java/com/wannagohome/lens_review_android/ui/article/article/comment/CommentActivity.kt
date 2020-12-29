@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.ui.board.article.comment
+package com.wannagohome.lens_review_android.ui.article.article.comment
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

@@ -13,15 +13,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.board.article.write.WriteArticleActivity"/>
-        <activity android:name=".ui.board.article.modify.ModifyArticleActivity"/>
+        <activity android:name=".ui.mypage.myarticle.MyArticleActivity"></activity>
+        <activity android:name=".ui.article.article.write.WriteArticleActivity" />
+        <activity android:name=".ui.article.article.modify.ModifyArticleActivity" />
         <activity android:name=".ui.review.write.WriteReviewActivity" />
         <activity android:name=".ui.review.review_detail.ReviewDetailActivity" />
         <activity
             android:name=".ui.signup.SignUpActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.login.LoginActivity"
-            android:windowSoftInputMode="adjustResize" >
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,8 +31,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.lens_detail.LensDetailActivity" />
-        <activity android:name=".ui.board.article.ArticleActivity" />
-        <activity android:name=".ui.board.article.comment.CommentActivity" />
+        <activity android:name=".ui.article.article.ArticleActivity" />
+        <activity android:name=".ui.article.article.comment.CommentActivity" />
         <activity android:name=".ui.MainActivity" />
     </application>
 

@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.ui.board
+package com.wannagohome.lens_review_android.ui.article
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,15 +9,15 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wannagohome.lens_review_android.databinding.FragmentBoardBinding
-import com.wannagohome.lens_review_android.ui.board.article.ArticleActivity
-import com.wannagohome.lens_review_android.ui.board.article.write.WriteArticleActivity
+import com.wannagohome.lens_review_android.ui.article.article.ArticleActivity
+import com.wannagohome.lens_review_android.ui.article.article.write.WriteArticleActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.KoinComponent
 
-class TabBoard : Fragment(), KoinComponent {
+class TabArticle : Fragment(), KoinComponent {
 
     companion object {
-        val instance = TabBoard()
+        val instance = TabArticle()
     }
 
     private var _binding: FragmentBoardBinding? = null
@@ -25,7 +25,7 @@ class TabBoard : Fragment(), KoinComponent {
 
     private val boardViewModel: BoardViewModel by viewModel()
 
-    private val boardListAdapter = BoardListAdapter()
+    private val boardListAdapter = ArticleListAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentBoardBinding.inflate(inflater, container, false)

@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.ui.board.article
+package com.wannagohome.lens_review_android.ui.article.article
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.databinding.ActivityArticleBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import com.wannagohome.lens_review_android.ui.board.article.MoreDialog
+import com.wannagohome.lens_review_android.ui.article.article.MoreDialog
 import androidx.fragment.app.Fragment
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.support.Utils

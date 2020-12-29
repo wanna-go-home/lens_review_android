@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/board_background"
     android:orientation="vertical"
-    tools:context=".ui.board.article.write.WriteArticleActivity">
+    tools:context=".ui.article.article.write.WriteArticleActivity">
 
     <LinearLayout
         android:id="@+id/header"

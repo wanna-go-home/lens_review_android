@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.ui.board
+package com.wannagohome.lens_review_android.ui.article
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,20 +9,20 @@ import com.wannagohome.lens_review_android.network.model.article.ArticlePreview
 import com.wannagohome.lens_review_android.support.baseclass.BaseSimpleAdapter
 
 
-class BoardListAdapter : BaseSimpleAdapter<ArticlePreview, BoardListAdapter.BookListViewHolder>() {
+class ArticleListAdapter : BaseSimpleAdapter<ArticlePreview, ArticleListAdapter.ArticleListViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookListViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleListViewHolder {
         val binding = ArticleListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return BookListViewHolder(binding)
+        return ArticleListViewHolder(binding)
     }
 
 
-    override fun onBindViewHolder(holder: BookListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ArticleListViewHolder, position: Int) {
         holder.bind(items[position])
     }
 
 
-    inner class BookListViewHolder(private val itemBinding: ArticleListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
+    inner class ArticleListViewHolder(private val itemBinding: ArticleListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
 
         init {
             itemView.setOnClickListener {
