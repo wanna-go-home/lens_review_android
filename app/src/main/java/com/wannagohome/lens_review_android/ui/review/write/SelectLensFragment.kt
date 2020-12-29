@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jakewharton.rxbinding4.view.clicks
+import com.jakewharton.rxbinding4.widget.textChanges
 import com.wannagohome.lens_review_android.databinding.SelectLensFragmentBinding
 import com.wannagohome.lens_review_android.databinding.WriteReviewSelectLensDialogBinding
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -33,6 +34,8 @@ class SelectLensFragment : Fragment() {
         get() = _binding!!
 
     private val selectLensAdapter = SelectLensAdapter()
+
+    private var selectedLensId = -1
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -57,10 +60,10 @@ class SelectLensFragment : Fragment() {
     }
 
     private fun initSelectLensAdapter() {
-        selectLensAdapter.onItemClick = {
-            val clickedLensId = selectLensAdapter.items[it].lensId
-
-            writeReviewViewModel.selectLens(clickedLensId)
+        selectLensAdapter.onItemClick = { pos ->
+            selectLensAdapter.items.firstOrNull { it.selected }?.selected = false
+            selectLensAdapter.items[pos].selected = true
+            selectLensAdapter.notifyDataSetChanged()
         }
     }
 
@@ -68,21 +71,41 @@ class SelectLensFragment : Fragment() {
         val dialogViewBinding = WriteReviewSelectLensDialogBinding.inflate(layoutInflater, null, false)
 
         dialogViewBinding.selectLensListRecyclerView.run {
-            adapter = selectLensAdapter
+            adapter = selectLensAdapter.apply {
+                items.first{it.selected}.selected = false
+                items.first{it.lensId == selectedLensId}.selected = true
+            }
+
             layoutManager = LinearLayoutManager(requireContext())
 
             addOnItemTouchListener(RecyclerItemTouchListener(requireContext(), object : RecyclerItemTouchListener.OnItemClickListener {
                 override fun onItemClick(view: View?, position: Int) {
                     selectLensAdapter.onItemClick?.invoke(position)
-
                 }
             }))
-
         }
 
         val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
             .setCancelable(true)
             .create()
+
+        dialogViewBinding.searchLensText.textChanges()
+            .subscribe {
+                writeReviewViewModel.searchLens(it.toString())
+            }
+        dialogViewBinding.cancel.clicks()
+            .subscribe {
+                builder.dismiss()
+            }
+        dialogViewBinding.confirm.clicks()
+            .subscribe {
+                val selectedLensId = selectLensAdapter.items.first { it.selected }.lensId
+                selectLensAdapter.confirmSelectedLens()
+                writeReviewViewModel.selectLens(selectedLensId)
+                builder.dismiss()
+            }
+
+
 
         builder.setView(dialogViewBinding.root)
         builder.show()
@@ -90,27 +113,18 @@ class SelectLensFragment : Fragment() {
 
     private fun observeEvents() {
         writeReviewViewModel.lensListLiveData.observe(viewLifecycleOwner, {
-            selectLensAdapter.items = it
+            selectLensAdapter.items = it.toMutableList()
         })
 
         writeReviewViewModel.selectedLensLiveData.observe(viewLifecycleOwner, { selectedLens ->
             Glide.with(this).load(selectedLens.productImages[0]).into(binding.selectedLensImage)
             binding.selectedLensName.text = selectedLens.name
 
-            selectLensAdapter.items.first { it.lensId == selectedLens.lensId }.selected = true
-            selectLensAdapter.notifyDataSetChanged()
+            selectLensAdapter.items.first{it.lensId == selectedLens.lensId}.selected = true
+            selectLensAdapter.previousItems = selectLensAdapter.items.toMutableList().map{it.clone()}
 
-            Timber.d("selected live " + selectedLens.lensId)
-
+            selectedLensId = selectedLens.lensId
         })
-
-        writeReviewViewModel.previousSelectedLensLiveData.observe(viewLifecycleOwner, { deSelectedLens ->
-            selectLensAdapter.items.first { deSelectedLens.lensId == it.lensId }.selected = false
-            selectLensAdapter.notifyDataSetChanged()
-
-            Timber.d("de selected live " + deSelectedLens.lensId)
-        })
-
     }
 
 

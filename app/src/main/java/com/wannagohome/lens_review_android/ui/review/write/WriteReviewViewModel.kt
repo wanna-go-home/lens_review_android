@@ -51,9 +51,16 @@ class WriteReviewViewModel : BaseViewModel() {
 
         selectedLensId = selectLensId
 
-        previousSelectedLensLiveData.value = lensList.first {it.lensId == previousSelectedId }
+        previousSelectedLensLiveData.value = lensList.firstOrNull {it.lensId == previousSelectedId }
         selectedLensLiveData.value = lensList.first { it.lensId == selectedLensId }
 
     }
 
+    fun searchLens(name : String){
+        if(name.isEmpty()) {
+            lensListLiveData.value = lensList
+            return
+        }
+        lensListLiveData.value = lensList.filter { it.name.contains(name) }
+    }
 }
