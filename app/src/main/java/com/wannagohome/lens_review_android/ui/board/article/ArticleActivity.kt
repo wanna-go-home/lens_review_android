@@ -36,6 +36,7 @@ class ArticleActivity : AppCompatActivity() {
         initCommentRecyclerView()
         addDialogListener(articleId)
         addCommentPostListener(articleId)
+        addOnRefreshListener(articleId)
         observeEvent()
     }
 
@@ -48,6 +49,8 @@ class ArticleActivity : AppCompatActivity() {
         articleViewModel.getArticle(articleId)
         articleViewModel.getComments(articleId)
     }
+
+
     private fun addDialogListener(articleId: Int) {
         binding.moreImg.setOnClickListener{
             val moreDialogFragment = MoreDialog.newInstance(articleId)
@@ -60,9 +63,19 @@ class ArticleActivity : AppCompatActivity() {
             if (content.isEmpty()) {
                 Utils.showToast(getString(R.string.write_need_content))
             }
-            articleViewModel.postComment(articleId, content)
+            else {
+                binding.swiperefresh.isRefreshing = true
+                articleViewModel.postComment(articleId, content)
+            }
         }
     }
+
+    private fun addOnRefreshListener(articleId: Int) {
+        binding.swiperefresh.setOnRefreshListener{
+            articleViewModel.refreshArticle(articleId)
+        }
+    }
+
     private fun initCommentRecyclerView() {
         binding.commentRecyclerView.run {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
@@ -70,6 +83,7 @@ class ArticleActivity : AppCompatActivity() {
             adapter = commentAdapter
         }
     }
+
     private fun observeEvent() {
         articleViewModel.article.observe(this, {
 
@@ -83,6 +97,12 @@ class ArticleActivity : AppCompatActivity() {
             commentAdapter.commentList = ArrayList(it)
         })
 
+        articleViewModel.refreshSuccess.observe(this, {
+            if (it) {
+                binding.swiperefresh.isRefreshing = false
+            }
+        })
+
         articleViewModel.deleteSuccess.observe(this, {
             if (it) {
                 finish()
@@ -91,7 +111,6 @@ class ArticleActivity : AppCompatActivity() {
         articleViewModel.postCommentSuccess.observe(this, {
             if (it) {
                 binding.commentInput.text.clear()
-                //@todo : refresh comment recyclerview to see comment post succeed
                 articleViewModel.postCommentSuccess.value = false
             }
         })
