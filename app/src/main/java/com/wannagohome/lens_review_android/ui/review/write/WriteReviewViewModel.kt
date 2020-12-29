@@ -51,10 +51,9 @@ class WriteReviewViewModel : BaseViewModel() {
 
         selectedLensId = selectLensId
 
-        Timber.d("select " + selectedLensId)
+        previousSelectedLensLiveData.value = lensList.first {it.lensId == previousSelectedId }
         selectedLensLiveData.value = lensList.first { it.lensId == selectedLensId }
 
-//        selectedLensLiveData.value = lensListLiveData.value!![selectedLensId]
     }
 
 }
