@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.databinding.ArticleListItemBinding
-import com.wannagohome.lens_review_android.network.model.ArticlePreview
+import com.wannagohome.lens_review_android.network.model.article.ArticlePreview
 import com.wannagohome.lens_review_android.support.baseclass.BaseSimpleAdapter
 
 

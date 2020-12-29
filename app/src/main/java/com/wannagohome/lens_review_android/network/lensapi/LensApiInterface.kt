@@ -1,9 +1,9 @@
 package com.wannagohome.lens_review_android.network.lensapi
 
 import com.wannagohome.lens_review_android.network.model.*
+import com.wannagohome.lens_review_android.network.model.article.*
 import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
 import com.wannagohome.lens_review_android.network.model.review.WriteReviewRequest
-import com.wannagohome.lens_review_android.network.model.WriteArticleRequest
 import com.wannagohome.lens_review_android.network.model.user.LoginRequest
 import com.wannagohome.lens_review_android.network.model.user.MyInfo
 import com.wannagohome.lens_review_android.network.model.user.SignUpRequest
@@ -35,11 +35,18 @@ interface LensApiInterface {
     @PUT("api/boards/free-board/{id}")
     fun modifyArticle(@Path("id") articleId: Int, @Body writeArticleRequest: WriteArticleRequest): Observable<Response<ResponseBody>>
 
-    @GET("/api/boards/free-board/{id}/comments")
+    @GET("api/boards/free-board/{id}/comments")
     fun getCommentsByArticleId(@Path("id") articleId: Int): Observable<Response<List<Comment>>>
 
-    @GET("/api/boards/free-board/{articleId}/comment/{commentId}")
+    @GET("api/boards/free-board/{articleId}/comment/{commentId}")
     fun getCommentsByCommentId(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int): Observable<Response<List<Comment>>>
+
+    @POST("api/boards/free-board/{id}/comments")
+    fun writeComment(@Path("articleId") articleId: Int, @Body writeCommentRequest: WriteCommentRequest): Observable<Response<ResponseBody>>
+
+    @PUT("api/boards/free-board/{id}/comments/{commentId}")
+    fun modifyComment(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int, @Body writeCommentRequest: WriteCommentRequest): Observable<Response<ResponseBody>>
+
 
     @POST("api/user/login")
     fun login(@Body loginRequest: LoginRequest): Observable<Response<ResponseBody>>

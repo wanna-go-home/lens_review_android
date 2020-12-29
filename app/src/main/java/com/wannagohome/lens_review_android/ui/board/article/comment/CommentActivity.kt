@@ -5,8 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.wannagohome.lens_review_android.network.model.Comment
+import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ActivityCommentBinding
+import com.wannagohome.lens_review_android.support.Utils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -35,6 +36,7 @@ class CommentActivity : AppCompatActivity() {
             //TODO error handling with UI
         }
         initCommentRecyclerView()
+        addCommentPostListener(articleId, commentId)
         observeEvent()
         commentViewModel.getComments(articleId, commentId)
     }
@@ -45,9 +47,28 @@ class CommentActivity : AppCompatActivity() {
             adapter = commentAdapter
         }
     }
+
+    private fun addCommentPostListener(articleId: Int, parentId: Int) {
+        binding.writeBtn.setOnClickListener{
+            val content = binding.commentInput.text.toString()
+            if (content.isEmpty()) {
+                Utils.showToast(getString(R.string.write_need_content))
+            }
+            commentViewModel.postComment(articleId, parentId, content)
+        }
+    }
+
     private fun observeEvent(){
-        commentViewModel.comments.observe(this, Observer {
+        commentViewModel.comments.observe(this, {
             commentAdapter.commentList = ArrayList(it)
+        })
+
+        commentViewModel.postCommentSuccess.observe(this, {
+            if (it) {
+                binding.commentInput.text.clear()
+                //@todo : 내가 쓴 댓글이 보여야한다
+                commentViewModel.postCommentSuccess.value = false
+            }
         })
     }
 }

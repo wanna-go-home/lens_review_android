@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.wannagohome.lens_review_android.network.model.Comment
+import com.wannagohome.lens_review_android.network.model.article.Comment
 import com.wannagohome.lens_review_android.ui.board.article.comment.CommentActivity
 import com.wannagohome.lens_review_android.databinding.ChildCommentListItemBinding
 import com.wannagohome.lens_review_android.databinding.CommentListItemBinding
@@ -61,8 +61,8 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
             itemBinding.comments.setOnClickListener {
                 val intent = Intent(parent.context, CommentActivity::class.java)
-                intent.putExtra("articleId", comment.articleId);
-                intent.putExtra("commentId", comment.commentId);
+                intent.putExtra("articleId", comment.articleId)
+                intent.putExtra("commentId", comment.commentId)
                 parent.context.startActivity(intent)
             }
 
@@ -72,8 +72,8 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
                 itemBinding.moreComment.text = "+ 댓글 ${comment.bundleSize-4}개 더 보기"
                 itemBinding.moreComment.setOnClickListener {
                     val intent = Intent(parent.context, CommentActivity::class.java)
-                    intent.putExtra("articleId", comment.articleId);
-                    intent.putExtra("commentId", comment.commentId);
+                    intent.putExtra("articleId", comment.articleId)
+                    intent.putExtra("commentId", comment.commentId)
                     parent.context.startActivity(intent)
                 }
             }

@@ -9,6 +9,8 @@ import com.wannagohome.lens_review_android.databinding.ActivityArticleBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.wannagohome.lens_review_android.ui.board.article.MoreDialog
 import androidx.fragment.app.Fragment
+import com.wannagohome.lens_review_android.R
+import com.wannagohome.lens_review_android.support.Utils
 import timber.log.Timber
 
 class ArticleActivity : AppCompatActivity() {
@@ -17,7 +19,7 @@ class ArticleActivity : AppCompatActivity() {
         const val ARTICLE_ID = "articleId"
     }
     private val articleViewModel: ArticleViewModel by viewModel()
-    private val fm = getSupportFragmentManager();
+    private val fm = getSupportFragmentManager()
     private val commentAdapter = CommentMultiViewAdapter()
     private lateinit var binding: ActivityArticleBinding
 
@@ -32,7 +34,8 @@ class ArticleActivity : AppCompatActivity() {
             //TODO error handling with UI
         }
         initCommentRecyclerView()
-        addListener(articleId)
+        addDialogListener(articleId)
+        addCommentPostListener(articleId)
         observeEvent()
     }
 
@@ -45,10 +48,19 @@ class ArticleActivity : AppCompatActivity() {
         articleViewModel.getArticle(articleId)
         articleViewModel.getComments(articleId)
     }
-    private fun addListener(articleId: Int) {
+    private fun addDialogListener(articleId: Int) {
         binding.moreImg.setOnClickListener{
-            var moreDialogFragment = MoreDialog.newInstance(articleId);
-            moreDialogFragment.show(fm, null);
+            val moreDialogFragment = MoreDialog.newInstance(articleId)
+            moreDialogFragment.show(fm, null)
+        }
+    }
+    private fun addCommentPostListener(articleId: Int) {
+        binding.writeBtn.setOnClickListener{
+            val content = binding.commentInput.text.toString()
+            if (content.isEmpty()) {
+                Utils.showToast(getString(R.string.write_need_content))
+            }
+            articleViewModel.postComment(articleId, content)
         }
     }
     private fun initCommentRecyclerView() {
@@ -74,6 +86,13 @@ class ArticleActivity : AppCompatActivity() {
         articleViewModel.deleteSuccess.observe(this, {
             if (it) {
                 finish()
+            }
+        })
+        articleViewModel.postCommentSuccess.observe(this, {
+            if (it) {
+                binding.commentInput.text.clear()
+                //@todo : refresh comment recyclerview to see comment post succeed
+                articleViewModel.postCommentSuccess.value = false
             }
         })
     }

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.wannagohome.lens_review_android.databinding.ChildCommentListItemBinding
 import com.wannagohome.lens_review_android.databinding.CommentListItemBinding
-import com.wannagohome.lens_review_android.network.model.Comment
+import com.wannagohome.lens_review_android.network.model.article.Comment
 
 const val COMMENT = 0
 const val INNER_COMMENT = 1
