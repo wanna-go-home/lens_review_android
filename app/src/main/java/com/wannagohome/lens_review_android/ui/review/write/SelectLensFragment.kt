@@ -1,24 +1,18 @@
 package com.wannagohome.lens_review_android.ui.review.write
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
-import com.wannagohome.lens_review_android.databinding.SelectLensFragmentBinding
+import com.wannagohome.lens_review_android.databinding.FragmentSelectLensBinding
 import com.wannagohome.lens_review_android.databinding.WriteReviewSelectLensDialogBinding
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import okhttp3.internal.addHeaderLenient
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import timber.log.Timber
 
 class SelectLensFragment : Fragment() {
 
@@ -28,9 +22,9 @@ class SelectLensFragment : Fragment() {
 
     private val writeReviewViewModel: WriteReviewViewModel by sharedViewModel()
 
-    private var _binding: SelectLensFragmentBinding? = null
+    private var _binding: FragmentSelectLensBinding? = null
 
-    private val binding: SelectLensFragmentBinding
+    private val binding: FragmentSelectLensBinding
         get() = _binding!!
 
     private val selectLensAdapter = SelectLensAdapter()
@@ -39,7 +33,7 @@ class SelectLensFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = SelectLensFragmentBinding.inflate(inflater, container, false)
+        _binding = FragmentSelectLensBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -54,6 +48,10 @@ class SelectLensFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 showSelectLensDialog()
+            }
+        binding.selectLensDone.clicks()
+            .subscribe {
+                writeReviewViewModel.next()
             }
 
         initSelectLensAdapter()
@@ -102,8 +100,6 @@ class SelectLensFragment : Fragment() {
                 writeReviewViewModel.selectLens(selectedLensId)
                 builder.dismiss()
             }
-
-
 
         builder.setView(dialogViewBinding.root)
         builder.show()

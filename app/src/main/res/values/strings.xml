@@ -70,6 +70,12 @@
     <string name="write_review_search_lens_hint">검색할 렌즈를 입력하세요</string>
     <string name="select_lens_cancel">취소</string>
     <string name="select_lens_confirm">선택</string>
+    <string name="write_write_btn">등록</string>
+    <string name="write_cancel">뒤로</string>
+    <string name="write_review_next">다음</string>
+    <string name="write_need_title">제목을 입력해주세요</string>
+    <string name="write_review_empty_title">제목을 입력해주세요</string>
+    <string name="write_review_empty_contents">내용을 입력해주세요</string>
 
     <string name="title_activity_wrtie_article">wrtie_article</string>
     <string name="write_need_content">내용을 입력해주세요</string>

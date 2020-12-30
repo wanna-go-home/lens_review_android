@@ -14,25 +14,24 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="250dp"
         android:gravity="center"
-        android:textSize="20sp"
-        android:text="@string/write_review_select_lens" />
+        android:text="@string/write_review_select_lens"
+        android:textSize="20sp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/selectLensConstainer"
-        android:background="@drawable/select_lens_border"
-        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="100dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/select_lens_border">
 
         <ImageView
             android:id="@+id/selectedLensImage"
             android:layout_width="130dp"
-            android:layout_marginStart="3dp"
             android:layout_height="90dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="3dp"
             app:layout_constraintBottom_toBottomOf="parent"
-             />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/selectedLensName"
@@ -45,14 +44,22 @@
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:scaleType="fitXY"
             android:layout_marginEnd="5dp"
+            android:scaleType="fitXY"
             android:src="@drawable/arrow_down"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:layout_marginTop="70dp"
+        android:id="@+id/selectLensDone"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/selector_primary_button"
+        android:text="@string/write_review_next" />
 
 
 </LinearLayout>

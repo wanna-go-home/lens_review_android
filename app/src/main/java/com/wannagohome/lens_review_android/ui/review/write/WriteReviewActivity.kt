@@ -11,33 +11,29 @@ class WriteReviewActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityWriteReviewBinding
 
-    val writeReviewPagerAdapter = WriteReviewPagerAdapter(this)
+    private val writeReviewPagerAdapter = WriteReviewPagerAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWriteReviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        //TODO 중복클릭 처리
-//        binding.writeReview.setOnClickListener {
-//            val title = binding.titleEdit.text.toString()
-//            val content = binding.contentsEdit.text.toString()
-//            val lensId = binding.lensIdEdit.text.toString().toInt()
-//
-//            writeReviewViewModel.writeReview(title, content, lensId)
-//
-//        }
-//
-//        writeReviewViewModel.writeSuccess.observe(this, {
-//            if (it) {
-//                finish()
-//            }
-//        })
-
         initViewPager()
+
+        observeEvents()
+    }
+    private fun observeEvents(){
+        writeReviewViewModel.curStageLiveData.observe(this, {
+            if(it == WriteReviewViewModel.WriteReviewStage.OFF){
+                finish()
+                return@observe
+            }
+            binding.writeReviewViewPager.currentItem = it.ordinal
+        })
     }
 
     private fun initViewPager(){
         binding.writeReviewViewPager.adapter = writeReviewPagerAdapter
+        binding.writeReviewViewPager.isUserInputEnabled = false
     }
 }
