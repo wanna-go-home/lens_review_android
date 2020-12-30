@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.wannagohome.lens_review_android.databinding.ActivityWriteReviewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class WriteReviewActivity : AppCompatActivity() {
 
@@ -21,6 +22,9 @@ class WriteReviewActivity : AppCompatActivity() {
         initViewPager()
 
         observeEvents()
+
+        writeReviewViewModel.resetStage()
+
     }
     private fun observeEvents(){
         writeReviewViewModel.curStageLiveData.observe(this, {
@@ -28,6 +32,7 @@ class WriteReviewActivity : AppCompatActivity() {
                 finish()
                 return@observe
             }
+            Timber.d("kgp value " + it.ordinal)
             binding.writeReviewViewPager.currentItem = it.ordinal
         })
     }
@@ -35,5 +40,10 @@ class WriteReviewActivity : AppCompatActivity() {
     private fun initViewPager(){
         binding.writeReviewViewPager.adapter = writeReviewPagerAdapter
         binding.writeReviewViewPager.isUserInputEnabled = false
+
+    }
+
+    override fun onBackPressed() {
+        writeReviewViewModel.back()
     }
 }

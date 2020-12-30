@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit
 class WriteReviewFragment : Fragment() {
 
     companion object {
-        val instance = WriteReviewFragment()
+        fun newInstance() = WriteReviewFragment()
     }
 
     private var _binding: FragmentWriteReviewBinding? = null

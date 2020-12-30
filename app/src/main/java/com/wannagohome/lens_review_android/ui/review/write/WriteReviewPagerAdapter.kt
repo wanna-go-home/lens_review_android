@@ -13,8 +13,8 @@ class WriteReviewPagerAdapter(fa : FragmentActivity) : FragmentStateAdapter(fa) 
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            1 -> WriteReviewFragment.instance
-            else -> SelectLensFragment.instance
+            1 -> WriteReviewFragment.newInstance()
+            else -> SelectLensFragment.newInstance()
         }
     }
 }

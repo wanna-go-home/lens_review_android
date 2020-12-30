@@ -9,10 +9,8 @@ abstract class BaseSimpleAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView
 
     var items: List<T> = emptyList()
         set(list) {
-            Timber.d("kgpoooo1o" + field.hashCode())
 
             field = list
-            Timber.d("kgpooo2oo" + field.hashCode())
             notifyDataSetChanged()
         }
 

@@ -5,22 +5,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.wannagohome.lens_review_android.databinding.FragmentSelectLensBinding
 import com.wannagohome.lens_review_android.databinding.WriteReviewSelectLensDialogBinding
+import com.wannagohome.lens_review_android.extension.addTo
+import com.wannagohome.lens_review_android.support.baseclass.BaseFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
 
-class SelectLensFragment : Fragment() {
+class SelectLensFragment : BaseFragment() {
 
     companion object {
+        fun newInstance() = SelectLensFragment()
         val instance = SelectLensFragment()
     }
 
-    private val writeReviewViewModel: WriteReviewViewModel by sharedViewModel()
+    private val writeReviewViewModel: WriteReviewViewModel by lazy{ViewModelProvider(requireActivity()).get(WriteReviewViewModel::class.java)}
 
     private var _binding: FragmentSelectLensBinding? = null
 
@@ -48,11 +54,11 @@ class SelectLensFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 showSelectLensDialog()
-            }
+            }.addTo(compositeDisposable)
         binding.selectLensDone.clicks()
             .subscribe {
                 writeReviewViewModel.next()
-            }
+            }.addTo(compositeDisposable)
 
         initSelectLensAdapter()
     }
@@ -87,19 +93,19 @@ class SelectLensFragment : Fragment() {
         dialogViewBinding.searchLensText.textChanges()
             .subscribe {
                 writeReviewViewModel.searchLens(it.toString())
-            }
+            }.addTo(compositeDisposable)
         dialogViewBinding.cancel.clicks()
             .subscribe {
 
                 builder.dismiss()
-            }
+            }.addTo(compositeDisposable)
         dialogViewBinding.confirm.clicks()
             .subscribe {
                 val selectedLensId = selectLensAdapter.items.first { it.selected }.lensId
                 selectLensAdapter.items.first { it.selected }.selected = false
                 writeReviewViewModel.selectLens(selectedLensId)
                 builder.dismiss()
-            }
+            }.addTo(compositeDisposable)
 
         builder.setView(dialogViewBinding.root)
         builder.show()
