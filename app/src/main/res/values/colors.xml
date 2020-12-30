@@ -9,6 +9,7 @@
     <color name="light_text">#B1B2B4</color>
 
     <color name="divider">#F0F0F0</color>
+    <color name="childCommentBg">#F0F0F0</color>
 
     <color name="board_maintext">@android:color/black</color>
     <color name="board_subtext">#8E8E8E</color>

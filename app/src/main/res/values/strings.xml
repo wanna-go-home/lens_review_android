@@ -21,10 +21,11 @@
 
     <string name="like_text">좋아요</string>
     <string name="comment_text">댓글쓰기</string>
-    <string name="share_text">공유하기</string>
+    <string name="share_text">공유</string>
     <string name="go_back">돌아가기</string>
     <string name="go_to_bottom">마지막 댓글로 이동</string>
     <string name="post">등록</string>
+    <string name="cancel">취소</string>
     <string name="sort_type_time">시간순</string>
 
     <string name="login_login">로그인</string>
@@ -66,7 +67,6 @@
     <string name="write_review_title_hint">제목을 입력하세요</string>
     <string name="write_review_content_hint">내용을 입력하세요</string>
     <string name="write_review_write_button">글쓰기</string>
-
     <string name="title_activity_wrtie_article">wrtie_article</string>
     <string name="write_need_content">내용을 입력해주세요</string>
 
@@ -76,6 +76,7 @@
     <string name="child_comment_hint">대댓글을 남겨주세요</string>
     <string name="child_comment">대댓글</string>
     <string name="comment_hint">댓글을 남겨주세요</string>
+    <string name="show_more_comments">+ 댓글 %1$d개 더 보기</string>
 
     <string name="mypage_actionbar_text">마이페이지</string>
     <string name="mypage_change_nickname_button">수정</string>

@@ -25,12 +25,8 @@
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/backText"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:text="취소"
-                android:textColor="@color/board_maintext"
-                android:textSize="20sp" />
+                android:text="@string/cancel"
+                style="@style/writeArticleHeaderText"/>
         </LinearLayout>
 
         <LinearLayout
@@ -39,16 +35,10 @@
             android:layout_alignParentRight="true"
             android:layoutDirection="rtl"
             android:orientation="horizontal">
-            <Button
+            <TextView
                 android:id="@+id/writeBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                style="?android:attr/borderlessButtonStyle"
-                android:text="등록"
-                android:background="#FFFFFF"
-                android:textColor="@color/board_maintext"
-                android:textSize="20sp" />
+                android:text="@string/post"
+                style="@style/writeArticleHeaderText"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -99,30 +89,30 @@
         android:background="@drawable/bolder">
         <ImageView
             android:id="@+id/cameraImg"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_gravity="center"
             android:layout_marginHorizontal="8dp"
             app:srcCompat="@drawable/camera" />
 
         <ImageView
             android:id="@+id/voteImg"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_gravity="center"
             android:layout_marginHorizontal="8dp"
             app:srcCompat="@drawable/poll" />
 
         <TextView
             android:id="@+id/hashtag"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="35dp"
             android:layout_gravity="center"
             android:text="#"
             android:textStyle="bold"
             android:layout_marginHorizontal="8dp"
             android:textColor="@color/board_subtext"
-            android:textSize="30sp" />
+            android:textSize="25sp" />
     </LinearLayout>
 
 </RelativeLayout>

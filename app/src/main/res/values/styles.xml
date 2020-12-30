@@ -20,24 +20,6 @@
         <item name="android:textSize">10sp</item>
     </style>
 
-    <style name="singlePageFooterIcon">
-        <item name="android:layout_height">23dp</item>
-        <item name="android:layout_width">23dp</item>
-    </style>
-
-    <style name="singlePageFooterText">
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="singlePageHeaderIcon">
-        <item name="android:layout_height">20dp</item>
-        <item name="android:layout_width">20dp</item>
-    </style>
-
-    <style name="singlePageTitle">
-        <item name="android:textSize">28sp</item>
-    </style>
-
     <style name="signUpEditStyle">
         <item name="android:textSize">16sp</item>
     </style>
@@ -54,5 +36,60 @@
     <style name="mypageMyinfoValue">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+
+    <style name="middleMenuText">
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:textColor">@color/board_subtext</item>
+    </style>
+
+    <style name="middleMenuIcon">
+        <item name="android:layout_width">@dimen/MiddleMenuIconSize</item>
+        <item name="android:layout_height">@dimen/MiddleMenuIconSize</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginStart">20dp</item>
+    </style>
+
+    <style name="commentIcon">
+        <item name="android:layout_width">@dimen/CommentIconSize</item>
+        <item name="android:layout_height">@dimen/CommentIconSize</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+    </style>
+    <style name="commentText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">14dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/board_subtext</item>
+    </style>
+
+    <style name="writeArticleHeaderText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/board_maintext</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+    <style name="singlePageFooterIcon">
+        <item name="android:layout_height">23dp</item>
+        <item name="android:layout_width">23dp</item>
+    </style>
+
+    <style name="singlePageFooterText">
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="singlePageHeaderIcon">
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_width">20dp</item>
+    </style>
+    <style name="singlePageTitle">
+        <item name="android:textSize">28sp</item>
     </style>
 </resources>

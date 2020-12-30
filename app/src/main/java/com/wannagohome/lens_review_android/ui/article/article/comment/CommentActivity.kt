@@ -30,16 +30,25 @@ class CommentActivity : AppCompatActivity() {
         val commentId = intent.getIntExtra(COMMENT_ID, -1)
         val articleId = intent.getIntExtra(ARTICLE_ID, -1)
 
-        if (commentId == -1) {
-            Timber.d("comment Id $commentId")
+        if (articleId == -1 || commentId ==-1) {
             //TODO error handling with UI
         }
         initCommentRecyclerView()
         addCommentPostListener(articleId, commentId)
         addOnRefreshListener(articleId, commentId)
         observeEvent()
+    }
+
+    override fun onStart(){
+        super.onStart()
+        val commentId = intent.getIntExtra(COMMENT_ID, -1)
+        val articleId = intent.getIntExtra(ARTICLE_ID, -1)
+        if (articleId == -1 || commentId ==-1) {
+            //TODO error handling with UI
+        }
         commentViewModel.getComments(articleId, commentId)
     }
+
     private fun initCommentRecyclerView() {
         binding.commentRecyclerView.run {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
