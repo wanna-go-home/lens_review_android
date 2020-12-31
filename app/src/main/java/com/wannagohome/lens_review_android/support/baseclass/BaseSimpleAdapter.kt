@@ -1,6 +1,7 @@
 package com.wannagohome.lens_review_android.support.baseclass
 
 import androidx.recyclerview.widget.RecyclerView
+import timber.log.Timber
 
 abstract class BaseSimpleAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
 
@@ -8,8 +9,8 @@ abstract class BaseSimpleAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView
 
     var items: List<T> = emptyList()
         set(list) {
-            field = list
 
+            field = list
             notifyDataSetChanged()
         }
 

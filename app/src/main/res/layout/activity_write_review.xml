@@ -1,40 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E4E4E4"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="0dp"
     tools:context=".ui.review.write.WriteReviewActivity">
 
-    <EditText
-        android:id="@+id/titleEdit"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/writeReviewViewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:hint="@string/write_review_title_hint" />
+        android:layout_height="match_parent"/>
 
-    <EditText
-        android:id="@+id/contentsEdit"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginTop="10dp"
-        android:background="@android:color/white"
-        android:hint="@string/write_review_content_hint" />
 
-    <EditText
-        android:layout_marginTop="10dp"
+<!--    <EditText-->
+<!--        android:id="@+id/titleEdit"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@android:color/white"-->
+<!--        android:hint="@string/write_review_title_hint" />-->
 
-        android:id="@+id/lensIdEdit"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@android:color/white" />
+<!--    <EditText-->
+<!--        android:id="@+id/contentsEdit"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="300dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:background="@android:color/white"-->
+<!--        android:hint="@string/write_review_content_hint" />-->
 
-    <Button
-        android:id="@+id/writeReview"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:text="@string/write_review_write_button" />
+<!--    <EditText-->
+<!--        android:layout_marginTop="10dp"-->
+
+<!--        android:id="@+id/lensIdEdit"-->
+<!--        android:layout_width="30dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:background="@android:color/white" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/writeReview"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:text="@string/write_review_write_button" />-->
 </LinearLayout>

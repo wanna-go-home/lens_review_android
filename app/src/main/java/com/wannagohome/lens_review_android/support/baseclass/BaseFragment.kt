@@ -4,10 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import androidx.fragment.app.Fragment
 import com.wannagohome.lens_review_android.R
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 
 open class BaseFragment : Fragment(){
 
+    val compositeDisposable = CompositeDisposable()
 
     fun finishActivityToRight(activity : Activity) {
         activity.finish()
@@ -28,6 +30,12 @@ open class BaseFragment : Fragment(){
         activity!!.overridePendingTransition(R.anim.right_to_center, R.anim.center_to_left)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        if(!compositeDisposable.isDisposed){
+            compositeDisposable.dispose()
+        }
+    }
 
 
 }
