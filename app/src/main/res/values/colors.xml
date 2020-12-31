@@ -20,5 +20,10 @@
     <color name="mypage_myinfo_container">#42424A</color>
     <color name="mypage_leave_text_color">#FF0000</color>
 
+    <color name="write_review_background">@android:color/white</color>
+
+    <color name="gray_button_normal">@android:color/darker_gray</color>
+    <color name="gray_button_pressed">#757575</color>
+
 
 </resources>

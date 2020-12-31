@@ -13,5 +13,10 @@ class LensPreview(
     val price: Int,
 
     @SerializedName("productImage")
-    val productImages: ArrayList<String>
-)
+    val productImages: ArrayList<String>,
+
+    var selected: Boolean = false
+) {
+    fun clone(): LensPreview = LensPreview(lensId, name, price, productImages,selected)
+}
+

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.wannagohome.lens_review_android.databinding.ActivityWriteReviewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class WriteReviewActivity : AppCompatActivity() {
 
@@ -11,25 +12,38 @@ class WriteReviewActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityWriteReviewBinding
 
+    private val writeReviewPagerAdapter = WriteReviewPagerAdapter(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWriteReviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //TODO 중복클릭 처리
-        binding.writeReview.setOnClickListener {
-            val title = binding.titleEdit.text.toString()
-            val content = binding.contentsEdit.text.toString()
-            val lensId = binding.lensIdEdit.text.toString().toInt()
+        initViewPager()
 
-            writeReviewViewModel.writeReview(title, content, lensId)
+        observeEvents()
 
-        }
+        writeReviewViewModel.resetStage()
 
-        writeReviewViewModel.writeSuccess.observe(this, {
-            if (it) {
+    }
+    private fun observeEvents(){
+        writeReviewViewModel.curStageLiveData.observe(this, {
+            if(it == WriteReviewViewModel.WriteReviewStage.OFF){
                 finish()
+                return@observe
             }
+            Timber.d("kgp value " + it.ordinal)
+            binding.writeReviewViewPager.currentItem = it.ordinal
         })
+    }
+
+    private fun initViewPager(){
+        binding.writeReviewViewPager.adapter = writeReviewPagerAdapter
+        binding.writeReviewViewPager.isUserInputEnabled = false
+
+    }
+
+    override fun onBackPressed() {
+        writeReviewViewModel.back()
     }
 }

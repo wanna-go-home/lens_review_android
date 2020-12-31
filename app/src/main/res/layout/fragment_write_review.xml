@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+
+    android:layout_height="match_parent"
+    tools:context=".ui.review.write.WriteReviewFragment">
+
+    <com.wannagohome.lens_review_android.ui.LensCustomTitleBar
+        android:id="@+id/titleBar"
+        custom:rightText="@string/write_write_btn"
+        custom:leftText="@string/write_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#BABABA"/>
+
+    <EditText
+        android:id="@+id/titleEdit"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_weight="1"
+        android:background="@null"
+        android:hint="@string/write_review_title_hint" />
+
+    <View
+        android:layout_width="385dp"
+        android:layout_height="2px"
+        android:layout_marginStart="12dp"
+        android:background="#BABABA"></View>
+
+    <EditText
+        android:id="@+id/contentsEdit"
+        android:layout_width="385dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_weight="30"
+        android:background="@null"
+        android:gravity="start"
+        android:hint="@string/write_need_content" />
+
+</LinearLayout>
