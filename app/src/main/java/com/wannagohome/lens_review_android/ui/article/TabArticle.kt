@@ -5,16 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wannagohome.lens_review_android.databinding.FragmentBoardBinding
+import com.wannagohome.lens_review_android.support.baseclass.BaseFragment
 import com.wannagohome.lens_review_android.ui.article.article.ArticleActivity
 import com.wannagohome.lens_review_android.ui.article.article.write.WriteArticleActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.KoinComponent
 
-class TabArticle : Fragment(), KoinComponent {
+class TabArticle : KoinComponent, BaseFragment()   {
 
     companion object {
         val instance = TabArticle()
@@ -46,7 +46,7 @@ class TabArticle : Fragment(), KoinComponent {
     private fun addWriteBtnListener() {
         binding.writeBtn.setOnClickListener {
             val intent = Intent(requireContext(), WriteArticleActivity::class.java)
-            startActivity(intent)
+            startActivityFromRight(intent)
         }
     }
     private fun addOnRefreshListener() {
@@ -64,7 +64,7 @@ class TabArticle : Fragment(), KoinComponent {
 
                 val intent = Intent(activity, ArticleActivity::class.java)
                 intent.putExtra(ArticleActivity.ARTICLE_ID, clickedArticle.articleId)
-                activity?.startActivity(intent)
+                startActivityFromRight(intent)
             }
 
             adapter = boardListAdapter

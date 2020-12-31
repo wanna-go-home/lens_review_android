@@ -2,19 +2,18 @@ package com.wannagohome.lens_review_android.ui.login
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.wannagohome.lens_review_android.databinding.ActivityLoginBinding
-import com.wannagohome.lens_review_android.extension.visible
 import com.wannagohome.lens_review_android.support.Utils
+import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
 import com.wannagohome.lens_review_android.ui.MainActivity
 import com.wannagohome.lens_review_android.ui.signup.SignUpActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseAppCompatActivity() {
 
     private val loginViewModel: LoginViewModel by viewModel()
 
@@ -58,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
 
         binding.signUp.setOnClickListener {
             val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
-            startActivity(intent)
+            startActivityFromRight(intent)
         }
 
     }
@@ -67,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.loginSuccess.observe(this) {
             if (it) {
                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                startActivity(intent)
+                startActivityFromRight(intent)
                 finish()
             }
         }

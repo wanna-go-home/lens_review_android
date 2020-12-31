@@ -2,12 +2,17 @@ package com.wannagohome.lens_review_android.ui.article.article.modify
 
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import androidx.appcompat.app.AppCompatActivity
+import com.jakewharton.rxbinding4.view.clicks
+import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ActivityWriteArticleBinding
+import com.wannagohome.lens_review_android.support.Utils
+import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
-class ModifyArticleActivity : AppCompatActivity() {
+class ModifyArticleActivity : BaseAppCompatActivity() {
 
     companion object {
         const val ARTICLE_ID = "articleId"
@@ -27,18 +32,29 @@ class ModifyArticleActivity : AppCompatActivity() {
             //TODO error handling with UI
 
         }
-        //TODO 중복클릭 처리
-        binding.writeBtn.setOnClickListener {
-            val title = binding.title.text.toString()
-            val content = binding.content.text.toString()
+        binding.backBtn.clicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .throttleFirst(300, TimeUnit.MILLISECONDS)
+            .subscribe {
+                finishActivityToRight()
+            }
 
-            modifyArticleViewModel.modifyArticle(articleId, title, content)
-
-        }
+        binding.writeBtn.clicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .throttleFirst(300, TimeUnit.MILLISECONDS)
+            .subscribe {
+                val title = binding.title.text.toString()
+                val content = binding.content.text.toString()
+                if (content.isEmpty() || title.isEmpty()) {
+                    Utils.showToast(getString(R.string.write_need_content))
+                    return@subscribe
+                }
+                modifyArticleViewModel.modifyArticle(articleId, title, content)
+            }
 
         modifyArticleViewModel.writeSuccess.observe(this, {
             if (it) {
-                finish()
+                finishActivityToRight()
             }
         })
 
@@ -50,5 +66,11 @@ class ModifyArticleActivity : AppCompatActivity() {
             binding.title.text = SpannableStringBuilder(it.title)
             binding.content.text = SpannableStringBuilder(it.content)
         })
+    }
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        finishActivityToRight()
+
     }
 }

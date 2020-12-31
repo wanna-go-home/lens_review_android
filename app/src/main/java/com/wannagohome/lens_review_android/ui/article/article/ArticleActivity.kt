@@ -1,19 +1,20 @@
 package com.wannagohome.lens_review_android.ui.article.article
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.databinding.ActivityArticleBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import com.wannagohome.lens_review_android.ui.article.article.MoreDialog
-import androidx.fragment.app.Fragment
+import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.support.Utils
+import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
-class ArticleActivity : AppCompatActivity() {
+class ArticleActivity : BaseAppCompatActivity() {
 
     companion object {
         const val ARTICLE_ID = "articleId"
@@ -35,6 +36,7 @@ class ArticleActivity : AppCompatActivity() {
         }
         initCommentRecyclerView()
         addDialogListener(articleId)
+        addBackListener()
         addCommentPostListener(articleId)
         addOnRefreshListener(articleId)
         observeEvent()
@@ -56,6 +58,14 @@ class ArticleActivity : AppCompatActivity() {
             val moreDialogFragment = MoreDialog.newInstance(articleId)
             moreDialogFragment.show(fm, null)
         }
+    }
+    private fun addBackListener() {
+        binding.backBtn.clicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .throttleFirst(300, TimeUnit.MILLISECONDS)
+            .subscribe {
+                finishActivityToRight()
+            }
     }
     private fun addCommentPostListener(articleId: Int) {
         binding.writeBtn.setOnClickListener{
@@ -105,7 +115,7 @@ class ArticleActivity : AppCompatActivity() {
 
         articleViewModel.deleteSuccess.observe(this, {
             if (it) {
-                finish()
+                finishActivityToRight()
             }
         })
         articleViewModel.postCommentSuccess.observe(this, {
@@ -114,5 +124,11 @@ class ArticleActivity : AppCompatActivity() {
                 articleViewModel.postCommentSuccess.value = false
             }
         })
+    }
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        finishActivityToRight()
+
     }
 }

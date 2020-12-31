@@ -1,17 +1,18 @@
 package com.wannagohome.lens_review_android.ui.article.article.comment
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ActivityCommentBinding
 import com.wannagohome.lens_review_android.support.Utils
+import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
-class CommentActivity : AppCompatActivity() {
+class CommentActivity : BaseAppCompatActivity() {
 
     companion object {
         const val COMMENT_ID = "commentId"
@@ -34,6 +35,7 @@ class CommentActivity : AppCompatActivity() {
             //TODO error handling with UI
         }
         initCommentRecyclerView()
+        addBackListener()
         addCommentPostListener(articleId, commentId)
         addOnRefreshListener(articleId, commentId)
         observeEvent()
@@ -58,18 +60,27 @@ class CommentActivity : AppCompatActivity() {
     }
 
     private fun addCommentPostListener(articleId: Int, parentId: Int) {
-        binding.writeBtn.setOnClickListener{
-            val content = binding.commentInput.text.toString()
-            if (content.isEmpty()) {
-                Utils.showToast(getString(R.string.write_need_content))
-            }
-            else {
+        binding.writeBtn.clicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .throttleFirst(300, TimeUnit.MILLISECONDS)
+            .subscribe {
+                val content = binding.commentInput.text.toString()
+                if (content.isEmpty()) {
+                    Utils.showToast(getString(R.string.write_need_content))
+                    return@subscribe
+                }
                 binding.swiperefresh.isRefreshing = true
                 commentViewModel.postComment(articleId, parentId, content)
             }
-        }
     }
-
+    private fun addBackListener() {
+        binding.backBtn.clicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .throttleFirst(300, TimeUnit.MILLISECONDS)
+            .subscribe {
+                finishActivityToRight()
+            }
+    }
     private fun addOnRefreshListener(articleId: Int, commentId: Int) {
         binding.swiperefresh.setOnRefreshListener{
             commentViewModel.refreshComment(articleId, commentId)
@@ -92,5 +103,11 @@ class CommentActivity : AppCompatActivity() {
                 commentViewModel.postCommentSuccess.value = false
             }
         })
+    }
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        finishActivityToRight()
+
     }
 }
