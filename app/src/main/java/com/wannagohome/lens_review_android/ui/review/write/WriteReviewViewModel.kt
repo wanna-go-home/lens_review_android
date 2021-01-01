@@ -53,28 +53,18 @@ class WriteReviewViewModel : BaseViewModel() {
         writeReview(title,contents,selectedLensId)
     }
     fun resetStage(){
-        Timber.d("kgp before reset " + curStageLiveData.value!!.ordinal + " " + curStageLiveData.hashCode())
-
         curStageLiveData.value = WriteReviewStage.SELECT_LENS
-        Timber.d("kgp after reset " + curStageLiveData.value!!.ordinal + " " + curStageLiveData.hashCode())
-
     }
     fun next(){
-        Timber.d("kgp before newxt " + curStageLiveData.value!!.ordinal  + " " + curStageLiveData.hashCode())
-
         curStageLiveData.value = WriteReviewStage.WRITE_REVIEW
-        Timber.d("kgp after newxt " + curStageLiveData.value!!.ordinal  + " " + curStageLiveData.hashCode())
     }
 
     fun back(){
-        Timber.d("kgp before back " + curStageLiveData.value!!.ordinal  + " " + curStageLiveData.hashCode())
-
         curStageLiveData.value = when(curStageLiveData.value){
             WriteReviewStage.SELECT_LENS -> WriteReviewStage.OFF
             WriteReviewStage.WRITE_REVIEW -> WriteReviewStage.SELECT_LENS
             else -> WriteReviewStage.OFF
         }
-        Timber.d("kgp before back " + curStageLiveData.value!!.ordinal + " " + curStageLiveData.hashCode())
     }
 
     fun getLensList(){
