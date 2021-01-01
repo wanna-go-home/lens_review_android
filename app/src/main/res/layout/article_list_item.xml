@@ -52,8 +52,9 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@drawable/item_border"
             android:orientation="horizontal">
 
@@ -110,25 +111,29 @@
                 android:textColor="@color/board_subtext"/>
 
             <!-- 글 작성 시간 나타내는 text -->
-            <TextView
-                android:id="@+id/createdAt"
-                style="@style/boardListFooterText"
-                android:layout_width="40dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="140dp"
-                android:gravity="center"
-                android:text="time"
-                android:textColor="@color/board_subtext" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layoutDirection="rtl">
+                <TextView
+                    android:id="@+id/createdAt"
+                    style="@style/boardListFooterText"
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="@color/board_subtext" />
+            </LinearLayout>
         </LinearLayout>
 
         <FrameLayout
-            android:layout_width="match_parent"
+            android:id="@+id/bookmarkImg"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:background="@drawable/bookmark_border">
 
             <ImageView
-                android:id="@+id/bookmarkImg"
                 style="@style/boardListFooterIcon"
                 android:layout_gravity="center"
                 android:src="@drawable/bookmark" />

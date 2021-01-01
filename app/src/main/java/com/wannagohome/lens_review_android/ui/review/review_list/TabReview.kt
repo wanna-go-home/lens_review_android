@@ -47,6 +47,7 @@ class TabReview : Fragment() {
         binding.writeBtn.setOnClickListener {
             val intent = Intent(requireContext(), WriteReviewActivity::class.java)
             startActivity(intent)
+
         }
     }
 

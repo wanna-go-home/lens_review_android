@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/backText"
+                android:id="@+id/backBtn"
                 android:text="@string/cancel"
                 style="@style/writeArticleHeaderText"/>
         </LinearLayout>
