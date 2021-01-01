@@ -24,7 +24,6 @@ class WriteArticleActivity : BaseAppCompatActivity() {
 
         binding.backBtn.clicks()
             .observeOn(AndroidSchedulers.mainThread())
-            .throttleFirst(300, TimeUnit.MILLISECONDS)
             .subscribe {
                 finishActivityToRight()
             }

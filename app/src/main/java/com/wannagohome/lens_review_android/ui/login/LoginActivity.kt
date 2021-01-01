@@ -56,8 +56,7 @@ class LoginActivity : BaseAppCompatActivity() {
             }
 
         binding.signUp.setOnClickListener {
-            val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
-            startActivityFromRight(intent)
+            startActivityFromRight(this@LoginActivity, SignUpActivity::class.java)
         }
 
     }
@@ -65,8 +64,7 @@ class LoginActivity : BaseAppCompatActivity() {
     private fun observeEvents() {
         loginViewModel.loginSuccess.observe(this) {
             if (it) {
-                val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                startActivityFromRight(intent)
+                startActivityFromRight(this@LoginActivity, MainActivity::class.java)
                 finish()
             }
         }

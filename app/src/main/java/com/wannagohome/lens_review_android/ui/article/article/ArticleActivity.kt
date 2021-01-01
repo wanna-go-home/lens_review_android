@@ -62,21 +62,23 @@ class ArticleActivity : BaseAppCompatActivity() {
     private fun addBackListener() {
         binding.backBtn.clicks()
             .observeOn(AndroidSchedulers.mainThread())
-            .throttleFirst(300, TimeUnit.MILLISECONDS)
             .subscribe {
                 finishActivityToRight()
             }
     }
     private fun addCommentPostListener(articleId: Int) {
-        binding.writeBtn.setOnClickListener{
-            val content = binding.commentInput.text.toString()
-            if (content.isEmpty()) {
-                Utils.showToast(getString(R.string.write_need_content))
-            }
-            else {
-                binding.swiperefresh.isRefreshing = true
-                articleViewModel.postComment(articleId, content)
-            }
+        binding.writeBtn.clicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .throttleFirst(300, TimeUnit.MILLISECONDS)
+            .subscribe {
+                val content = binding.commentInput.text.toString()
+                if (content.isEmpty()) {
+                    Utils.showToast(getString(R.string.write_need_content))
+                }
+                else {
+                    binding.swiperefresh.isRefreshing = true
+                    articleViewModel.postComment(articleId, content)
+                }
         }
     }
 

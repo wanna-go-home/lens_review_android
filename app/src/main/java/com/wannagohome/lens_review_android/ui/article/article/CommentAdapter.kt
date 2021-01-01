@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ChildCommentListItemBinding
 import com.wannagohome.lens_review_android.databinding.CommentListItemBinding
+import com.wannagohome.lens_review_android.extension.visible
 import com.wannagohome.lens_review_android.network.model.article.Comment
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.support.Utils.getString
@@ -16,11 +17,13 @@ import timber.log.Timber
 
 const val COMMENT = 0
 const val INNER_COMMENT = 1
+
 class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         const val MAX_CHILDREN_IN_ARTICLE = 3
     }
+
     var commentList = ArrayList<Comment>()
         set(shops) {
             field = shops
@@ -64,12 +67,10 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
         return commentList[position].depth
     }
 
-    inner class CommentViewHolder(
-        parent: ViewGroup,
-        private val itemBinding: CommentListItemBinding
-    ) : RecyclerView.ViewHolder(itemBinding.root) {
-        lateinit var currentComment : Comment
+    inner class CommentViewHolder(parent: ViewGroup, private val itemBinding: CommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
+        lateinit var currentComment: Comment
         var parent = parent
+
         fun bind(comment: Comment) {
             currentComment = comment
             itemBinding.content.text = comment.content
@@ -85,8 +86,11 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
 
             if (comment.bundleSize > MAX_CHILDREN_IN_ARTICLE) {
                 //TODO : Change visibility to layout inflate
-                itemBinding.moreComment.visibility = VISIBLE
-                var nOfComments = String.format(getString(R.string.show_more_comments), comment.bundleSize - MAX_CHILDREN_IN_ARTICLE)
+                itemBinding.moreComment.visible()
+                var nOfComments = String.format(
+                    getString(R.string.show_more_comments),
+                    comment.bundleSize - MAX_CHILDREN_IN_ARTICLE
+                )
                 itemBinding.moreComment.text = nOfComments
                 itemBinding.moreComment.setOnClickListener {
                     val intent = Intent(parent.context, CommentActivity::class.java)
@@ -98,10 +102,9 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
 
         }
     }
-    inner class ChildCommentViewHolder(private val itemBinding: ChildCommentListItemBinding) : RecyclerView.ViewHolder(
-        itemBinding.root
-    ) {
-        lateinit var currentComment : Comment
+
+    inner class ChildCommentViewHolder(private val itemBinding: ChildCommentListItemBinding) :RecyclerView.ViewHolder(itemBinding.root) {
+        lateinit var currentComment: Comment
         fun bind(comment: Comment) {
             currentComment = comment
             itemBinding.content.text = comment.content

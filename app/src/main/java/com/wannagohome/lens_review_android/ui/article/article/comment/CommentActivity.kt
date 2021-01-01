@@ -76,7 +76,6 @@ class CommentActivity : BaseAppCompatActivity() {
     private fun addBackListener() {
         binding.backBtn.clicks()
             .observeOn(AndroidSchedulers.mainThread())
-            .throttleFirst(300, TimeUnit.MILLISECONDS)
             .subscribe {
                 finishActivityToRight()
             }
