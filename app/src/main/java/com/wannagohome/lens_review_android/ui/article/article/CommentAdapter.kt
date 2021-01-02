@@ -2,7 +2,6 @@ package com.wannagohome.lens_review_android.ui.article.article
 
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.wannagohome.lens_review_android.R
@@ -13,17 +12,15 @@ import com.wannagohome.lens_review_android.network.model.article.Comment
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.support.Utils.getString
 import com.wannagohome.lens_review_android.ui.article.article.comment.CommentActivity
-import timber.log.Timber
 
 const val COMMENT = 0
 const val INNER_COMMENT = 1
 
-class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     companion object {
         const val MAX_CHILDREN_IN_ARTICLE = 3
     }
-
     var commentList = ArrayList<Comment>()
         set(shops) {
             field = shops
@@ -67,14 +64,13 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
         return commentList[position].depth
     }
 
-    inner class CommentViewHolder(parent: ViewGroup, private val itemBinding: CommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
+    inner class CommentViewHolder(private val  parent: ViewGroup, private val itemBinding: CommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         lateinit var currentComment: Comment
-        var parent = parent
 
         fun bind(comment: Comment) {
             currentComment = comment
             itemBinding.content.text = comment.content
-            itemBinding.author.text = comment.authorId
+            itemBinding.author.text = comment.author
             itemBinding.likes.text = comment.likes.toString()
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
             itemBinding.comments.setOnClickListener {
@@ -83,7 +79,6 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
                 intent.putExtra("commentId", comment.commentId)
                 parent.context.startActivity(intent)
             }
-
             if (comment.bundleSize > MAX_CHILDREN_IN_ARTICLE) {
                 //TODO : Change visibility to layout inflate
                 itemBinding.moreComment.visible()
@@ -108,7 +103,7 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
         fun bind(comment: Comment) {
             currentComment = comment
             itemBinding.content.text = comment.content
-            itemBinding.author.text = comment.authorId
+            itemBinding.author.text = comment.author
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
             itemBinding.likes.text = comment.likes.toString()
         }

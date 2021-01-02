@@ -53,7 +53,7 @@ class CommentMultiViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         fun bind(comment: Comment) {
             currentComment = comment
             itemBinding.content.text = comment.content
-            itemBinding.author.text = comment.authorId
+            itemBinding.author.text = comment.author
             itemBinding.likes.text = comment.likes.toString()
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
         }
@@ -65,7 +65,7 @@ class CommentMultiViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         fun bind(comment: Comment) {
             currentComment = comment
             itemBinding.content.text = comment.content
-            itemBinding.author.text = comment.authorId
+            itemBinding.author.text = comment.author
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
             itemBinding.likes.text = comment.likes.toString()
         }
