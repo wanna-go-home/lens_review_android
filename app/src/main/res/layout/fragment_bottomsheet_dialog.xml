@@ -1,0 +1,24 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:layout_marginTop="8dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/btnModify"
+        android:text="@string/bottom_sheet_option_modify"
+        style="@style/bottomSheetDialogOption" />
+
+    <TextView
+        android:id="@+id/btnDelete"
+        android:text="@string/bottom_sheet_option_delete"
+        style="@style/bottomSheetDialogOption" />
+
+    <TextView
+        android:id="@+id/btnReport"
+        android:text="@string/bottom_sheet_option_report"
+        style="@style/bottomSheetDialogOption"/>
+
+</LinearLayout>

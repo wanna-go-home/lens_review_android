@@ -1,6 +1,8 @@
 package com.wannagohome.lens_review_android.ui.article.article
 
+import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
@@ -10,17 +12,19 @@ import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
+import com.wannagohome.lens_review_android.ui.article.article.modify.ModifyArticleActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-class ArticleActivity : BaseAppCompatActivity() {
+class ArticleActivity : BaseAppCompatActivity(), BottomSheetDialog.OnClickListener {
 
     companion object {
         const val ARTICLE_ID = "articleId"
     }
+
     private val articleViewModel: ArticleViewModel by viewModel()
-    private val fm = getSupportFragmentManager()
+    private val fm = supportFragmentManager
     private val commentAdapter = CommentMultiViewAdapter()
     private lateinit var binding: ActivityArticleBinding
 
@@ -35,14 +39,15 @@ class ArticleActivity : BaseAppCompatActivity() {
             //TODO error handling with UI
         }
         initCommentRecyclerView()
-        addDialogListener(articleId)
+        //@todo : implement isAuthor
+        addDialogListener(articleId, isAuthor = true)
         addBackListener()
         addCommentPostListener(articleId)
         addOnRefreshListener(articleId)
         observeEvent()
     }
 
-    override fun onStart(){
+    override fun onStart() {
         super.onStart()
         val articleId = intent.getIntExtra(ARTICLE_ID, -1)
         if (articleId == -1) {
@@ -53,12 +58,19 @@ class ArticleActivity : BaseAppCompatActivity() {
     }
 
 
-    private fun addDialogListener(articleId: Int) {
-        binding.moreImg.setOnClickListener{
-            val moreDialogFragment = MoreDialog.newInstance(articleId)
-            moreDialogFragment.show(fm, null)
+    private fun addDialogListener(articleId: Int, isAuthor: Boolean) {
+        binding.moreImg.setOnClickListener {
+            BottomSheetDialog.newInstance(articleId, isAuthor)
+                .show(fm, null)
         }
     }
+
+    override fun onAttachFragment(fragment: Fragment) {
+        if (fragment is BottomSheetDialog) {
+            fragment.setOnClickListener(this)
+        }
+    }
+
     private fun addBackListener() {
         binding.backBtn.clicks()
             .observeOn(AndroidSchedulers.mainThread())
@@ -66,6 +78,7 @@ class ArticleActivity : BaseAppCompatActivity() {
                 finishActivityToRight()
             }
     }
+
     private fun addCommentPostListener(articleId: Int) {
         binding.writeBtn.clicks()
             .observeOn(AndroidSchedulers.mainThread())
@@ -74,16 +87,15 @@ class ArticleActivity : BaseAppCompatActivity() {
                 val content = binding.commentInput.text.toString()
                 if (content.isEmpty()) {
                     Utils.showToast(getString(R.string.write_need_content))
-                }
-                else {
+                } else {
                     binding.swiperefresh.isRefreshing = true
                     articleViewModel.postComment(articleId, content)
                 }
-        }
+            }
     }
 
     private fun addOnRefreshListener(articleId: Int) {
-        binding.swiperefresh.setOnRefreshListener{
+        binding.swiperefresh.setOnRefreshListener {
             articleViewModel.refreshArticle(articleId)
         }
     }
@@ -117,6 +129,7 @@ class ArticleActivity : BaseAppCompatActivity() {
 
         articleViewModel.deleteSuccess.observe(this, {
             if (it) {
+                Utils.showToast(getString(R.string.delete_success))
                 finishActivityToRight()
             }
         })
@@ -127,10 +140,23 @@ class ArticleActivity : BaseAppCompatActivity() {
             }
         })
     }
+
     override fun onBackPressed() {
         super.onBackPressed()
-
         finishActivityToRight()
+    }
 
+    override fun onClickDeleteBtn(articleId: Int) {
+        articleViewModel.deleteArticle(articleId)
+    }
+
+    override fun onClickModifyBtn(articleId: Int) {
+        val intent = Intent(this@ArticleActivity, ModifyArticleActivity::class.java)
+        intent.putExtra(ARTICLE_ID, articleId)
+        startActivity(intent)
+    }
+
+    override fun onClickReportBtn(articleId: Int) {
+        TODO("Not yet implemented")
     }
 }
