@@ -3,6 +3,9 @@ package com.wannagohome.lens_review_android.ui.article.article
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ChildCommentListItemBinding
@@ -10,13 +13,16 @@ import com.wannagohome.lens_review_android.databinding.CommentListItemBinding
 import com.wannagohome.lens_review_android.extension.visible
 import com.wannagohome.lens_review_android.network.model.article.Comment
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
+import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.Utils.getString
 import com.wannagohome.lens_review_android.ui.article.article.comment.CommentActivity
+
 
 const val COMMENT = 0
 const val INNER_COMMENT = 1
 
-class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class CommentMultiViewAdapter(private val fm : FragmentManager, private val articleViewModel: ArticleViewModel, private val articleId: Int)
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>(), BottomSheetFragment.OnClickListener{
 
     companion object {
         const val MAX_CHILDREN_IN_ARTICLE = 3
@@ -27,7 +33,6 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
 
             notifyDataSetChanged()
         }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             COMMENT -> {
@@ -64,7 +69,7 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
         return commentList[position].depth
     }
 
-    inner class CommentViewHolder(private val  parent: ViewGroup, private val itemBinding: CommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
+    inner class CommentViewHolder(private val parent: ViewGroup, private val itemBinding: CommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         lateinit var currentComment: Comment
 
         fun bind(comment: Comment) {
@@ -78,6 +83,10 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
                 intent.putExtra("articleId", comment.articleId)
                 intent.putExtra("commentId", comment.commentId)
                 parent.context.startActivity(intent)
+            }
+            itemBinding.moreImg.setOnClickListener {
+                BottomSheetFragment.newInstance(comment.commentId, true)
+                    .show(fm, "comment")
             }
             if (comment.bundleSize > MAX_CHILDREN_IN_ARTICLE) {
                 //TODO : Change visibility to layout inflate
@@ -107,5 +116,18 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
             itemBinding.likes.text = comment.likes.toString()
         }
+    }
+
+    override fun onClickDeleteBtn(targetId: Int) {
+        Utils.showToast("오버라이드가온디자난")
+        articleViewModel.deleteComment(articleId, targetId)
+    }
+
+    override fun onClickModifyBtn(targetId: Int) {
+//        articleViewModel.modifyComment(articleId, targetId, )
+    }
+
+    override fun onClickReportBtn(targetId: Int) {
+        TODO("Not yet implemented")
     }
 }

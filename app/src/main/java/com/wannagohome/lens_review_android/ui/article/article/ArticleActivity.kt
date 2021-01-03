@@ -17,7 +17,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-class ArticleActivity : BaseAppCompatActivity(), BottomSheetDialog.OnClickListener {
+class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickListener {
 
     companion object {
         const val ARTICLE_ID = "articleId"
@@ -25,7 +25,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetDialog.OnClickListen
 
     private val articleViewModel: ArticleViewModel by viewModel()
     private val fm = supportFragmentManager
-    private val commentAdapter = CommentMultiViewAdapter()
+    private lateinit var commentAdapter : CommentMultiViewAdapter
     private lateinit var binding: ActivityArticleBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,13 +38,13 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetDialog.OnClickListen
             Timber.d("article Id $articleId")
             //TODO error handling with UI
         }
-        initCommentRecyclerView()
+        initCommentRecyclerView(articleId)
         //@todo : implement isAuthor
         addDialogListener(articleId, isAuthor = true)
         addBackListener()
         addCommentPostListener(articleId)
         addOnRefreshListener(articleId)
-        observeEvent()
+        observeEvent(articleId)
     }
 
     override fun onStart() {
@@ -60,13 +60,13 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetDialog.OnClickListen
 
     private fun addDialogListener(articleId: Int, isAuthor: Boolean) {
         binding.moreImg.setOnClickListener {
-            BottomSheetDialog.newInstance(articleId, isAuthor)
-                .show(fm, null)
+            BottomSheetFragment.newInstance(articleId, isAuthor)
+                .show(fm, "article")
         }
     }
 
     override fun onAttachFragment(fragment: Fragment) {
-        if (fragment is BottomSheetDialog) {
+        if (fragment is BottomSheetFragment) {
             fragment.setOnClickListener(this)
         }
     }
@@ -100,15 +100,16 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetDialog.OnClickListen
         }
     }
 
-    private fun initCommentRecyclerView() {
+    private fun initCommentRecyclerView(articleId: Int) {
         binding.commentRecyclerView.run {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
+            commentAdapter = CommentMultiViewAdapter(fm, articleViewModel, articleId)
             adapter = commentAdapter
         }
     }
 
-    private fun observeEvent() {
+    private fun observeEvent(articleId: Int) {
         articleViewModel.article.observe(this, {
 
             binding.articleTitle.text = it.title
@@ -137,6 +138,19 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetDialog.OnClickListen
             if (it) {
                 binding.commentInput.text.clear()
                 articleViewModel.postCommentSuccess.value = false
+                articleViewModel.refreshArticle(articleId)
+            }
+        })
+        articleViewModel.deleteCommentSuccess.observe(this, {
+            if (it) {
+                articleViewModel.deleteCommentSuccess.value = false
+                articleViewModel.refreshArticle(articleId)
+            }
+        })
+        articleViewModel.modifyCommentSuccess.observe(this, {
+            if (it) {
+                articleViewModel.modifyCommentSuccess.value = false
+                articleViewModel.refreshArticle(articleId)
             }
         })
     }

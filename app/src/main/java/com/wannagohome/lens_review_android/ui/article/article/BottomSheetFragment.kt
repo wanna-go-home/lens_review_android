@@ -9,15 +9,16 @@ import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.databinding.FragmentBottomsheetDialogBinding
 import com.wannagohome.lens_review_android.extension.invisible
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 
-class BottomSheetDialog : BottomSheetDialogFragment() { 
+class BottomSheetFragment : BottomSheetDialogFragment() {
     companion object {
         const val TARGET_ID = "targetId"
         const val IS_AUTHOR = "isAuthor"
-        fun newInstance(targetId: Int, isAuthor: Boolean): BottomSheetDialog {
-            val fragment = BottomSheetDialog()
+        fun newInstance(targetId: Int, isAuthor: Boolean): BottomSheetFragment {
+            val fragment = BottomSheetFragment()
             val args = Bundle()
             args.putInt(TARGET_ID, targetId)
             args.putBoolean(IS_AUTHOR, isAuthor)
