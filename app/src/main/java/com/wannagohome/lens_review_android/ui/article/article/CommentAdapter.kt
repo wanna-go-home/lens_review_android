@@ -16,30 +16,31 @@ import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.Utils.getString
 import com.wannagohome.lens_review_android.ui.article.article.comment.CommentActivity
+import timber.log.Timber
 
 
 const val COMMENT = 0
 const val INNER_COMMENT = 1
 
-class CommentMultiViewAdapter(private val fm : FragmentManager, private val articleViewModel: ArticleViewModel, private val articleId: Int)
-    : RecyclerView.Adapter<RecyclerView.ViewHolder>(), BottomSheetFragment.OnClickListener{
+class CommentMultiViewAdapter(private val fm: FragmentManager, private val articleViewModel: ArticleViewModel, private val articleId: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+    BottomSheetFragment.OnClickListener {
 
     companion object {
         const val MAX_CHILDREN_IN_ARTICLE = 3
     }
+
     var commentList = ArrayList<Comment>()
         set(shops) {
             field = shops
 
             notifyDataSetChanged()
         }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             COMMENT -> {
                 val binding = CommentListItemBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
+                    LayoutInflater.from(parent.context), parent, false
                 )
                 CommentViewHolder(parent, binding)
             }
@@ -75,19 +76,28 @@ class CommentMultiViewAdapter(private val fm : FragmentManager, private val arti
         fun bind(comment: Comment) {
             currentComment = comment
             itemBinding.content.text = comment.content
+
             itemBinding.author.text = comment.author
+
             itemBinding.likes.text = comment.likes.toString()
+
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
+
             itemBinding.comments.setOnClickListener {
                 val intent = Intent(parent.context, CommentActivity::class.java)
                 intent.putExtra("articleId", comment.articleId)
                 intent.putExtra("commentId", comment.commentId)
                 parent.context.startActivity(intent)
             }
+
             itemBinding.moreImg.setOnClickListener {
-                BottomSheetFragment.newInstance(comment.commentId, true)
-                    .show(fm, "comment")
+                Timber.d("bbbbbbb")
+                val fragment = BottomSheetFragment.newInstance(comment.commentId, true)
+                fragment.setOnClickListener(this@CommentMultiViewAdapter)
+                fragment.show(fm, "comment")
+                Timber.d("ccccccc " + fragment.hashCode())
             }
+
             if (comment.bundleSize > MAX_CHILDREN_IN_ARTICLE) {
                 //TODO : Change visibility to layout inflate
                 itemBinding.moreComment.visible()
@@ -107,7 +117,7 @@ class CommentMultiViewAdapter(private val fm : FragmentManager, private val arti
         }
     }
 
-    inner class ChildCommentViewHolder(private val itemBinding: ChildCommentListItemBinding) :RecyclerView.ViewHolder(itemBinding.root) {
+    inner class ChildCommentViewHolder(private val itemBinding: ChildCommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         lateinit var currentComment: Comment
         fun bind(comment: Comment) {
             currentComment = comment
@@ -124,6 +134,7 @@ class CommentMultiViewAdapter(private val fm : FragmentManager, private val arti
     }
 
     override fun onClickModifyBtn(targetId: Int) {
+        Timber.d("aaaaaaaaaa")
 //        articleViewModel.modifyComment(articleId, targetId, )
     }
 

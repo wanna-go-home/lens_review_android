@@ -60,16 +60,18 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
 
     private fun addDialogListener(articleId: Int, isAuthor: Boolean) {
         binding.moreImg.setOnClickListener {
-            BottomSheetFragment.newInstance(articleId, isAuthor)
-                .show(fm, "article")
+            val fragment = BottomSheetFragment.newInstance(articleId, isAuthor)
+            fragment.setOnClickListener(this)
+            fragment.show(fm, "article")
         }
     }
 
-    override fun onAttachFragment(fragment: Fragment) {
-        if (fragment is BottomSheetFragment) {
-            fragment.setOnClickListener(this)
-        }
-    }
+//    override fun onAttachFragment(fragment: Fragment) {
+//        if (fragment is BottomSheetFragment) {
+//            fragment.setOnClickListener(this)
+//            Timber.d("cccccc act " + fragment.hashCode())
+//        }
+//    }
 
     private fun addBackListener() {
         binding.backBtn.clicks()
