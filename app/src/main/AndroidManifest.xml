@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.mypage.myarticle.MyArticleActivity"></activity>
+        <activity android:name=".ui.mypage.myarticlecomment.MyArticleCommentActivity"></activity>
+        <activity android:name=".ui.mypage.myarticle.MyArticleActivity" />
         <activity android:name=".ui.article.article.write.WriteArticleActivity" />
         <activity android:name=".ui.article.article.modify.ModifyArticleActivity" />
         <activity android:name=".ui.review.write.WriteReviewActivity" />
