@@ -9,6 +9,15 @@ jobs:
 
     steps:
       - checkout
+
+      - run:
+          name: get google-services.json
+          command: wget https://drive.google.com/u/0/uc?id=1hbHr0LqvRh7diB_eIVo10rMblkWCGF4p -O google-services.json
+
+      - run:
+          name: move google-services.json
+          command: mv google-services.json ~/project/app
+
       - run:
           name: chmod permissions
           command: chmod +x ./gradlew
