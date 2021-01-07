@@ -1,47 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
 
-    android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.review.write.WriteReviewFragment">
 
     <com.wannagohome.lens_review_android.ui.LensCustomTitleBar
         android:id="@+id/titleBar"
-        custom:rightText="@string/write_write_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         custom:leftText="@string/write_cancel"
+        custom:rightText="@string/write_write_btn"
+        custom:titleName="@string/write_review_title" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="#BABABA"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingStart="12dp"
+        >
 
-    <EditText
-        android:id="@+id/titleEdit"
-        android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_weight="1"
-        android:background="@null"
-        android:hint="@string/write_review_title_hint" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="#BABABA" />
 
-    <View
-        android:layout_width="385dp"
-        android:layout_height="2px"
-        android:layout_marginStart="12dp"
-        android:background="#BABABA"></View>
+        <EditText
+            android:layout_marginTop="5dp"
+            android:id="@+id/titleEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/write_review_title_hint" />
 
-    <EditText
-        android:id="@+id/contentsEdit"
-        android:layout_width="385dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_weight="30"
-        android:background="@null"
-        android:gravity="start"
-        android:hint="@string/write_need_content" />
+        <View
+            android:layout_width="385dp"
+            android:layout_marginTop="5dp"
+            android:layout_height="2px"
+            android:background="#BABABA" />
+
+        <EditText
+            android:id="@+id/contentsEdit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:background="@null"
+            android:hint="@string/write_need_content" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

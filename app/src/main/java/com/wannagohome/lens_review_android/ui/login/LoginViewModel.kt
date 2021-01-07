@@ -40,9 +40,20 @@ class LoginViewModel : BaseViewModel() {
             }, {
 
                 errMessage.value = when (it) {
-                    is HttpException -> Utils.getString(R.string.login_fail_wrong_input)
+
+                    is HttpException ->{
+                        if(it.code() == 401){
+                            Utils.getString(R.string.login_fail_wrong_input)
+                        }
+                        else{
+                            Utils.getString(R.string.login_fail_for_server)
+                        }
+                     }
+
                     else -> Utils.getString(R.string.login_fail_for_server) //TODO 서버로 로그전송
                 }
+
+
 
             }).addTo(compositeDisposable)
 
