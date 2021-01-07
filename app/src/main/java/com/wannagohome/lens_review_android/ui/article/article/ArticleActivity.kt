@@ -2,18 +2,19 @@ package com.wannagohome.lens_review_android.ui.article.article
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.wannagohome.lens_review_android.network.model.helper.dateHelper
-import com.wannagohome.lens_review_android.databinding.ActivityArticleBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.R
+import com.wannagohome.lens_review_android.databinding.ActivityArticleBinding
+import com.wannagohome.lens_review_android.extension.hideKeyboard
+import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
 import com.wannagohome.lens_review_android.ui.article.article.modify.ModifyArticleActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -25,7 +26,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
 
     private val articleViewModel: ArticleViewModel by viewModel()
     private val fm = supportFragmentManager
-    private lateinit var commentAdapter : CommentMultiViewAdapter
+    private lateinit var commentAdapter: CommentMultiViewAdapter
     private lateinit var binding: ActivityArticleBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +45,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
         addBackListener()
         addCommentPostListener(articleId)
         addOnRefreshListener(articleId)
+        addGoToBottomListener()
         observeEvent(articleId)
     }
 
@@ -66,12 +68,11 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
         }
     }
 
-//    override fun onAttachFragment(fragment: Fragment) {
-//        if (fragment is BottomSheetFragment) {
-//            fragment.setOnClickListener(this)
-//            Timber.d("cccccc act " + fragment.hashCode())
-//        }
-//    }
+    private fun addGoToBottomListener() {
+        binding.goToBottom.setOnClickListener {
+            binding.scrollView.fullScroll(View.FOCUS_DOWN)
+        }
+    }
 
     private fun addBackListener() {
         binding.backBtn.clicks()
@@ -118,6 +119,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
             binding.content.text = it.content
             binding.author.text = it.author
             binding.likes.text = it.likes.toString()
+            binding.comments.text = it.comments.toString()
             binding.createdAt.text = dateHelper.calcCreatedBefore(it.createdAt)
         })
         articleViewModel.comments.observe(this, {
@@ -141,18 +143,24 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
                 binding.commentInput.text.clear()
                 articleViewModel.postCommentSuccess.value = false
                 articleViewModel.refreshArticle(articleId)
+                binding.scrollView.fullScroll(View.FOCUS_DOWN)
+                hideKeyboard()
+
             }
         })
         articleViewModel.deleteCommentSuccess.observe(this, {
             if (it) {
                 articleViewModel.deleteCommentSuccess.value = false
+                Utils.showToast(getString(R.string.delete_success))
                 articleViewModel.refreshArticle(articleId)
             }
         })
         articleViewModel.modifyCommentSuccess.observe(this, {
             if (it) {
                 articleViewModel.modifyCommentSuccess.value = false
+                Utils.showToast(getString(R.string.modify_success))
                 articleViewModel.refreshArticle(articleId)
+                hideKeyboard()
             }
         })
     }
@@ -162,17 +170,17 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
         finishActivityToRight()
     }
 
-    override fun onClickDeleteBtn(articleId: Int) {
-        articleViewModel.deleteArticle(articleId)
+    override fun onClickDeleteBtn(targetId: Int) {
+        articleViewModel.deleteArticle(targetId)
     }
 
-    override fun onClickModifyBtn(articleId: Int) {
+    override fun onClickModifyBtn(targetId: Int) {
         val intent = Intent(this@ArticleActivity, ModifyArticleActivity::class.java)
-        intent.putExtra(ARTICLE_ID, articleId)
+        intent.putExtra(ARTICLE_ID, targetId)
         startActivity(intent)
     }
 
-    override fun onClickReportBtn(articleId: Int) {
+    override fun onClickReportBtn(targetId: Int) {
         TODO("Not yet implemented")
     }
 }

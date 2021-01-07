@@ -3,15 +3,20 @@ package com.wannagohome.lens_review_android.ui.article.article.comment
 import android.view.LayoutInflater
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.wannagohome.lens_review_android.databinding.ChildCommentListItemBinding
 import com.wannagohome.lens_review_android.databinding.CommentListItemBinding
 import com.wannagohome.lens_review_android.network.model.article.Comment
+import com.wannagohome.lens_review_android.ui.article.article.BottomSheetFragment
+import com.wannagohome.lens_review_android.ui.article.article.CommentEditFragment
 
 const val COMMENT = 0
 const val INNER_COMMENT = 1
-class CommentMultiViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+class CommentMultiViewAdapter(private val fm: FragmentManager, private val commentViewModel: CommentViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+    BottomSheetFragment.OnClickListener,
+    CommentEditFragment.OnClickListener {
     var commentList = ArrayList<Comment>()
         set(shops) {
             field = shops
@@ -56,6 +61,12 @@ class CommentMultiViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
             itemBinding.author.text = comment.author
             itemBinding.likes.text = comment.likes.toString()
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
+
+            itemBinding.moreImg.setOnClickListener {
+                val fragment = BottomSheetFragment.newInstance(comment.commentId, true)
+                fragment.setOnClickListener(this@CommentMultiViewAdapter)
+                fragment.show(fm, "comment")
+            }
         }
     }
 
@@ -68,6 +79,32 @@ class CommentMultiViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
             itemBinding.author.text = comment.author
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
             itemBinding.likes.text = comment.likes.toString()
+
+            itemBinding.moreImg.setOnClickListener {
+                val fragment = BottomSheetFragment.newInstance(comment.commentId, true)
+                fragment.setOnClickListener(this@CommentMultiViewAdapter)
+                fragment.show(fm, "comment")
+            }
         }
+    }
+
+
+    override fun onClickDeleteBtn(targetId: Int) {
+        commentViewModel.deleteComment(targetId)
+    }
+
+    override fun onClickModifyBtn(targetId: Int) {
+        val content = commentList.find { it.commentId == targetId }?.content
+        val fragment = CommentEditFragment.newInstance(targetId, content)
+        fragment.setOnClickListener(this)
+        fragment.show(fm, "comment")
+    }
+
+    override fun onClickReportBtn(targetId: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickModifyPostBtn(targetId: Int, content: String) {
+        commentViewModel.modifyComment(targetId, content)
     }
 }

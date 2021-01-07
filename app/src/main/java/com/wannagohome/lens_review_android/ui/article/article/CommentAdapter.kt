@@ -3,27 +3,25 @@ package com.wannagohome.lens_review_android.ui.article.article
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ChildCommentListItemBinding
 import com.wannagohome.lens_review_android.databinding.CommentListItemBinding
+import com.wannagohome.lens_review_android.extension.invisible
 import com.wannagohome.lens_review_android.extension.visible
 import com.wannagohome.lens_review_android.network.model.article.Comment
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
-import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.Utils.getString
 import com.wannagohome.lens_review_android.ui.article.article.comment.CommentActivity
-import timber.log.Timber
 
 
 const val COMMENT = 0
 const val INNER_COMMENT = 1
 
 class CommentMultiViewAdapter(private val fm: FragmentManager, private val articleViewModel: ArticleViewModel, private val articleId: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
-    BottomSheetFragment.OnClickListener {
+    BottomSheetFragment.OnClickListener,
+    CommentEditFragment.OnClickListener {
 
     companion object {
         const val MAX_CHILDREN_IN_ARTICLE = 3
@@ -91,17 +89,15 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
             }
 
             itemBinding.moreImg.setOnClickListener {
-                Timber.d("bbbbbbb")
                 val fragment = BottomSheetFragment.newInstance(comment.commentId, true)
                 fragment.setOnClickListener(this@CommentMultiViewAdapter)
                 fragment.show(fm, "comment")
-                Timber.d("ccccccc " + fragment.hashCode())
             }
 
             if (comment.bundleSize > MAX_CHILDREN_IN_ARTICLE) {
                 //TODO : Change visibility to layout inflate
                 itemBinding.moreComment.visible()
-                var nOfComments = String.format(
+                val nOfComments = String.format(
                     getString(R.string.show_more_comments),
                     comment.bundleSize - MAX_CHILDREN_IN_ARTICLE
                 )
@@ -125,20 +121,26 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
             itemBinding.author.text = comment.author
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
             itemBinding.likes.text = comment.likes.toString()
+            itemBinding.moreImg.invisible()
         }
     }
 
     override fun onClickDeleteBtn(targetId: Int) {
-        Utils.showToast("오버라이드가온디자난")
         articleViewModel.deleteComment(articleId, targetId)
     }
 
     override fun onClickModifyBtn(targetId: Int) {
-        Timber.d("aaaaaaaaaa")
-//        articleViewModel.modifyComment(articleId, targetId, )
+        val content = commentList.find { it.commentId == targetId }?.content
+        val fragment = CommentEditFragment.newInstance(targetId, content)
+        fragment.setOnClickListener(this)
+        fragment.show(fm, "comment")
     }
 
     override fun onClickReportBtn(targetId: Int) {
         TODO("Not yet implemented")
+    }
+
+    override fun onClickModifyPostBtn(targetId: Int, content: String) {
+        articleViewModel.modifyComment(articleId, targetId, content)
     }
 }

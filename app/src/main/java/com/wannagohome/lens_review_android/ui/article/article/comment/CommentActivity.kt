@@ -1,13 +1,17 @@
 package com.wannagohome.lens_review_android.ui.article.article.comment
 
 import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ActivityCommentBinding
+import com.wannagohome.lens_review_android.extension.hideKeyboard
 import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
+import com.wannagohome.lens_review_android.ui.article.article.BottomSheetFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
@@ -18,10 +22,14 @@ class CommentActivity : BaseAppCompatActivity() {
         const val COMMENT_ID = "commentId"
         const val ARTICLE_ID = "articleId"
     }
-    private val commentViewModel : CommentViewModel by viewModel()
 
-    private val commentAdapter = CommentMultiViewAdapter()
+    private val fm = supportFragmentManager
+    private lateinit var commentViewModel: CommentViewModel
+    private lateinit var viewModelFactory: CommentViewModelFactory
+    private lateinit var commentAdapter: CommentMultiViewAdapter
     private lateinit var binding: ActivityCommentBinding
+
+    private var articleId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,26 +37,28 @@ class CommentActivity : BaseAppCompatActivity() {
         setContentView(binding.root)
 
         val commentId = intent.getIntExtra(COMMENT_ID, -1)
-        val articleId = intent.getIntExtra(ARTICLE_ID, -1)
+        articleId = intent.getIntExtra(ARTICLE_ID, -1)
 
-        if (articleId == -1 || commentId ==-1) {
+        if (articleId == -1 || commentId == -1) {
             //TODO error handling with UI
         }
+
+        viewModelFactory = CommentViewModelFactory(articleId, commentId)
+        commentViewModel = ViewModelProvider(this, viewModelFactory)
+            .get(CommentViewModel::class.java)
+
+        commentAdapter = CommentMultiViewAdapter(fm, commentViewModel)
+
         initCommentRecyclerView()
         addBackListener()
-        addCommentPostListener(articleId, commentId)
-        addOnRefreshListener(articleId, commentId)
+        addCommentPostListener()
+        addOnRefreshListener()
         observeEvent()
     }
 
-    override fun onStart(){
+    override fun onStart() {
         super.onStart()
-        val commentId = intent.getIntExtra(COMMENT_ID, -1)
-        val articleId = intent.getIntExtra(ARTICLE_ID, -1)
-        if (articleId == -1 || commentId ==-1) {
-            //TODO error handling with UI
-        }
-        commentViewModel.getComments(articleId, commentId)
+        commentViewModel.getComments()
     }
 
     private fun initCommentRecyclerView() {
@@ -59,7 +69,7 @@ class CommentActivity : BaseAppCompatActivity() {
         }
     }
 
-    private fun addCommentPostListener(articleId: Int, parentId: Int) {
+    private fun addCommentPostListener() {
         binding.writeBtn.clicks()
             .observeOn(AndroidSchedulers.mainThread())
             .throttleFirst(300, TimeUnit.MILLISECONDS)
@@ -70,9 +80,10 @@ class CommentActivity : BaseAppCompatActivity() {
                     return@subscribe
                 }
                 binding.swiperefresh.isRefreshing = true
-                commentViewModel.postComment(articleId, parentId, content)
+                commentViewModel.postComment(content)
             }
     }
+
     private fun addBackListener() {
         binding.backBtn.clicks()
             .observeOn(AndroidSchedulers.mainThread())
@@ -80,12 +91,14 @@ class CommentActivity : BaseAppCompatActivity() {
                 finishActivityToRight()
             }
     }
-    private fun addOnRefreshListener(articleId: Int, commentId: Int) {
-        binding.swiperefresh.setOnRefreshListener{
-            commentViewModel.refreshComment(articleId, commentId)
+
+    private fun addOnRefreshListener() {
+        binding.swiperefresh.setOnRefreshListener {
+            commentViewModel.refreshComment()
         }
     }
-    private fun observeEvent(){
+
+    private fun observeEvent() {
         commentViewModel.comments.observe(this, {
             commentAdapter.commentList = ArrayList(it)
         })
@@ -100,9 +113,26 @@ class CommentActivity : BaseAppCompatActivity() {
             if (it) {
                 binding.commentInput.text.clear()
                 commentViewModel.postCommentSuccess.value = false
+                binding.scrollView.fullScroll(View.FOCUS_DOWN)
+                hideKeyboard()
+            }
+        })
+        commentViewModel.deleteCommentSuccess.observe(this, {
+            if (it) {
+                commentViewModel.deleteCommentSuccess.value = false
+                Utils.showToast(getString(R.string.delete_success))
+                commentViewModel.refreshComment()
+            }
+        })
+        commentViewModel.modifyCommentSuccess.observe(this, {
+            if (it) {
+                commentViewModel.modifyCommentSuccess.value = false
+                Utils.showToast(getString(R.string.modify_success))
+                commentViewModel.refreshComment()
             }
         })
     }
+
     override fun onBackPressed() {
         super.onBackPressed()
 

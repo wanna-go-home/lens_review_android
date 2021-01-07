@@ -15,14 +15,15 @@
         android:id="@+id/author"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:layout_marginTop="5dp"
+        android:textSize="@dimen/CommentAuthorTextSize"
         android:textColor="@color/colorPrimaryDark"/>
 
     <TextView
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:foreground="?attr/selectableItemBackground"
         android:textColor="@color/board_maintext"
         android:textSize="@dimen/CommentContentTextSize"/>
@@ -59,8 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layoutDirection="rtl"
-            android:layout_alignParentEnd="true">
+            android:layoutDirection="rtl">
 
             <ImageView
                 android:id="@+id/moreImg"
