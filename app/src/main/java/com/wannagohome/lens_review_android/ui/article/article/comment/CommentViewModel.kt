@@ -13,7 +13,7 @@ class CommentViewModel(private val articleId: Int, private val parentCommentId: 
     val comments = MutableLiveData<List<Comment>>()
     private val lensClient: LensApiClient by inject()
     val postCommentSuccess = MutableLiveData<Boolean>(false)
-    val refreshSuccess = MutableLiveData<Boolean>(false)
+    val refreshSuccess = MutableLiveData<Boolean>(true)
     val modifyCommentSuccess = MutableLiveData<Boolean>(false)
     val deleteCommentSuccess = MutableLiveData<Boolean>(false)
 

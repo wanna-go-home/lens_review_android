@@ -25,12 +25,12 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
     }
 
     private val articleViewModel: ArticleViewModel by viewModel()
-    private val fm = supportFragmentManager
     private lateinit var commentAdapter: CommentMultiViewAdapter
     private lateinit var binding: ActivityArticleBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityArticleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -39,13 +39,20 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
             Timber.d("article Id $articleId")
             //TODO error handling with UI
         }
+
         initCommentRecyclerView(articleId)
+
         //@todo : implement isAuthor
         addDialogListener(articleId, isAuthor = true)
+
         addBackListener()
+
         addCommentPostListener(articleId)
+
         addOnRefreshListener(articleId)
+
         addGoToBottomListener()
+
         observeEvent(articleId)
     }
 
@@ -62,9 +69,10 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
 
     private fun addDialogListener(articleId: Int, isAuthor: Boolean) {
         binding.moreImg.setOnClickListener {
-            val fragment = BottomSheetFragment.newInstance(articleId, isAuthor)
-            fragment.setOnClickListener(this)
-            fragment.show(fm, "article")
+            BottomSheetFragment.newInstance(articleId, isAuthor).run{
+                setOnClickListener(this@ArticleActivity)
+                show(supportFragmentManager, null)
+            }
         }
     }
 
@@ -91,7 +99,6 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
                 if (content.isEmpty()) {
                     Utils.showToast(getString(R.string.write_need_content))
                 } else {
-                    binding.swiperefresh.isRefreshing = true
                     articleViewModel.postComment(articleId, content)
                 }
             }
@@ -107,7 +114,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
         binding.commentRecyclerView.run {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
-            commentAdapter = CommentMultiViewAdapter(fm, articleViewModel, articleId)
+            commentAdapter = CommentMultiViewAdapter(supportFragmentManager, articleViewModel, articleId)
             adapter = commentAdapter
         }
     }
@@ -127,9 +134,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
         })
 
         articleViewModel.refreshSuccess.observe(this, {
-            if (it) {
-                binding.swiperefresh.isRefreshing = false
-            }
+                binding.swiperefresh.isRefreshing = !it
         })
 
         articleViewModel.deleteSuccess.observe(this, {
@@ -142,7 +147,6 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
             if (it) {
                 binding.commentInput.text.clear()
                 articleViewModel.postCommentSuccess.value = false
-                articleViewModel.refreshArticle(articleId)
                 binding.scrollView.fullScroll(View.FOCUS_DOWN)
                 hideKeyboard()
 
@@ -152,14 +156,12 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
             if (it) {
                 articleViewModel.deleteCommentSuccess.value = false
                 Utils.showToast(getString(R.string.delete_success))
-                articleViewModel.refreshArticle(articleId)
             }
         })
         articleViewModel.modifyCommentSuccess.observe(this, {
             if (it) {
                 articleViewModel.modifyCommentSuccess.value = false
                 Utils.showToast(getString(R.string.modify_success))
-                articleViewModel.refreshArticle(articleId)
                 hideKeyboard()
             }
         })

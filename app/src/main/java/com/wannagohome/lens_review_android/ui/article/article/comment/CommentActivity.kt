@@ -19,11 +19,10 @@ import java.util.concurrent.TimeUnit
 class CommentActivity : BaseAppCompatActivity() {
 
     companion object {
-        const val COMMENT_ID = "commentId"
         const val ARTICLE_ID = "articleId"
+        const val COMMENT_ID = "commentId"
     }
 
-    private val fm = supportFragmentManager
     private lateinit var commentViewModel: CommentViewModel
     private lateinit var viewModelFactory: CommentViewModelFactory
     private lateinit var commentAdapter: CommentMultiViewAdapter
@@ -33,26 +32,28 @@ class CommentActivity : BaseAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityCommentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val commentId = intent.getIntExtra(COMMENT_ID, -1)
         articleId = intent.getIntExtra(ARTICLE_ID, -1)
-
         if (articleId == -1 || commentId == -1) {
             //TODO error handling with UI
         }
 
         viewModelFactory = CommentViewModelFactory(articleId, commentId)
-        commentViewModel = ViewModelProvider(this, viewModelFactory)
-            .get(CommentViewModel::class.java)
-
-        commentAdapter = CommentMultiViewAdapter(fm, commentViewModel)
+        commentViewModel = ViewModelProvider(this, viewModelFactory).get(CommentViewModel::class.java)
+        commentAdapter = CommentMultiViewAdapter(supportFragmentManager, commentViewModel)
 
         initCommentRecyclerView()
+
         addBackListener()
+
         addCommentPostListener()
+
         addOnRefreshListener()
+
         observeEvent()
     }
 
@@ -79,7 +80,6 @@ class CommentActivity : BaseAppCompatActivity() {
                     Utils.showToast(getString(R.string.write_need_content))
                     return@subscribe
                 }
-                binding.swiperefresh.isRefreshing = true
                 commentViewModel.postComment(content)
             }
     }
@@ -104,9 +104,7 @@ class CommentActivity : BaseAppCompatActivity() {
         })
 
         commentViewModel.refreshSuccess.observe(this, {
-            if (it) {
-                binding.swiperefresh.isRefreshing = false
-            }
+            binding.swiperefresh.isRefreshing = !it
         })
 
         commentViewModel.postCommentSuccess.observe(this, {
@@ -121,14 +119,12 @@ class CommentActivity : BaseAppCompatActivity() {
             if (it) {
                 commentViewModel.deleteCommentSuccess.value = false
                 Utils.showToast(getString(R.string.delete_success))
-                commentViewModel.refreshComment()
             }
         })
         commentViewModel.modifyCommentSuccess.observe(this, {
             if (it) {
                 commentViewModel.modifyCommentSuccess.value = false
                 Utils.showToast(getString(R.string.modify_success))
-                commentViewModel.refreshComment()
             }
         })
     }

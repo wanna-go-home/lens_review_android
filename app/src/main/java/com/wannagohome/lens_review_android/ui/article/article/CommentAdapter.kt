@@ -25,6 +25,8 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
 
     companion object {
         const val MAX_CHILDREN_IN_ARTICLE = 3
+        const val ARTICLE_ID = "articleId"
+        const val COMMENT_ID = "commentId"
     }
 
     var commentList = ArrayList<Comment>()
@@ -83,19 +85,19 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
 
             itemBinding.comments.setOnClickListener {
                 val intent = Intent(parent.context, CommentActivity::class.java)
-                intent.putExtra("articleId", comment.articleId)
-                intent.putExtra("commentId", comment.commentId)
+                intent.putExtra(ARTICLE_ID, comment.articleId)
+                intent.putExtra(COMMENT_ID, comment.commentId)
                 parent.context.startActivity(intent)
             }
 
             itemBinding.moreImg.setOnClickListener {
-                val fragment = BottomSheetFragment.newInstance(comment.commentId, true)
-                fragment.setOnClickListener(this@CommentMultiViewAdapter)
-                fragment.show(fm, "comment")
+                BottomSheetFragment.newInstance(comment.commentId, true).run {
+                    setOnClickListener(this@CommentMultiViewAdapter)
+                    show(fm, null)
+                }
             }
 
             if (comment.bundleSize > MAX_CHILDREN_IN_ARTICLE) {
-                //TODO : Change visibility to layout inflate
                 itemBinding.moreComment.visible()
                 val nOfComments = String.format(
                     getString(R.string.show_more_comments),
@@ -104,8 +106,8 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
                 itemBinding.moreComment.text = nOfComments
                 itemBinding.moreComment.setOnClickListener {
                     val intent = Intent(parent.context, CommentActivity::class.java)
-                    intent.putExtra("articleId", comment.articleId)
-                    intent.putExtra("commentId", comment.commentId)
+                    intent.putExtra(ARTICLE_ID, comment.articleId)
+                    intent.putExtra(COMMENT_ID, comment.commentId)
                     parent.context.startActivity(intent)
                 }
             }

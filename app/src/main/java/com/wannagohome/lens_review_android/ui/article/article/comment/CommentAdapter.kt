@@ -65,7 +65,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val comme
             itemBinding.moreImg.setOnClickListener {
                 val fragment = BottomSheetFragment.newInstance(comment.commentId, true)
                 fragment.setOnClickListener(this@CommentMultiViewAdapter)
-                fragment.show(fm, "comment")
+                fragment.show(fm, null)
             }
         }
     }
@@ -81,13 +81,13 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val comme
             itemBinding.likes.text = comment.likes.toString()
 
             itemBinding.moreImg.setOnClickListener {
-                val fragment = BottomSheetFragment.newInstance(comment.commentId, true)
-                fragment.setOnClickListener(this@CommentMultiViewAdapter)
-                fragment.show(fm, "comment")
+                BottomSheetFragment.newInstance(comment.commentId, true).run{
+                    setOnClickListener(this@CommentMultiViewAdapter)
+                    show(fm, null)
+                }
             }
         }
     }
-
 
     override fun onClickDeleteBtn(targetId: Int) {
         commentViewModel.deleteComment(targetId)
@@ -95,9 +95,10 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val comme
 
     override fun onClickModifyBtn(targetId: Int) {
         val content = commentList.find { it.commentId == targetId }?.content
-        val fragment = CommentEditFragment.newInstance(targetId, content)
-        fragment.setOnClickListener(this)
-        fragment.show(fm, "comment")
+        CommentEditFragment.newInstance(targetId, content).run{
+            setOnClickListener(this@CommentMultiViewAdapter)
+            show(fm, null)
+        }
     }
 
     override fun onClickReportBtn(targetId: Int) {
