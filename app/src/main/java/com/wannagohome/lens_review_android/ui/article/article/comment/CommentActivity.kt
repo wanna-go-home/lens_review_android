@@ -2,7 +2,6 @@ package com.wannagohome.lens_review_android.ui.article.article.comment
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding4.view.clicks
@@ -11,9 +10,9 @@ import com.wannagohome.lens_review_android.databinding.ActivityCommentBinding
 import com.wannagohome.lens_review_android.extension.hideKeyboard
 import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
-import com.wannagohome.lens_review_android.ui.article.article.BottomSheetFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import java.util.concurrent.TimeUnit
 
 class CommentActivity : BaseAppCompatActivity() {
@@ -22,13 +21,13 @@ class CommentActivity : BaseAppCompatActivity() {
         const val ARTICLE_ID = "articleId"
         const val COMMENT_ID = "commentId"
     }
+    private var articleId = -1
+    private var commentId = -1
 
-    private lateinit var commentViewModel: CommentViewModel
-    private lateinit var viewModelFactory: CommentViewModelFactory
+    private val commentViewModel: CommentViewModel by viewModel {parametersOf(articleId, commentId)}
     private lateinit var commentAdapter: CommentMultiViewAdapter
     private lateinit var binding: ActivityCommentBinding
 
-    private var articleId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,14 +35,12 @@ class CommentActivity : BaseAppCompatActivity() {
         binding = ActivityCommentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val commentId = intent.getIntExtra(COMMENT_ID, -1)
+        commentId = intent.getIntExtra(COMMENT_ID, -1)
         articleId = intent.getIntExtra(ARTICLE_ID, -1)
         if (articleId == -1 || commentId == -1) {
             //TODO error handling with UI
         }
 
-        viewModelFactory = CommentViewModelFactory(articleId, commentId)
-        commentViewModel = ViewModelProvider(this, viewModelFactory).get(CommentViewModel::class.java)
         commentAdapter = CommentMultiViewAdapter(supportFragmentManager, commentViewModel)
 
         initCommentRecyclerView()
@@ -110,20 +107,17 @@ class CommentActivity : BaseAppCompatActivity() {
         commentViewModel.postCommentSuccess.observe(this, {
             if (it) {
                 binding.commentInput.text.clear()
-                commentViewModel.postCommentSuccess.value = false
                 binding.scrollView.fullScroll(View.FOCUS_DOWN)
                 hideKeyboard()
             }
         })
         commentViewModel.deleteCommentSuccess.observe(this, {
             if (it) {
-                commentViewModel.deleteCommentSuccess.value = false
                 Utils.showToast(getString(R.string.delete_success))
             }
         })
         commentViewModel.modifyCommentSuccess.observe(this, {
             if (it) {
-                commentViewModel.modifyCommentSuccess.value = false
                 Utils.showToast(getString(R.string.modify_success))
             }
         })

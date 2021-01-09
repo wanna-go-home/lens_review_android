@@ -146,7 +146,6 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
         articleViewModel.postCommentSuccess.observe(this, {
             if (it) {
                 binding.commentInput.text.clear()
-                articleViewModel.postCommentSuccess.value = false
                 binding.scrollView.fullScroll(View.FOCUS_DOWN)
                 hideKeyboard()
 
@@ -154,13 +153,11 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
         })
         articleViewModel.deleteCommentSuccess.observe(this, {
             if (it) {
-                articleViewModel.deleteCommentSuccess.value = false
                 Utils.showToast(getString(R.string.delete_success))
             }
         })
         articleViewModel.modifyCommentSuccess.observe(this, {
             if (it) {
-                articleViewModel.modifyCommentSuccess.value = false
                 Utils.showToast(getString(R.string.modify_success))
                 hideKeyboard()
             }

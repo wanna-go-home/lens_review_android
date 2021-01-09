@@ -10,6 +10,7 @@ import retrofit2.HttpException
 import timber.log.Timber
 
 class CommentViewModel(private val articleId: Int, private val parentCommentId: Int) : BaseViewModel(), KoinComponent {
+
     val comments = MutableLiveData<List<Comment>>()
     private val lensClient: LensApiClient by inject()
     val postCommentSuccess = MutableLiveData<Boolean>(false)
