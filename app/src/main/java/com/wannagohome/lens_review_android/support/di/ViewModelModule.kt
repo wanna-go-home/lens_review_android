@@ -18,7 +18,6 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-
     viewModel { LensViewModel() }
     viewModel { BoardViewModel() }
     viewModel { LensDetailViewModel() }
@@ -26,7 +25,9 @@ val viewModelModule = module {
     viewModel { ModifyArticleViewModel() }
     viewModel { WriteArticleViewModel() }
     viewModel { ReviewPreviewViewModel() }
-    viewModel { CommentViewModel() }
+    viewModel { (articleId: Int, parentCommentId: Int) ->
+        CommentViewModel(articleId, parentCommentId)
+    }
     viewModel { LoginViewModel() }
     viewModel { SignUpViewModel() }
     viewModel { WriteReviewViewModel() }

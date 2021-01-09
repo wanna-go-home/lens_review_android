@@ -6,8 +6,8 @@ data class Comment(
     @SerializedName("id")
     val commentId: Int = 0,
 
-    @SerializedName("accountId")
-    val authorId: String = "",
+    @SerializedName("nickname")
+    val author: String = "",
 
     @SerializedName("postId")
     val articleId: Int = 0,

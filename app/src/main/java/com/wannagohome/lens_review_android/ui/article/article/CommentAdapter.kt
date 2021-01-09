@@ -2,26 +2,31 @@ package com.wannagohome.lens_review_android.ui.article.article
 
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ChildCommentListItemBinding
 import com.wannagohome.lens_review_android.databinding.CommentListItemBinding
+import com.wannagohome.lens_review_android.extension.invisible
 import com.wannagohome.lens_review_android.extension.visible
 import com.wannagohome.lens_review_android.network.model.article.Comment
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.support.Utils.getString
 import com.wannagohome.lens_review_android.ui.article.article.comment.CommentActivity
-import timber.log.Timber
+
 
 const val COMMENT = 0
 const val INNER_COMMENT = 1
 
-class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CommentMultiViewAdapter(private val fm: FragmentManager, private val articleViewModel: ArticleViewModel, private val articleId: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+    BottomSheetFragment.OnClickListener,
+    CommentEditFragment.OnClickListener {
 
     companion object {
         const val MAX_CHILDREN_IN_ARTICLE = 3
+        const val ARTICLE_ID = "articleId"
+        const val COMMENT_ID = "commentId"
     }
 
     var commentList = ArrayList<Comment>()
@@ -35,9 +40,7 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
         return when (viewType) {
             COMMENT -> {
                 val binding = CommentListItemBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
+                    LayoutInflater.from(parent.context), parent, false
                 )
                 CommentViewHolder(parent, binding)
             }
@@ -67,35 +70,44 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
         return commentList[position].depth
     }
 
-    inner class CommentViewHolder(parent: ViewGroup, private val itemBinding: CommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
+    inner class CommentViewHolder(private val parent: ViewGroup, private val itemBinding: CommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         lateinit var currentComment: Comment
-        var parent = parent
 
         fun bind(comment: Comment) {
             currentComment = comment
             itemBinding.content.text = comment.content
-            itemBinding.author.text = comment.authorId
+
+            itemBinding.author.text = comment.author
+
             itemBinding.likes.text = comment.likes.toString()
+
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
+
             itemBinding.comments.setOnClickListener {
                 val intent = Intent(parent.context, CommentActivity::class.java)
-                intent.putExtra("articleId", comment.articleId)
-                intent.putExtra("commentId", comment.commentId)
+                intent.putExtra(ARTICLE_ID, comment.articleId)
+                intent.putExtra(COMMENT_ID, comment.commentId)
                 parent.context.startActivity(intent)
             }
 
+            itemBinding.moreImg.setOnClickListener {
+                BottomSheetFragment.newInstance(comment.commentId, true).run {
+                    setOnClickListener(this@CommentMultiViewAdapter)
+                    show(fm, null)
+                }
+            }
+
             if (comment.bundleSize > MAX_CHILDREN_IN_ARTICLE) {
-                //TODO : Change visibility to layout inflate
                 itemBinding.moreComment.visible()
-                var nOfComments = String.format(
+                val nOfComments = String.format(
                     getString(R.string.show_more_comments),
                     comment.bundleSize - MAX_CHILDREN_IN_ARTICLE
                 )
                 itemBinding.moreComment.text = nOfComments
                 itemBinding.moreComment.setOnClickListener {
                     val intent = Intent(parent.context, CommentActivity::class.java)
-                    intent.putExtra("articleId", comment.articleId)
-                    intent.putExtra("commentId", comment.commentId)
+                    intent.putExtra(ARTICLE_ID, comment.articleId)
+                    intent.putExtra(COMMENT_ID, comment.commentId)
                     parent.context.startActivity(intent)
                 }
             }
@@ -103,14 +115,34 @@ class CommentMultiViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>(
         }
     }
 
-    inner class ChildCommentViewHolder(private val itemBinding: ChildCommentListItemBinding) :RecyclerView.ViewHolder(itemBinding.root) {
+    inner class ChildCommentViewHolder(private val itemBinding: ChildCommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         lateinit var currentComment: Comment
         fun bind(comment: Comment) {
             currentComment = comment
             itemBinding.content.text = comment.content
-            itemBinding.author.text = comment.authorId
+            itemBinding.author.text = comment.author
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
             itemBinding.likes.text = comment.likes.toString()
+            itemBinding.moreImg.invisible()
         }
+    }
+
+    override fun onClickDeleteBtn(targetId: Int) {
+        articleViewModel.deleteComment(articleId, targetId)
+    }
+
+    override fun onClickModifyBtn(targetId: Int) {
+        val content = commentList.find { it.commentId == targetId }?.content
+        val fragment = CommentEditFragment.newInstance(targetId, content)
+        fragment.setOnClickListener(this)
+        fragment.show(fm, "comment")
+    }
+
+    override fun onClickReportBtn(targetId: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickModifyPostBtn(targetId: Int, content: String) {
+        articleViewModel.modifyComment(articleId, targetId, content)
     }
 }

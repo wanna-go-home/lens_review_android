@@ -8,6 +8,7 @@
 
     <dimen name="MiddleMenuIconSize">20dp</dimen>
 
+    <dimen name="CommentAuthorTextSize">12sp</dimen>
     <dimen name="CommentContentTextSize">15sp</dimen>
     <dimen name="CommentIconSize">14dp</dimen>
 </resources>

@@ -7,13 +7,11 @@ import com.wannagohome.lens_review_android.support.baseclass.BaseViewModel
 import com.wannagohome.lens_review_android.extension.addTo
 import org.koin.core.KoinComponent
 import org.koin.core.inject
-import retrofit2.HttpException
-import timber.log.Timber
 
 class BoardViewModel : BaseViewModel(), KoinComponent {
 
     val articleList = MutableLiveData<List<ArticlePreview>>()
-    val refreshSuccess = MutableLiveData<Boolean>(false)
+    val refreshSuccess = MutableLiveData<Boolean>(true)
     private val lensClient: LensApiClient by inject()
 
     fun getArticleList() {

@@ -95,16 +95,21 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
-    fun modifyComment(articleId: Int, commentId: Int, bundleId: Int, contents: String): Observable<Response<ResponseBody>> {
-
-        val writeCommentRequest = WriteCommentRequest(bundleId, contents)
+    fun modifyComment(articleId: Int, commentId: Int, contents: String): Observable<Response<ResponseBody>> {
+        val writeCommentRequest = WriteCommentRequest(null, contents)
 
         return lensApiInterface.modifyComment(articleId, commentId, writeCommentRequest)
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
+    fun deleteCommentById(articleId: Int, commentId: Int): Observable<Response<ResponseBody>> {
 
+        return lensApiInterface.deleteCommentById(articleId, commentId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
     fun login(account: String, pw: String): Observable<Response<ResponseBody>> {
         val loginRequest = LoginRequest(account, pw)
 
