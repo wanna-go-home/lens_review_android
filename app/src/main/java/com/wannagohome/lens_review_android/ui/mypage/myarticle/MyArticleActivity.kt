@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.databinding.ActivityMyArticleBinding
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
-import com.wannagohome.lens_review_android.ui.article.ArticleListAdapter
-import com.wannagohome.lens_review_android.ui.article.article.ArticleActivity
+import com.wannagohome.lens_review_android.ui.article.list.ArticleListAdapter
+import com.wannagohome.lens_review_android.ui.article.detail.ArticleActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

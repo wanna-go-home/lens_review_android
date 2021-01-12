@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.ui.article.article.comment
+package com.wannagohome.lens_review_android.ui.article.detail.comment
 
 import android.view.LayoutInflater
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
@@ -8,15 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wannagohome.lens_review_android.databinding.ChildCommentListItemBinding
 import com.wannagohome.lens_review_android.databinding.CommentListItemBinding
 import com.wannagohome.lens_review_android.network.model.article.Comment
-import com.wannagohome.lens_review_android.ui.article.article.BottomSheetFragment
-import com.wannagohome.lens_review_android.ui.article.article.CommentEditFragment
-
-const val COMMENT = 0
-const val INNER_COMMENT = 1
+import com.wannagohome.lens_review_android.ui.article.detail.BottomSheetFragment
 
 class CommentMultiViewAdapter(private val fm: FragmentManager, private val commentViewModel: CommentViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     BottomSheetFragment.OnClickListener,
     CommentEditFragment.OnClickListener {
+
+    companion object {
+        const val COMMENT = 0
+        const val INNER_COMMENT = 1
+    }
+
     var commentList = ArrayList<Comment>()
         set(shops) {
             field = shops
@@ -63,9 +65,10 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val comme
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
 
             itemBinding.moreImg.setOnClickListener {
-                val fragment = BottomSheetFragment.newInstance(comment.commentId, true)
-                fragment.setOnClickListener(this@CommentMultiViewAdapter)
-                fragment.show(fm, null)
+                BottomSheetFragment.newInstance(comment.commentId, true).run{
+                    setOnClickListener(this@CommentMultiViewAdapter)
+                    show(fm, null)
+                }
             }
         }
     }
@@ -80,7 +83,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val comme
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
             itemBinding.likes.text = comment.likes.toString()
 
-            itemBinding.moreImg.setOnClickListener {
+            itemBinding.optionBtn.setOnClickListener {
                 BottomSheetFragment.newInstance(comment.commentId, true).run{
                     setOnClickListener(this@CommentMultiViewAdapter)
                     show(fm, null)

@@ -1,21 +1,18 @@
-package com.wannagohome.lens_review_android.ui.article.article
+package com.wannagohome.lens_review_android.ui.article.detail
 
 import androidx.lifecycle.MutableLiveData
-import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.extension.addTo
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
 import com.wannagohome.lens_review_android.network.model.article.Comment
 import com.wannagohome.lens_review_android.network.model.article.Article
-import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseViewModel
 import io.reactivex.rxjava3.core.Observable
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import retrofit2.HttpException
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
-class ArticleViewModel : BaseViewModel(), KoinComponent {
+class ArticleViewModel(private val articleId: Int) : BaseViewModel(), KoinComponent {
 
     val article = MutableLiveData<Article>()
     val comments = MutableLiveData<List<Comment>>()
@@ -28,7 +25,7 @@ class ArticleViewModel : BaseViewModel(), KoinComponent {
 
     private val lensClient: LensApiClient by inject()
 
-    fun getArticle(articleId: Int) {
+    fun getArticle() {
         compositeDisposable.add(lensClient.getArticleById(articleId).subscribe({
             article.value = it.body()
         }, {
@@ -41,7 +38,7 @@ class ArticleViewModel : BaseViewModel(), KoinComponent {
         }))
     }
 
-    fun deleteArticle(articleId: Int) {
+    fun deleteArticle() {
         lensClient.deleteArticleById(articleId)
             .subscribe( {
                 deleteSuccess.value = true
@@ -50,7 +47,7 @@ class ArticleViewModel : BaseViewModel(), KoinComponent {
             .addTo(compositeDisposable)
     }
 
-    fun refreshArticle(articleId: Int) {
+    fun refreshArticle() {
         refreshSuccess.value = false
         Observable.zip(
             lensClient.getArticleById(articleId).map { article.value = it.body(); it.isSuccessful },
@@ -64,7 +61,7 @@ class ArticleViewModel : BaseViewModel(), KoinComponent {
             }
     }
 
-    fun getComments(articleId: Int) {
+    fun getComments() {
         compositeDisposable.add(lensClient.getCommentsByArticleId(articleId).subscribe({
             comments.value = it.body()
         }, {
@@ -77,9 +74,9 @@ class ArticleViewModel : BaseViewModel(), KoinComponent {
         }))
     }
 
-    fun postComment(articleId: Int, contents: String) {
+    fun postComment(contents: String) {
         compositeDisposable.add(lensClient.writeComment(articleId, contents).subscribe({
-            refreshArticle(articleId)
+            refreshArticle()
             postCommentSuccess.value = true
         }, {
             //TODO error notification
@@ -90,9 +87,9 @@ class ArticleViewModel : BaseViewModel(), KoinComponent {
 
         }))
     }
-    fun modifyComment(articleId: Int, commentId: Int, contents: String) {
+    fun modifyComment(commentId: Int, contents: String) {
         compositeDisposable.add(lensClient.modifyComment(articleId, commentId, contents).subscribe({
-            refreshArticle(articleId)
+            refreshArticle()
             modifyCommentSuccess.value = true
         }, {
             //TODO error notification
@@ -103,10 +100,10 @@ class ArticleViewModel : BaseViewModel(), KoinComponent {
 
         }))
     }
-    fun deleteComment(articleId: Int, commentId: Int) {
+    fun deleteComment(commentId: Int) {
         compositeDisposable.add(lensClient.deleteCommentById(articleId, commentId)
             .subscribe({
-            refreshArticle(articleId)
+            refreshArticle()
             deleteCommentSuccess.value = true
         }, {
             //TODO error notification

@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.wannagohome.lens_review_android.AppComponents
 import com.wannagohome.lens_review_android.R
-import com.wannagohome.lens_review_android.ui.article.TabArticle
+import com.wannagohome.lens_review_android.ui.article.list.TabArticle
 import com.wannagohome.lens_review_android.ui.mypage.TabMypage
 import com.wannagohome.lens_review_android.ui.review.review_list.TabReview
 import com.wannagohome.lens_review_android.ui.search_lens.TabSearch

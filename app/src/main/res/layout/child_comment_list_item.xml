@@ -54,7 +54,7 @@
                 android:layoutDirection="rtl">
 
                 <ImageView
-                    android:id="@+id/moreImg"
+                    android:id="@+id/optionBtn"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center"

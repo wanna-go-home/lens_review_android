@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.ui.article
+package com.wannagohome.lens_review_android.ui.article.list
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wannagohome.lens_review_android.databinding.FragmentBoardBinding
 import com.wannagohome.lens_review_android.support.baseclass.BaseFragment
-import com.wannagohome.lens_review_android.ui.article.article.ArticleActivity
-import com.wannagohome.lens_review_android.ui.article.article.write.WriteArticleActivity
+import com.wannagohome.lens_review_android.ui.article.detail.ArticleActivity
+import com.wannagohome.lens_review_android.ui.article.write.WriteArticleActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.KoinComponent
 

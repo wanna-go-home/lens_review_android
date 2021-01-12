@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.ui.article
+package com.wannagohome.lens_review_android.ui.article.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
