@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.network.model.article
+package com.wannagohome.lens_review_android.network.model
 
 import com.google.gson.annotations.SerializedName
 
