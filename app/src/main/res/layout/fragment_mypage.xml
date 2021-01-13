@@ -169,7 +169,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/myReviewCommentsListMenu"
+        android:id="@+id/myCommentListMenu"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@android:color/white"
@@ -181,30 +181,7 @@
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/mypage_my_review_comments" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_arrow_to_right" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/myArticleCommentsListMenu"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@android:color/white"
-        android:orientation="horizontal"
-
-        android:padding="10dp">
-
-        <TextView
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/mypage_my_article_comments" />
+            android:text="@string/mypage_my_comments" />
 
         <ImageView
             android:layout_width="wrap_content"

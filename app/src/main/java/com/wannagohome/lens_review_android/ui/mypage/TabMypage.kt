@@ -2,7 +2,6 @@ package com.wannagohome.lens_review_android.ui.mypage
 
 import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseFragment
 import com.wannagohome.lens_review_android.ui.login.LoginActivity
 import com.wannagohome.lens_review_android.ui.mypage.myarticle.MyArticleActivity
-import com.wannagohome.lens_review_android.ui.mypage.myarticlecomment.MyArticleCommentActivity
+import com.wannagohome.lens_review_android.ui.mypage.myarticlecomment.MyCommentActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -44,10 +43,10 @@ class TabMypage : BaseFragment() {
             .subscribe {
                 startActivityFromRight(requireActivity(), MyArticleActivity::class.java)
             }
-        binding.myArticleCommentsListMenu.clicks()
+        binding.myCommentListMenu.clicks()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                startActivityFromRight(requireActivity(), MyArticleCommentActivity::class.java)
+                startActivityFromRight(requireActivity(), MyCommentActivity::class.java)
             }
         binding.leaveMenu.clicks()
             .observeOn(AndroidSchedulers.mainThread())
