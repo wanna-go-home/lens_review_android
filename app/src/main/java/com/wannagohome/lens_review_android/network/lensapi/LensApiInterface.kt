@@ -44,8 +44,11 @@ interface LensApiInterface {
     @POST("api/boards/article/{articleId}/comments")
     fun writeComment(@Path("articleId") articleId: Int, @Body writeCommentRequest: WriteCommentRequest): Observable<Response<ResponseBody>>
 
-    @PUT("api/boards/article/{articleId}/comments/{commentId}")
+    @PUT("api/boards/article/{articleId}/comment/{commentId}")
     fun modifyComment(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int, @Body writeCommentRequest: WriteCommentRequest): Observable<Response<ResponseBody>>
+
+    @DELETE("api/boards/article/{articleId}/comment/{commentId}")
+    fun deleteCommentById(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int ): Observable<Response<ResponseBody>>
 
     @POST("api/user/login")
     fun login(@Body loginRequest: LoginRequest): Observable<Response<ResponseBody>>
@@ -73,6 +76,9 @@ interface LensApiInterface {
 
     @GET("api/boards/article/me")
     fun getMyArticle() : Observable<Response<List<ArticlePreview>>>
+
+    @GET("api/user/review/me")
+    fun getMyReview() : Observable<Response<List<ReviewPreview>>>
 
 //    @GET("api/boards/review-board/{id}")
 //    fun getReviewById(@Path("id") id : Int) : Observable<Response<DetailedReview>>

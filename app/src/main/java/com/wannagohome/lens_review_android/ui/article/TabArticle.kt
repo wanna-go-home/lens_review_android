@@ -75,10 +75,9 @@ class TabArticle : KoinComponent, BaseFragment()   {
         boardViewModel.articleList.observe(viewLifecycleOwner, {
             boardListAdapter.items = it
         })
+
         boardViewModel.refreshSuccess.observe(viewLifecycleOwner, {
-            if (it) {
-                binding.swiperefresh.isRefreshing = false
-            }
+                binding.swiperefresh.isRefreshing = !it
         })
     }
 

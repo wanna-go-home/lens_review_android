@@ -53,6 +53,7 @@ class ModifyArticleActivity : BaseAppCompatActivity() {
 
         modifyArticleViewModel.writeSuccess.observe(this, {
             if (it) {
+                Utils.showToast(getString(R.string.modify_success))
                 finishActivityToRight()
             }
         })
@@ -68,8 +69,6 @@ class ModifyArticleActivity : BaseAppCompatActivity() {
     }
     override fun onBackPressed() {
         super.onBackPressed()
-
         finishActivityToRight()
-
     }
 }

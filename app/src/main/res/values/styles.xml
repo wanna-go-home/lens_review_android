@@ -62,6 +62,7 @@
         <item name="android:layout_marginStart">20dp</item>
         <item name="android:layout_marginEnd">5dp</item>
     </style>
+
     <style name="commentText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">14dp</item>
@@ -75,8 +76,32 @@
         <item name="android:layout_height">25dp</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:textColor">@color/board_maintext</item>
-        <item name="android:textSize">16dp</item>
+        <item name="android:textSize">16sp</item>
     </style>
+
+    <style name="bottomSheetDialogOption">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:backgroundTint">@android:color/white</item>
+        <item name="android:gravity">center_horizontal|center_vertical</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="editCommentHorizontalOption">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:backgroundTint">@android:color/white</item>
+        <item name="android:gravity">center_horizontal|center_vertical</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="singlePageFooterIcon">
         <item name="android:layout_height">23dp</item>
         <item name="android:layout_width">23dp</item>
@@ -85,10 +110,12 @@
     <style name="singlePageFooterText">
         <item name="android:textSize">12sp</item>
     </style>
+
     <style name="singlePageHeaderIcon">
         <item name="android:layout_height">20dp</item>
         <item name="android:layout_width">20dp</item>
     </style>
+
     <style name="singlePageTitle">
         <item name="android:textSize">28sp</item>
     </style>

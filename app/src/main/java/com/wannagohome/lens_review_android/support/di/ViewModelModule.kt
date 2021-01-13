@@ -9,6 +9,7 @@ import com.wannagohome.lens_review_android.ui.lens_detail.LensDetailViewModel
 import com.wannagohome.lens_review_android.ui.login.LoginViewModel
 import com.wannagohome.lens_review_android.ui.mypage.MypageViewModel
 import com.wannagohome.lens_review_android.ui.mypage.myarticle.MyArticleViewModel
+import com.wannagohome.lens_review_android.ui.mypage.myreview.MyReviewViewModel
 import com.wannagohome.lens_review_android.ui.review.review_list.ReviewPreviewViewModel
 import com.wannagohome.lens_review_android.ui.review.write.SelectLensViewModel
 import com.wannagohome.lens_review_android.ui.review.write.WriteReviewViewModel
@@ -18,7 +19,6 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-
     viewModel { LensViewModel() }
     viewModel { BoardViewModel() }
     viewModel { LensDetailViewModel() }
@@ -26,11 +26,15 @@ val viewModelModule = module {
     viewModel { ModifyArticleViewModel() }
     viewModel { WriteArticleViewModel() }
     viewModel { ReviewPreviewViewModel() }
-    viewModel { CommentViewModel() }
+    viewModel { (articleId: Int, parentCommentId: Int) ->
+        CommentViewModel(articleId, parentCommentId)
+    }
     viewModel { LoginViewModel() }
     viewModel { SignUpViewModel() }
     viewModel { WriteReviewViewModel() }
     viewModel { MypageViewModel() }
     viewModel { MyArticleViewModel() }
     viewModel { SelectLensViewModel() }
+
+    viewModel { MyReviewViewModel() }
 }

@@ -9,14 +9,17 @@ import org.koin.core.inject
 import retrofit2.HttpException
 import timber.log.Timber
 
-class CommentViewModel : BaseViewModel(), KoinComponent {
+class CommentViewModel(private val articleId: Int, private val parentCommentId: Int) : BaseViewModel(), KoinComponent {
+
     val comments = MutableLiveData<List<Comment>>()
     private val lensClient: LensApiClient by inject()
     val postCommentSuccess = MutableLiveData<Boolean>(false)
-    val refreshSuccess = MutableLiveData<Boolean>(false)
+    val refreshSuccess = MutableLiveData<Boolean>(true)
+    val modifyCommentSuccess = MutableLiveData<Boolean>(false)
+    val deleteCommentSuccess = MutableLiveData<Boolean>(false)
 
-    fun getComments(articleId: Int, commentId: Int) {
-        compositeDisposable.add(lensClient.getCommentsByCommentId(articleId, commentId).subscribe({
+    fun getComments() {
+        compositeDisposable.add(lensClient.getCommentsByCommentId(articleId, parentCommentId).subscribe({
             comments.value = it.body()
         }, {
             //TODO error notification
@@ -27,9 +30,10 @@ class CommentViewModel : BaseViewModel(), KoinComponent {
 
         }))
     }
-    fun refreshComment(articleId: Int, commentId: Int) {
+
+    fun refreshComment() {
         refreshSuccess.value = false
-        compositeDisposable.add(lensClient.getCommentsByCommentId(articleId, commentId).subscribe({
+        compositeDisposable.add(lensClient.getCommentsByCommentId(articleId, parentCommentId).subscribe({
             comments.value = it.body()
             refreshSuccess.value = true
         }, {
@@ -41,11 +45,30 @@ class CommentViewModel : BaseViewModel(), KoinComponent {
 
         }))
     }
-    fun postComment(articleId: Int, parentId: Int, contents: String) {
-        compositeDisposable.add(lensClient.writeComment(articleId,
-            contents, parentId).subscribe({
-            refreshComment(articleId,parentId)
-            postCommentSuccess.value = true
+
+    fun postComment(contents: String) {
+        compositeDisposable.add(
+            lensClient.writeComment(
+                articleId,
+                contents, parentCommentId
+            ).subscribe({
+                refreshComment()
+                postCommentSuccess.value = true
+            }, {
+                //TODO error notification
+                if (it is HttpException) {
+                    val exception = it
+                    Timber.e("HTTP Exception ${exception.response()}")
+                }
+
+            })
+        )
+    }
+
+    fun modifyComment(commentId: Int, contents: String) {
+        compositeDisposable.add(lensClient.modifyComment(articleId, commentId, contents).subscribe({
+            refreshComment()
+            modifyCommentSuccess.value = true
         }, {
             //TODO error notification
             if (it is HttpException) {
@@ -54,5 +77,22 @@ class CommentViewModel : BaseViewModel(), KoinComponent {
             }
 
         }))
+    }
+
+    fun deleteComment(commentId: Int) {
+        compositeDisposable.add(
+            lensClient.deleteCommentById(articleId, commentId)
+                .subscribe({
+                    refreshComment()
+                    deleteCommentSuccess.value = true
+                }, {
+                    //TODO error notification
+                    if (it is HttpException) {
+                        val exception = it
+                        Timber.e("HTTP Exception ${exception.response()}")
+                    }
+
+                })
+        )
     }
 }

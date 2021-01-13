@@ -9,12 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wannagohome.lens_review_android.databinding.FragmentReviewBinding
+import com.wannagohome.lens_review_android.support.baseclass.BaseFragment
 import com.wannagohome.lens_review_android.ui.review.review_detail.ReviewDetailActivity
 import com.wannagohome.lens_review_android.ui.review.write.WriteReviewActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class TabReview : Fragment() {
+class TabReview : BaseFragment() {
 
     private var _binding: FragmentReviewBinding? = null
     private val binding get() = _binding!!
@@ -59,7 +60,10 @@ class TabReview : Fragment() {
             reviewPreviewAdapter.onItemClick = { pos ->
                 val clickedReviewPreview = reviewPreviewAdapter.getItem(pos)
 
-                ReviewDetailActivity.startReviewDetailActivity(context!!, clickedReviewPreview.id)
+                val intent = Intent(context, ReviewDetailActivity::class.java)
+                intent.putExtra(ReviewDetailActivity.REVIEW_ID, clickedReviewPreview.id)
+
+                startActivityFromRight(intent)
             }
 
             adapter = reviewPreviewAdapter

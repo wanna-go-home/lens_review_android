@@ -1,16 +1,19 @@
 package com.wannagohome.lens_review_android.ui.article.article
 
 import androidx.lifecycle.MutableLiveData
+import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.extension.addTo
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
 import com.wannagohome.lens_review_android.network.model.article.Comment
 import com.wannagohome.lens_review_android.network.model.article.Article
+import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseViewModel
 import io.reactivex.rxjava3.core.Observable
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import retrofit2.HttpException
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 class ArticleViewModel : BaseViewModel(), KoinComponent {
 
@@ -18,7 +21,9 @@ class ArticleViewModel : BaseViewModel(), KoinComponent {
     val comments = MutableLiveData<List<Comment>>()
     val deleteSuccess = MutableLiveData<Boolean>(false)
     val postCommentSuccess = MutableLiveData<Boolean>(false)
-    val refreshSuccess = MutableLiveData<Boolean>(false)
+    val modifyCommentSuccess = MutableLiveData<Boolean>(false)
+    val deleteCommentSuccess = MutableLiveData<Boolean>(false)
+    val refreshSuccess = MutableLiveData<Boolean>(true)
 
 
     private val lensClient: LensApiClient by inject()
@@ -27,7 +32,6 @@ class ArticleViewModel : BaseViewModel(), KoinComponent {
         compositeDisposable.add(lensClient.getArticleById(articleId).subscribe({
             article.value = it.body()
         }, {
-
             //TODO error notification
             if (it is HttpException) {
                 val exception = it
@@ -51,9 +55,7 @@ class ArticleViewModel : BaseViewModel(), KoinComponent {
         Observable.zip(
             lensClient.getArticleById(articleId).map { article.value = it.body(); it.isSuccessful },
             lensClient.getCommentsByArticleId(articleId).map { comments.value = it.body(); it.isSuccessful },
-            { articleLoaded: Boolean, commentLoaded: Boolean ->
-                articleLoaded && commentLoaded
-            })
+            { articleLoaded: Boolean, commentLoaded: Boolean ->articleLoaded && commentLoaded})
             .onErrorReturn { false }
             .subscribe { refreshed ->
                 if (refreshed) {
@@ -79,6 +81,33 @@ class ArticleViewModel : BaseViewModel(), KoinComponent {
         compositeDisposable.add(lensClient.writeComment(articleId, contents).subscribe({
             refreshArticle(articleId)
             postCommentSuccess.value = true
+        }, {
+            //TODO error notification
+            if (it is HttpException) {
+                val exception = it
+                Timber.e("HTTP Exception ${exception.response()}")
+            }
+
+        }))
+    }
+    fun modifyComment(articleId: Int, commentId: Int, contents: String) {
+        compositeDisposable.add(lensClient.modifyComment(articleId, commentId, contents).subscribe({
+            refreshArticle(articleId)
+            modifyCommentSuccess.value = true
+        }, {
+            //TODO error notification
+            if (it is HttpException) {
+                val exception = it
+                Timber.e("HTTP Exception ${exception.response()}")
+            }
+
+        }))
+    }
+    fun deleteComment(articleId: Int, commentId: Int) {
+        compositeDisposable.add(lensClient.deleteCommentById(articleId, commentId)
+            .subscribe({
+            refreshArticle(articleId)
+            deleteCommentSuccess.value = true
         }, {
             //TODO error notification
             if (it is HttpException) {
