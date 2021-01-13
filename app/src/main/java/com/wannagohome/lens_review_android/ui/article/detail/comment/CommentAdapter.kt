@@ -80,16 +80,16 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val comme
                     show(fm, null)
                 }
             }
-            if (IS_ARTICLE){
+            if (IS_ARTICLE) {
                 itemBinding.comments.setOnClickListener {
                     val intent = Intent(parent.context, CommentActivity::class.java)
                     intent.putExtra(ARTICLE_ID, comment.articleId)
                     intent.putExtra(COMMENT_ID, comment.commentId)
                     parent.context.startActivity(intent)
                 }
-
-                if (comment.bundleSize > MAX_CHILDREN_IN_ARTICLE) {
-                    itemBinding.moreComment.visible()
+            }
+            //@todo : let "더 보기" be recyclerview item
+            if (IS_ARTICLE && comment.bundleSize > MAX_CHILDREN_IN_ARTICLE) {
                     val nOfComments = String.format(
                         Utils.getString(R.string.show_more_comments),
                         comment.bundleSize - MAX_CHILDREN_IN_ARTICLE
@@ -101,7 +101,10 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val comme
                         intent.putExtra(COMMENT_ID, comment.commentId)
                         parent.context.startActivity(intent)
                     }
-                }
+                    itemBinding.moreComment.visible()
+            }
+            else{
+                itemBinding.moreComment.gone()
             }
         }
     }
