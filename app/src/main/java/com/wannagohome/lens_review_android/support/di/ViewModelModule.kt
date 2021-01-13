@@ -24,7 +24,7 @@ val viewModelModule = module {
         ArticleViewModel(articleId) }
     viewModel { (articleId: Int)->
         WriteArticleViewModel(articleId) }
-    viewModel { (articleId: Int, parentCommentId: Int) ->
+    viewModel { (articleId: Int, parentCommentId: Int?) ->
         CommentViewModel(articleId, parentCommentId)
     }
     viewModel { ReviewPreviewViewModel() }

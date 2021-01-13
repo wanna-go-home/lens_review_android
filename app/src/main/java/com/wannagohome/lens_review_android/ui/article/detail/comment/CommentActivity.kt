@@ -20,6 +20,7 @@ class CommentActivity : BaseAppCompatActivity() {
     companion object {
         const val ARTICLE_ID = "articleId"
         const val COMMENT_ID = "commentId"
+        const val IS_ARTICLE = false
     }
     private var articleId = -1
     private var commentId = -1
@@ -41,7 +42,7 @@ class CommentActivity : BaseAppCompatActivity() {
             //TODO error handling with UI
         }
 
-        commentAdapter = CommentMultiViewAdapter(supportFragmentManager, commentViewModel)
+        commentAdapter = CommentMultiViewAdapter(supportFragmentManager, commentViewModel, IS_ARTICLE)
 
         initCommentRecyclerView()
 
@@ -56,7 +57,7 @@ class CommentActivity : BaseAppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        commentViewModel.getComments()
+        commentViewModel.getCommentsByCommentId()
     }
 
     private fun initCommentRecyclerView() {
@@ -106,6 +107,7 @@ class CommentActivity : BaseAppCompatActivity() {
 
         commentViewModel.postCommentSuccess.observe(this, {
             if (it) {
+                commentViewModel.refreshComment()
                 binding.commentInput.text.clear()
                 binding.scrollView.fullScroll(View.FOCUS_DOWN)
                 hideKeyboard()
@@ -113,12 +115,15 @@ class CommentActivity : BaseAppCompatActivity() {
         })
         commentViewModel.deleteCommentSuccess.observe(this, {
             if (it) {
+                commentViewModel.refreshComment()
                 Utils.showToast(getString(R.string.delete_success))
             }
         })
         commentViewModel.modifyCommentSuccess.observe(this, {
             if (it) {
+                commentViewModel.refreshComment()
                 Utils.showToast(getString(R.string.modify_success))
+                hideKeyboard()
             }
         })
     }

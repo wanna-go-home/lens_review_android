@@ -1,20 +1,30 @@
 package com.wannagohome.lens_review_android.ui.article.detail.comment
 
+import android.content.Intent
 import android.view.LayoutInflater
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ChildCommentListItemBinding
 import com.wannagohome.lens_review_android.databinding.CommentListItemBinding
+import com.wannagohome.lens_review_android.extension.gone
+import com.wannagohome.lens_review_android.extension.invisible
+import com.wannagohome.lens_review_android.extension.visible
 import com.wannagohome.lens_review_android.network.model.article.Comment
+import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.ui.article.detail.BottomSheetFragment
+import timber.log.Timber
 
-class CommentMultiViewAdapter(private val fm: FragmentManager, private val commentViewModel: CommentViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+class CommentMultiViewAdapter(private val fm: FragmentManager, private val commentViewModel: CommentViewModel, private val IS_ARTICLE: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     BottomSheetFragment.OnClickListener,
     CommentEditFragment.OnClickListener {
 
     companion object {
+        const val MAX_CHILDREN_IN_ARTICLE = 3
+        const val ARTICLE_ID = "articleId"
+        const val COMMENT_ID = "commentId"
         const val COMMENT = 0
         const val INNER_COMMENT = 1
     }
@@ -30,7 +40,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val comme
         return when (viewType) {
             COMMENT -> {
                 val binding = CommentListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                CommentViewHolder(binding)
+                CommentViewHolder(parent, binding)
             }
             INNER_COMMENT -> {
                 val binding = ChildCommentListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -54,7 +64,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val comme
         return commentList[position].depth
     }
 
-    inner class CommentViewHolder(private val itemBinding: CommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
+    inner class CommentViewHolder(private val parent: ViewGroup, private val itemBinding: CommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         private lateinit var currentComment: Comment
 
         fun bind(comment: Comment) {
@@ -70,6 +80,29 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val comme
                     show(fm, null)
                 }
             }
+            if (IS_ARTICLE){
+                itemBinding.comments.setOnClickListener {
+                    val intent = Intent(parent.context, CommentActivity::class.java)
+                    intent.putExtra(ARTICLE_ID, comment.articleId)
+                    intent.putExtra(COMMENT_ID, comment.commentId)
+                    parent.context.startActivity(intent)
+                }
+
+                if (comment.bundleSize > MAX_CHILDREN_IN_ARTICLE) {
+                    itemBinding.moreComment.visible()
+                    val nOfComments = String.format(
+                        Utils.getString(R.string.show_more_comments),
+                        comment.bundleSize - MAX_CHILDREN_IN_ARTICLE
+                    )
+                    itemBinding.moreComment.text = nOfComments
+                    itemBinding.moreComment.setOnClickListener {
+                        val intent = Intent(parent.context, CommentActivity::class.java)
+                        intent.putExtra(ARTICLE_ID, comment.articleId)
+                        intent.putExtra(COMMENT_ID, comment.commentId)
+                        parent.context.startActivity(intent)
+                    }
+                }
+            }
         }
     }
 
@@ -82,13 +115,18 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val comme
             itemBinding.author.text = comment.author
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
             itemBinding.likes.text = comment.likes.toString()
-
-            itemBinding.optionBtn.setOnClickListener {
-                BottomSheetFragment.newInstance(comment.commentId, true).run{
-                    setOnClickListener(this@CommentMultiViewAdapter)
-                    show(fm, null)
+            if (IS_ARTICLE) {
+                itemBinding.optionBtn.invisible()
+            }
+            else{
+                itemBinding.optionBtn.setOnClickListener {
+                    BottomSheetFragment.newInstance(comment.commentId, true).run{
+                        setOnClickListener(this@CommentMultiViewAdapter)
+                        show(fm, null)
+                    }
                 }
             }
+
         }
     }
 
