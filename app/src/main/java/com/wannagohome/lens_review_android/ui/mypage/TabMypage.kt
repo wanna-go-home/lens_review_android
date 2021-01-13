@@ -13,6 +13,7 @@ import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseFragment
 import com.wannagohome.lens_review_android.ui.login.LoginActivity
 import com.wannagohome.lens_review_android.ui.mypage.myarticle.MyArticleActivity
+import com.wannagohome.lens_review_android.ui.mypage.myreview.MyReviewActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -37,7 +38,12 @@ class TabMypage : BaseFragment() {
         return binding.root
     }
 
-    private fun initListener(){
+    private fun initListener() {
+        binding.myReviewListMenu.clicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                startActivityFromRight(requireActivity(), MyReviewActivity::class.java)
+            }
         binding.myArticleListMenu.clicks()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -50,6 +56,7 @@ class TabMypage : BaseFragment() {
             }
 
     }
+
     private fun showLeaveDialog() {
         val builder = AlertDialog.Builder(context).apply {
             setTitle(Utils.getString(R.string.mypage_leave_dialog_title))

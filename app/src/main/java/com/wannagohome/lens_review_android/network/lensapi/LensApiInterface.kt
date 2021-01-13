@@ -77,6 +77,9 @@ interface LensApiInterface {
     @GET("api/boards/article/me")
     fun getMyArticle() : Observable<Response<List<ArticlePreview>>>
 
+    @GET("api/user/review/me")
+    fun getMyReview() : Observable<Response<List<ReviewPreview>>>
+
 //    @GET("api/boards/review-board/{id}")
 //    fun getReviewById(@Path("id") id : Int) : Observable<Response<DetailedReview>>
 }

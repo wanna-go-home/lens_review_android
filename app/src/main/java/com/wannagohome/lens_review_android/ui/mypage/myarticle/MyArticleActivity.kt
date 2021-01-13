@@ -48,6 +48,7 @@ class MyArticleActivity : BaseAppCompatActivity() {
         })
     }
 
+
     private fun initBoardListRecyclerView() {
         binding.myArticleListRecyclerView.run {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))

@@ -16,7 +16,6 @@ class ReviewPreviewViewModel : BaseViewModel(){
     val reviewPreviewList = MutableLiveData<List<ReviewPreview>>()
 
     fun fetchReviewPreview(){
-        Timber.d("call!!!")
         lensApiClient.getAllReviews()
             .subscribe{
                 val body = it.body()
