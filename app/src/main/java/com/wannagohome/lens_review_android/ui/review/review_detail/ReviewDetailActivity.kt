@@ -6,17 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ActivityReviewDetailBinding
+import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
 
-class ReviewDetailActivity : AppCompatActivity() {
+class ReviewDetailActivity : BaseAppCompatActivity() {
 
     companion object{
         const val REVIEW_ID = "reviewId"
-
-        fun startReviewDetailActivity(context: Context, reviewId : Int){
-            val intent = Intent(context, ReviewDetailActivity::class.java)
-            intent.putExtra(REVIEW_ID, reviewId)
-            context.startActivity(intent)
-        }
     }
 
     private lateinit var binding : ActivityReviewDetailBinding
@@ -31,5 +26,11 @@ class ReviewDetailActivity : AppCompatActivity() {
         if(reviewId == -1){
             finish()
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        finishActivityToRight()
     }
 }

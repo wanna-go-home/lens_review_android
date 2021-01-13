@@ -192,4 +192,10 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    fun getMyReview() : Observable<Response<List<ReviewPreview>>>{
+        return lensApiInterface.getMyReview()
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
 }
