@@ -1,15 +1,15 @@
-package com.wannagohome.lens_review_android.ui.article.detail.comment
+package com.wannagohome.lens_review_android.ui.review.review_detail.comment
 
 import androidx.lifecycle.MutableLiveData
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
-import com.wannagohome.lens_review_android.network.model.article.Comment
+import com.wannagohome.lens_review_android.network.model.comment.Comment
 import com.wannagohome.lens_review_android.support.baseclass.BaseViewModel
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import retrofit2.HttpException
 import timber.log.Timber
 
-class CommentViewModel(private val articleId: Int, private val parentCommentId: Int? = null) : BaseViewModel(), KoinComponent {
+class ReviewCommentViewModel(private val reviewId: Int, private val parentCommentId: Int? = null) : BaseViewModel(), KoinComponent {
 
     val comments = MutableLiveData<List<Comment>>()
     private val lensClient: LensApiClient by inject()
@@ -17,9 +17,10 @@ class CommentViewModel(private val articleId: Int, private val parentCommentId: 
     val refreshSuccess = MutableLiveData<Boolean>(true)
     val modifyCommentSuccess = MutableLiveData<Boolean>(false)
     val deleteCommentSuccess = MutableLiveData<Boolean>(false)
+    val finishActivity = MutableLiveData<Boolean>(false)
 
-    fun getCommentsByArticleId() {
-        compositeDisposable.add(lensClient.getCommentsByArticleId(articleId).subscribe({
+    fun getCommentsByReviewId() {
+        compositeDisposable.add(lensClient.getCommentsByReviewId(reviewId).subscribe({
             comments.value = it.body()
         }, {
             //TODO error notification
@@ -33,7 +34,7 @@ class CommentViewModel(private val articleId: Int, private val parentCommentId: 
 
     fun getCommentsByCommentId() {
         if (parentCommentId != null) {
-            compositeDisposable.add(lensClient.getCommentsByCommentId(articleId, parentCommentId).subscribe({
+            compositeDisposable.add(lensClient.getReviewCommentsByCommentId(reviewId, parentCommentId).subscribe({
                 comments.value = it.body()
             }, {
                 //TODO error notification
@@ -49,7 +50,7 @@ class CommentViewModel(private val articleId: Int, private val parentCommentId: 
     fun refreshComment() {
         refreshSuccess.value = false
         if (parentCommentId != null) {
-            compositeDisposable.add(lensClient.getCommentsByCommentId(articleId, parentCommentId).subscribe({
+            compositeDisposable.add(lensClient.getReviewCommentsByCommentId(reviewId, parentCommentId).subscribe({
                 comments.value = it.body()
                 refreshSuccess.value = true
             }, {
@@ -65,7 +66,7 @@ class CommentViewModel(private val articleId: Int, private val parentCommentId: 
 
     fun postComment(contents: String) {
         compositeDisposable.add(
-            lensClient.writeComment(articleId, contents, parentCommentId).subscribe({
+            lensClient.writeReviewComment(reviewId, contents, parentCommentId).subscribe({
                 postCommentSuccess.value = true
             }, {
                 //TODO error notification
@@ -79,7 +80,7 @@ class CommentViewModel(private val articleId: Int, private val parentCommentId: 
     }
 
     fun modifyComment(commentId: Int, contents: String) {
-        compositeDisposable.add(lensClient.modifyComment(articleId, commentId, contents).subscribe({
+        compositeDisposable.add(lensClient.modifyReviewComment(reviewId, commentId, contents).subscribe({
             modifyCommentSuccess.value = true
         }, {
             //TODO error notification
@@ -93,9 +94,14 @@ class CommentViewModel(private val articleId: Int, private val parentCommentId: 
 
     fun deleteComment(commentId: Int) {
         compositeDisposable.add(
-            lensClient.deleteCommentById(articleId, commentId)
+            lensClient.deleteReviewCommentById(reviewId, commentId)
                 .subscribe({
-                    deleteCommentSuccess.value = true
+                    if (commentId == parentCommentId){
+                        finishActivity.value = true
+                    }
+                    else {
+                        deleteCommentSuccess.value = true
+                    }
                 }, {
                     //TODO error notification
                     if (it is HttpException) {

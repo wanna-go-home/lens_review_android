@@ -2,8 +2,9 @@ package com.wannagohome.lens_review_android.network.lensapi
 
 import com.wannagohome.lens_review_android.network.model.*
 import com.wannagohome.lens_review_android.network.model.article.*
-import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
-import com.wannagohome.lens_review_android.network.model.review.WriteReviewRequest
+import com.wannagohome.lens_review_android.network.model.comment.Comment
+import com.wannagohome.lens_review_android.network.model.comment.WriteCommentRequest
+import com.wannagohome.lens_review_android.network.model.review.*
 import com.wannagohome.lens_review_android.network.model.user.LoginRequest
 import com.wannagohome.lens_review_android.network.model.user.MyInfo
 import com.wannagohome.lens_review_android.network.model.user.SignUpRequest
@@ -39,16 +40,16 @@ interface LensApiInterface {
     fun getCommentsByArticleId(@Path("id") articleId: Int): Observable<Response<List<Comment>>>
 
     @GET("/api/boards/article/{articleId}/comment/{commentId}")
-    fun getCommentsByCommentId(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int): Observable<Response<List<Comment>>>
+    fun getArticleCommentsByCommentId(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int): Observable<Response<List<Comment>>>
 
     @POST("api/boards/article/{articleId}/comments")
-    fun writeComment(@Path("articleId") articleId: Int, @Body writeCommentRequest: WriteCommentRequest): Observable<Response<ResponseBody>>
+    fun writeArticleComment(@Path("articleId") articleId: Int, @Body writeCommentRequest: WriteCommentRequest): Observable<Response<ResponseBody>>
 
     @PUT("api/boards/article/{articleId}/comment/{commentId}")
-    fun modifyComment(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int, @Body writeCommentRequest: WriteCommentRequest): Observable<Response<ResponseBody>>
+    fun modifyArticleComment(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int, @Body writeCommentRequest: WriteCommentRequest): Observable<Response<ResponseBody>>
 
     @DELETE("api/boards/article/{articleId}/comment/{commentId}")
-    fun deleteCommentById(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int ): Observable<Response<ResponseBody>>
+    fun deleteArticleCommentById(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int ): Observable<Response<ResponseBody>>
 
     @POST("api/user/login")
     fun login(@Body loginRequest: LoginRequest): Observable<Response<ResponseBody>>
@@ -71,8 +72,29 @@ interface LensApiInterface {
     @GET("api/boards/review-board")
     fun getAllReviews(): Observable<Response<List<ReviewPreview>>>
 
+    @GET("api/boards/review-board/{id}")
+    fun getReviewById(@Path("id") reviewId: Int): Observable<Response<Review>>
+
+    @DELETE("api/boards/review-board/{id}")
+    fun deleteReviewById(@Path("id") reviewId: Int): Observable<Response<ResponseBody>>
+
+    @GET("/api/boards/review-board/{id}/comments")
+    fun getCommentsByReviewId(@Path("id") reviewId: Int): Observable<Response<List<Comment>>>
+
+    @GET("/api/boards/review-board/{reviewId}/comment/{commentId}")
+    fun getReviewCommentsByCommentId(@Path("reviewId") reviewId: Int, @Path("commentId") commentId: Int): Observable<Response<List<Comment>>>
+
     @POST("api/boards/review-board")
     fun writeReview(@Body writeReviewRequest: WriteReviewRequest): Observable<Response<ResponseBody>>
+
+    @POST("api/boards/review-board/{reviewId}/comments")
+    fun writeReviewComment(@Path("reviewId") reviewId: Int, @Body writeCommentRequest: WriteCommentRequest): Observable<Response<ResponseBody>>
+
+    @PUT("api/boards/review-board/{reviewId}/comment/{commentId}")
+    fun modifyReviewComment(@Path("reviewId") reviewId: Int, @Path("commentId") commentId: Int, @Body writeCommentRequest: WriteCommentRequest): Observable<Response<ResponseBody>>
+
+    @DELETE("api/boards/review-board/{reviewId}/comment/{commentId}")
+    fun deleteReviewCommentById(@Path("reviewId") reviewId: Int, @Path("commentId") commentId: Int ): Observable<Response<ResponseBody>>
 
     @GET("api/boards/article/me")
     fun getMyArticle() : Observable<Response<List<ArticlePreview>>>

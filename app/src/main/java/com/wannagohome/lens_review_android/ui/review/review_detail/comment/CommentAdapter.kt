@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.ui.article.detail.comment
+package com.wannagohome.lens_review_android.ui.review.review_detail.comment
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -16,13 +16,13 @@ import com.wannagohome.lens_review_android.network.model.comment.Comment
 import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.ui.BottomSheetFragment
 
-class CommentMultiViewAdapter(private val fm: FragmentManager, private val articleCommentViewModel: ArticleCommentViewModel, private val IS_ARTICLE: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+class CommentMultiViewAdapter(private val fm: FragmentManager, private val reviewCommentViewModel: ReviewCommentViewModel, private val IS_REVIEW: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     BottomSheetFragment.OnClickListener,
-    com.wannagohome.lens_review_android.ui.review.review_detail.comment.CommentEditFragment.OnClickListener {
+    CommentEditFragment.OnClickListener, com.wannagohome.lens_review_android.ui.article.detail.comment.CommentEditFragment.OnClickListener {
 
     companion object {
-        const val MAX_CHILDREN_IN_ARTICLE = 3
-        const val ARTICLE_ID = "articleId"
+        const val MAX_CHILDREN_IN_REVIEW = 3
+        const val REVIEW_ID = "reviewId"
         const val COMMENT_ID = "commentId"
         const val COMMENT = 0
         const val INNER_COMMENT = 1
@@ -79,24 +79,24 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
                     show(fm, null)
                 }
             }
-            if (IS_ARTICLE) {
+            if (IS_REVIEW) {
                 itemBinding.comments.setOnClickListener {
                     val intent = Intent(parent.context, CommentActivity::class.java)
-                    intent.putExtra(ARTICLE_ID, comment.postId)
+                    intent.putExtra(REVIEW_ID, comment.postId)
                     intent.putExtra(COMMENT_ID, comment.commentId)
                     parent.context.startActivity(intent)
                 }
             }
             //@todo : let "더 보기" be recyclerview item
-            if (IS_ARTICLE && comment.bundleSize > MAX_CHILDREN_IN_ARTICLE) {
+            if (IS_REVIEW && comment.bundleSize > MAX_CHILDREN_IN_REVIEW) {
                     val nOfComments = String.format(
                         Utils.getString(R.string.show_more_comments),
-                        comment.bundleSize - MAX_CHILDREN_IN_ARTICLE
+                        comment.bundleSize - MAX_CHILDREN_IN_REVIEW
                     )
                     itemBinding.moreComment.text = nOfComments
                     itemBinding.moreComment.setOnClickListener {
                         val intent = Intent(parent.context, CommentActivity::class.java)
-                        intent.putExtra(ARTICLE_ID, comment.postId)
+                        intent.putExtra(REVIEW_ID, comment.postId)
                         intent.putExtra(COMMENT_ID, comment.commentId)
                         parent.context.startActivity(intent)
                     }
@@ -117,7 +117,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
             itemBinding.author.text = comment.author
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
             itemBinding.likes.text = comment.likes.toString()
-            if (IS_ARTICLE) {
+            if (IS_REVIEW) {
                 itemBinding.optionBtn.invisible()
             }
             else{
@@ -133,7 +133,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
     }
 
     override fun onClickDeleteBtn(targetId: Int) {
-        articleCommentViewModel.deleteComment(targetId)
+        reviewCommentViewModel.deleteComment(targetId)
     }
 
     override fun onClickModifyBtn(targetId: Int) {
@@ -149,6 +149,6 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
     }
 
     override fun onClickModifyPostBtn(targetId: Int, content: String) {
-        articleCommentViewModel.modifyComment(targetId, content)
+        reviewCommentViewModel.modifyComment(targetId, content)
     }
 }

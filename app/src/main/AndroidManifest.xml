@@ -32,6 +32,7 @@
         <activity android:name=".ui.lens_detail.LensDetailActivity" />
         <activity android:name=".ui.article.detail.ArticleActivity" />
         <activity android:name=".ui.article.detail.comment.CommentActivity" />
+        <activity android:name=".ui.review.review_detail.comment.CommentActivity" />
         <activity android:name=".ui.MainActivity" />
     </application>
 

@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.ui.article.detail.comment
+package com.wannagohome.lens_review_android.ui.review.review_detail.comment
 
 import android.os.Bundle
 import android.view.View
@@ -18,14 +18,14 @@ import java.util.concurrent.TimeUnit
 class CommentActivity : BaseAppCompatActivity() {
 
     companion object {
-        const val ARTICLE_ID = "articleId"
+        const val REVIEW_ID = "reviewId"
         const val COMMENT_ID = "commentId"
         const val IS_ARTICLE = false
     }
-    private var articleId = -1
+    private var reviewId = -1
     private var commentId = -1
 
-    private val articleCommentViewModel: ArticleCommentViewModel by viewModel {parametersOf(articleId, commentId)}
+    private val reviewCommentViewModel: ReviewCommentViewModel by viewModel {parametersOf(reviewId, commentId)}
     private lateinit var commentAdapter: CommentMultiViewAdapter
     private lateinit var binding: ActivityCommentBinding
 
@@ -37,13 +37,13 @@ class CommentActivity : BaseAppCompatActivity() {
         setContentView(binding.root)
 
         commentId = intent.getIntExtra(COMMENT_ID, -1)
-        articleId = intent.getIntExtra(ARTICLE_ID, -1)
-        if (articleId == -1 || commentId == -1) {
+        reviewId = intent.getIntExtra(REVIEW_ID, -1)
+        if (reviewId == -1 || commentId == -1) {
             //TODO error handling with UI
             finishActivityToRight()
         }
 
-        commentAdapter = CommentMultiViewAdapter(supportFragmentManager, articleCommentViewModel, IS_ARTICLE)
+        commentAdapter = CommentMultiViewAdapter(supportFragmentManager, reviewCommentViewModel, IS_ARTICLE)
 
         initCommentRecyclerView()
 
@@ -58,7 +58,7 @@ class CommentActivity : BaseAppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        articleCommentViewModel.getCommentsByCommentId()
+        reviewCommentViewModel.getCommentsByCommentId()
     }
 
     private fun initCommentRecyclerView() {
@@ -79,7 +79,7 @@ class CommentActivity : BaseAppCompatActivity() {
                     Utils.showToast(getString(R.string.write_need_content))
                     return@subscribe
                 }
-                articleCommentViewModel.postComment(content)
+                reviewCommentViewModel.postComment(content)
             }
     }
 
@@ -93,41 +93,41 @@ class CommentActivity : BaseAppCompatActivity() {
 
     private fun addOnRefreshListener() {
         binding.swiperefresh.setOnRefreshListener {
-            articleCommentViewModel.refreshComment()
+            reviewCommentViewModel.refreshComment()
         }
     }
 
     private fun observeEvent() {
-        articleCommentViewModel.comments.observe(this, {
+        reviewCommentViewModel.comments.observe(this, {
             commentAdapter.commentList = ArrayList(it)
         })
 
-        articleCommentViewModel.refreshSuccess.observe(this, {
+        reviewCommentViewModel.refreshSuccess.observe(this, {
             binding.swiperefresh.isRefreshing = !it
         })
 
-        articleCommentViewModel.postCommentSuccess.observe(this, {
+        reviewCommentViewModel.postCommentSuccess.observe(this, {
             if (it) {
-                articleCommentViewModel.refreshComment()
+                reviewCommentViewModel.refreshComment()
                 binding.commentInput.text.clear()
                 binding.scrollView.fullScroll(View.FOCUS_DOWN)
                 hideKeyboard()
             }
         })
-        articleCommentViewModel.deleteCommentSuccess.observe(this, {
+        reviewCommentViewModel.deleteCommentSuccess.observe(this, {
             if (it) {
-                articleCommentViewModel.refreshComment()
+                reviewCommentViewModel.refreshComment()
                 Utils.showToast(getString(R.string.delete_success))
             }
         })
-        articleCommentViewModel.finishActivity.observe(this, {
+        reviewCommentViewModel.finishActivity.observe(this, {
             if (it) {
                 finishActivityToRight()
             }
         })
-        articleCommentViewModel.modifyCommentSuccess.observe(this, {
+        reviewCommentViewModel.modifyCommentSuccess.observe(this, {
             if (it) {
-                articleCommentViewModel.refreshComment()
+                reviewCommentViewModel.refreshComment()
                 Utils.showToast(getString(R.string.modify_success))
                 hideKeyboard()
             }

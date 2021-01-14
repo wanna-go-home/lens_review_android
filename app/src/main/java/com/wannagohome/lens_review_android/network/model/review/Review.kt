@@ -2,7 +2,7 @@ package com.wannagohome.lens_review_android.network.model.review
 
 import com.google.gson.annotations.SerializedName
 
-data class ReviewPreview(
+data class Review(
     @SerializedName("account")
     val account: String,
 

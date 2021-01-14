@@ -12,9 +12,10 @@ import com.wannagohome.lens_review_android.extension.hideKeyboard
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
+import com.wannagohome.lens_review_android.ui.BottomSheetFragment
 import com.wannagohome.lens_review_android.ui.article.write.WriteArticleActivity
 import com.wannagohome.lens_review_android.ui.article.detail.comment.CommentMultiViewAdapter
-import com.wannagohome.lens_review_android.ui.article.detail.comment.CommentViewModel
+import com.wannagohome.lens_review_android.ui.article.detail.comment.ArticleCommentViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -31,7 +32,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
     private var articleId = -1
     private val commentId = null
     private val articleViewModel: ArticleViewModel by viewModel { parametersOf(articleId) }
-    private val commentViewModel: CommentViewModel by viewModel { parametersOf(articleId, commentId) }
+    private val articleCommentViewModel: ArticleCommentViewModel by viewModel { parametersOf(articleId, commentId) }
     private lateinit var commentAdapter: CommentMultiViewAdapter
     private lateinit var binding: ActivityArticleBinding
 
@@ -66,7 +67,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
     override fun onStart() {
         super.onStart()
         articleViewModel.getArticle()
-        commentViewModel.getCommentsByArticleId()
+        articleCommentViewModel.getCommentsByArticleId()
     }
 
 
@@ -102,7 +103,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
                 if (content.isEmpty()) {
                     Utils.showToast(getString(R.string.write_need_content))
                 } else {
-                    commentViewModel.postComment(content)
+                    articleCommentViewModel.postComment(content)
                 }
             }
     }
@@ -117,7 +118,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
         binding.commentRecyclerView.run {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
-            commentAdapter = CommentMultiViewAdapter(supportFragmentManager, commentViewModel, IS_ARTICLE)
+            commentAdapter = CommentMultiViewAdapter(supportFragmentManager, articleCommentViewModel, IS_ARTICLE)
             adapter = commentAdapter
         }
     }
@@ -131,7 +132,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
             binding.comments.text = it.comments.toString()
             binding.createdAt.text = dateHelper.calcCreatedBefore(it.createdAt)
         })
-        commentViewModel.comments.observe(this, {
+        articleCommentViewModel.comments.observe(this, {
             commentAdapter.commentList = ArrayList(it)
             if (binding.swiperefresh.isRefreshing){
                 binding.swiperefresh.isRefreshing = false
@@ -144,7 +145,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
                 finishActivityToRight()
             }
         })
-        commentViewModel.postCommentSuccess.observe(this, {
+        articleCommentViewModel.postCommentSuccess.observe(this, {
             if (it) {
                 refreshArticle()
                 binding.commentInput.text.clear()
@@ -153,13 +154,13 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
 
             }
         })
-        commentViewModel.deleteCommentSuccess.observe(this, {
+        articleCommentViewModel.deleteCommentSuccess.observe(this, {
             if (it) {
                 refreshArticle()
                 Utils.showToast(getString(R.string.delete_success))
             }
         })
-        commentViewModel.modifyCommentSuccess.observe(this, {
+        articleCommentViewModel.modifyCommentSuccess.observe(this, {
             if (it) {
                 refreshArticle()
                 Utils.showToast(getString(R.string.modify_success))
@@ -170,7 +171,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
     private fun refreshArticle() {
         binding.swiperefresh.isRefreshing = true
         articleViewModel.getArticle()
-        commentViewModel.getCommentsByArticleId()
+        articleCommentViewModel.getCommentsByArticleId()
     }
 
     override fun onBackPressed() {
