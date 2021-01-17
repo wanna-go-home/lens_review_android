@@ -37,7 +37,7 @@ data class ReviewPreview(
     @SerializedName("viewCnt")
     val viewCnt: Int,
 
-    @SerializedName("lensEntity")
+    @SerializedName("lensPreviewEntity")
     val lens: LensPreview
 
 
