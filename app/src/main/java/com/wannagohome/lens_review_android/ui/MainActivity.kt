@@ -6,6 +6,7 @@ import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.wannagohome.lens_review_android.databinding.ActivityMainBinding
 import org.koin.core.KoinComponent
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), KoinComponent {
 

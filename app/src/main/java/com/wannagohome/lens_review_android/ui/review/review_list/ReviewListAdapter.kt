@@ -45,8 +45,8 @@ class ReviewListAdapter : BaseSimpleAdapter<ReviewPreview, ReviewListAdapter.Boo
 
             itemBinding.time.text = reviewPreview.getDateTime()
 
-//            Glide.with(itemView.context).load(reviewPreview.lens.productImages[0])
-//                .into(itemBinding.lensImage)
+            Glide.with(itemView.context).load(reviewPreview.lens.productImages[0])
+                .into(itemBinding.lensImage)
 
 
         }

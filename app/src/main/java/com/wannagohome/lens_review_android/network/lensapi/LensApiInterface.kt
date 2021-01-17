@@ -5,6 +5,7 @@ import com.wannagohome.lens_review_android.network.model.article.*
 import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
 import com.wannagohome.lens_review_android.network.model.review.WriteReviewRequest
 import com.wannagohome.lens_review_android.network.model.user.LoginRequest
+import com.wannagohome.lens_review_android.network.model.user.ModifyNicknameRequest
 import com.wannagohome.lens_review_android.network.model.user.MyInfo
 import com.wannagohome.lens_review_android.network.model.user.SignUpRequest
 import io.reactivex.rxjava3.core.Observable
@@ -81,7 +82,7 @@ interface LensApiInterface {
     fun getMyReview(): Observable<Response<List<ReviewPreview>>>
 
     @PUT("api/user/modify/nickname")
-    fun modifyNickname(@Query("nickname") nickname: String): Observable<Response<ResponseBody>>
+    fun modifyNickname(@Body nickname: ModifyNicknameRequest): Observable<Response<ResponseBody>>
 
 //    @GET("api/boards/review-board/{id}")
 //    fun getReviewById(@Path("id") id : Int) : Observable<Response<DetailedReview>>

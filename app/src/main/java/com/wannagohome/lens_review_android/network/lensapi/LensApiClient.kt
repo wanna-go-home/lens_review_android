@@ -5,6 +5,7 @@ import com.wannagohome.lens_review_android.network.model.article.*
 import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
 import com.wannagohome.lens_review_android.network.model.review.WriteReviewRequest
 import com.wannagohome.lens_review_android.network.model.user.LoginRequest
+import com.wannagohome.lens_review_android.network.model.user.ModifyNicknameRequest
 import com.wannagohome.lens_review_android.network.model.user.MyInfo
 import com.wannagohome.lens_review_android.network.model.user.SignUpRequest
 import com.wannagohome.lens_review_android.support.AccessKeyHelper
@@ -203,7 +204,9 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
     }
 
     fun modifyNickname(nickname: String): Observable<Response<ResponseBody>> {
-        return lensApiInterface.modifyNickname(nickname)
+        val modifyNicknameRequest = ModifyNicknameRequest(nickname)
+
+        return lensApiInterface.modifyNickname(modifyNicknameRequest)
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
