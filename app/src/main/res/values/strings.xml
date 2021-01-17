@@ -114,6 +114,9 @@
     <string name="mypage_leave_dialog_negative">취소</string>
     <string name="mypage_leave_dialog_positive">탈퇴</string>
     <string name="mypage_leave_success_result">회원탈퇴 되었습니다.</string>
+    <string name="mypage_modify_nickname_dialog_title">바꿀 닉네임을 입력하세요</string>
+    <string name="mypage_modify_nickname_confirm">확인</string>
+    <string name="mypage_modify_nickname_cancel">취소</string>
 
     <string name="server_error_message">문제가 발생했어요. 관리자에게 문의해주세요.</string>
 

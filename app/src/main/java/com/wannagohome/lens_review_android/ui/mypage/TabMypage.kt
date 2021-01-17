@@ -54,6 +54,27 @@ class TabMypage : BaseFragment() {
             .subscribe {
                 showLeaveDialog()
             }
+        binding.changeNickname.clicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                showModifyNicknameDialog()
+            }
+
+    }
+
+    private fun showModifyNicknameDialog() {
+        val innerContents = layoutInflater.inflate(R.layout.dialog_modify_nickname, null)
+
+        AlertDialog.Builder(requireContext()).apply {
+            setView(innerContents)
+            setPositiveButton(Utils.getString(R.string.mypage_modify_nickname_confirm)) { dialog, btn ->
+
+            }
+            setNegativeButton(Utils.getString(R.string.mypage_modify_nickname_cancel)) { dialog, btn ->
+                dialog.dismiss()
+            }.show()
+        }
+
 
     }
 
