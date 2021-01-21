@@ -177,11 +177,6 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
         reviewCommentViewModel.getCommentsByReviewId()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        finishActivityToRight()
-    }
-
     override fun onClickDeleteBtn(targetId: Int) {
         reviewDetailViewModel.deleteReview()
     }
@@ -194,5 +189,11 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
 
     override fun onClickReportBtn(targetId: Int) {
         TODO("Not yet implemented")
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        finishActivityToRight()
     }
 }

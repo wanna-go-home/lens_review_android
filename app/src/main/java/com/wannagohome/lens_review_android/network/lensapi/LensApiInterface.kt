@@ -6,6 +6,7 @@ import com.wannagohome.lens_review_android.network.model.comment.Comment
 import com.wannagohome.lens_review_android.network.model.comment.WriteCommentRequest
 import com.wannagohome.lens_review_android.network.model.review.*
 import com.wannagohome.lens_review_android.network.model.user.LoginRequest
+import com.wannagohome.lens_review_android.network.model.user.ModifyNicknameRequest
 import com.wannagohome.lens_review_android.network.model.user.MyInfo
 import com.wannagohome.lens_review_android.network.model.user.SignUpRequest
 import io.reactivex.rxjava3.core.Observable
@@ -39,16 +40,16 @@ interface LensApiInterface {
     @GET("/api/boards/article/{id}/comments")
     fun getCommentsByArticleId(@Path("id") articleId: Int): Observable<Response<List<Comment>>>
 
-    @GET("/api/boards/article/{articleId}/comment/{commentId}")
+    @GET("/api/boards/article/{articleId}/comments/{commentId}")
     fun getArticleCommentsByCommentId(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int): Observable<Response<List<Comment>>>
 
     @POST("api/boards/article/{articleId}/comments")
     fun writeArticleComment(@Path("articleId") articleId: Int, @Body writeCommentRequest: WriteCommentRequest): Observable<Response<ResponseBody>>
 
-    @PUT("api/boards/article/{articleId}/comment/{commentId}")
+    @PUT("api/boards/article/{articleId}/comments/{commentId}")
     fun modifyArticleComment(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int, @Body writeCommentRequest: WriteCommentRequest): Observable<Response<ResponseBody>>
 
-    @DELETE("api/boards/article/{articleId}/comment/{commentId}")
+    @DELETE("api/boards/article/{articleId}/comments/{commentId}")
     fun deleteArticleCommentById(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int ): Observable<Response<ResponseBody>>
 
     @POST("api/user/login")
@@ -64,10 +65,10 @@ interface LensApiInterface {
     fun signUp(@Body signUpRequestRequest: SignUpRequest): Observable<Response<ResponseBody>>
 
     @GET("api/user/me")
-    fun me() : Observable<Response<MyInfo>>
+    fun me(): Observable<Response<MyInfo>>
 
     @DELETE("api/user")
-    fun leave() : Observable<Response<ResponseBody>>
+    fun leave(): Observable<Response<ResponseBody>>
 
     @GET("api/boards/review-board")
     fun getAllReviews(): Observable<Response<List<ReviewPreview>>>
@@ -81,7 +82,7 @@ interface LensApiInterface {
     @GET("/api/boards/review-board/{id}/comments")
     fun getCommentsByReviewId(@Path("id") reviewId: Int): Observable<Response<List<Comment>>>
 
-    @GET("/api/boards/review-board/{reviewId}/comment/{commentId}")
+    @GET("/api/boards/review-board/{reviewId}/comments/{commentId}")
     fun getReviewCommentsByCommentId(@Path("reviewId") reviewId: Int, @Path("commentId") commentId: Int): Observable<Response<List<Comment>>>
 
     @POST("api/boards/review-board")
@@ -90,14 +91,20 @@ interface LensApiInterface {
     @POST("api/boards/review-board/{reviewId}/comments")
     fun writeReviewComment(@Path("reviewId") reviewId: Int, @Body writeCommentRequest: WriteCommentRequest): Observable<Response<ResponseBody>>
 
-    @PUT("api/boards/review-board/{reviewId}/comment/{commentId}")
+    @PUT("api/boards/review-board/{reviewId}/comments/{commentId}")
     fun modifyReviewComment(@Path("reviewId") reviewId: Int, @Path("commentId") commentId: Int, @Body writeCommentRequest: WriteCommentRequest): Observable<Response<ResponseBody>>
 
-    @DELETE("api/boards/review-board/{reviewId}/comment/{commentId}")
+    @DELETE("api/boards/review-board/{reviewId}/comments/{commentId}")
     fun deleteReviewCommentById(@Path("reviewId") reviewId: Int, @Path("commentId") commentId: Int ): Observable<Response<ResponseBody>>
 
     @GET("api/boards/article/me")
-    fun getMyArticle() : Observable<Response<List<ArticlePreview>>>
+    fun getMyArticle(): Observable<Response<List<ArticlePreview>>>
+
+    @GET("api/user/review/me")
+    fun getMyReview(): Observable<Response<List<ReviewPreview>>>
+
+    @PUT("api/user/modify/nickname")
+    fun modifyNickname(@Body nickname: ModifyNicknameRequest): Observable<Response<ResponseBody>>
 
 //    @GET("api/boards/review-board/{id}")
 //    fun getReviewById(@Path("id") id : Int) : Observable<Response<DetailedReview>>

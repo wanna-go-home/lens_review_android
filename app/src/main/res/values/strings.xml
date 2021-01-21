@@ -67,6 +67,7 @@
     <string name="signup_fail_for_server">서버이상으로 회원가입에 실패했어요. 관리자에게 문의해주세요</string>
     <string name="signup_fail_wrong_input">서버이상으로 회원가입에 실패했어요. 관리자에게 문의해주세요 </string>
 
+
     <string name="write_review_title_hint">제목을 입력하세요</string>
     <string name="write_review_content_hint">내용을 입력하세요</string>
     <string name="write_review_write_button">글쓰기</string>
@@ -113,6 +114,11 @@
     <string name="mypage_leave_dialog_negative">취소</string>
     <string name="mypage_leave_dialog_positive">탈퇴</string>
     <string name="mypage_leave_success_result">회원탈퇴 되었습니다.</string>
+    <string name="mypage_modify_nickname_dialog_title">새로운 닉네임을 입력하세요</string>
+    <string name="mypage_modify_nickname_confirm">확인</string>
+    <string name="mypage_modify_nickname_cancel">취소</string>
+
+    <string name="server_error_message">문제가 발생했어요. 관리자에게 문의해주세요.</string>
 
 
     <string name="hashtag">#</string>

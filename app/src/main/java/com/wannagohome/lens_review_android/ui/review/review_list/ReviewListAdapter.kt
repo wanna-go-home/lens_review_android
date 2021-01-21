@@ -36,8 +36,7 @@ class ReviewListAdapter : BaseSimpleAdapter<ReviewPreview, ReviewListAdapter.Boo
 
             itemBinding.reviewContents.text = reviewPreview.content
 
-            //TODO 뷰카운트 반영되면
-            itemBinding.pageviewNum.text = "0"
+            itemBinding.pageviewNum.text = reviewPreview.viewCnt.toString()
 
             itemBinding.commentNum.text = reviewPreview.replyCnt.toString()
 
@@ -47,9 +46,9 @@ class ReviewListAdapter : BaseSimpleAdapter<ReviewPreview, ReviewListAdapter.Boo
 
             itemBinding.time.text = dateHelper.calcCreatedBefore(reviewPreview.createdAt)
 
-            //TODO 이미지 적용되면
-            //Glide.with(itemView.context).load(reviewPreview.
-            //itemBinding.lensImage.
+            Glide.with(itemView.context).load(reviewPreview.lens.productImages[0])
+                .into(itemBinding.lensImage)
+
 
         }
     }

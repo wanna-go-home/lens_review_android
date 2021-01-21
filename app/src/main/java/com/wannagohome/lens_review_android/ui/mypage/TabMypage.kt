@@ -2,17 +2,18 @@ package com.wannagohome.lens_review_android.ui.mypage
 
 import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.R
+import com.wannagohome.lens_review_android.databinding.DialogModifyNicknameBinding
 import com.wannagohome.lens_review_android.databinding.FragmentMypageBinding
 import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseFragment
 import com.wannagohome.lens_review_android.ui.login.LoginActivity
 import com.wannagohome.lens_review_android.ui.mypage.myarticle.MyArticleActivity
+import com.wannagohome.lens_review_android.ui.mypage.myreview.MyReviewActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -26,6 +27,9 @@ class TabMypage : BaseFragment() {
 
     private val mypageViewModel: MypageViewModel by viewModel()
 
+    private lateinit var nicknameModifyDialogContents: DialogModifyNicknameBinding
+    private lateinit var dialogBuilder: AlertDialog.Builder
+    private var visibleDialog: AlertDialog? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMypageBinding.inflate(inflater, container, false)
@@ -37,7 +41,12 @@ class TabMypage : BaseFragment() {
         return binding.root
     }
 
-    private fun initListener(){
+    private fun initListener() {
+        binding.myReviewListMenu.clicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                startActivityFromRight(requireActivity(), MyReviewActivity::class.java)
+            }
         binding.myArticleListMenu.clicks()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -48,8 +57,38 @@ class TabMypage : BaseFragment() {
             .subscribe {
                 showLeaveDialog()
             }
+        binding.changeNickname.clicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                showModifyNicknameDialog()
+            }
 
     }
+
+
+    private fun showModifyNicknameDialog() {
+        nicknameModifyDialogContents = DialogModifyNicknameBinding.inflate(layoutInflater, null, false)
+        nicknameModifyDialogContents.nickname.setText(mypageViewModel.myNickname.value)
+
+        dialogBuilder = AlertDialog.Builder(requireContext()).apply {
+            setView(nicknameModifyDialogContents.root)
+            setPositiveButton(Utils.getString(R.string.mypage_modify_nickname_confirm), null)
+            setNegativeButton(Utils.getString(R.string.mypage_modify_nickname_cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+        }
+
+        visibleDialog = dialogBuilder.show()
+        visibleDialog!!.getButton(AlertDialog.BUTTON_POSITIVE).clicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                val newNickname = nicknameModifyDialogContents.nickname.text.toString()
+
+                mypageViewModel.modifyNickname(newNickname)
+
+            }
+    }
+
     private fun showLeaveDialog() {
         val builder = AlertDialog.Builder(context).apply {
             setTitle(Utils.getString(R.string.mypage_leave_dialog_title))
@@ -80,6 +119,10 @@ class TabMypage : BaseFragment() {
             binding.nickname.text = it
         })
 
+        mypageViewModel.successModifyNickname.observe(viewLifecycleOwner, {
+            visibleDialog?.dismiss()
+        })
+
         mypageViewModel.myCommentCount.observe(viewLifecycleOwner, {
             binding.myCommentCount.text = it.toString()
         })
@@ -90,8 +133,6 @@ class TabMypage : BaseFragment() {
             startActivity(requireActivity(), LoginActivity::class.java)
 
             Utils.showToast(Utils.getString(R.string.mypage_leave_success_result))
-
-
         })
     }
 
