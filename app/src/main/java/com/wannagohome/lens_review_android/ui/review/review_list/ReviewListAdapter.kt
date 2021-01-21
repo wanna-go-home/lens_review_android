@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.wannagohome.lens_review_android.databinding.ReviewListItemBinding
 import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
+import com.wannagohome.lens_review_android.support.UtcHelper
 import com.wannagohome.lens_review_android.support.baseclass.BaseSimpleAdapter
 
 
@@ -43,7 +44,7 @@ class ReviewListAdapter : BaseSimpleAdapter<ReviewPreview, ReviewListAdapter.Boo
 
             itemBinding.reviewWriter.text = reviewPreview.nickname
 
-            itemBinding.time.text = reviewPreview.getDateTime()
+            itemBinding.time.text = UtcHelper.convertUTCtoDateString(reviewPreview.createdAt)
 
             Glide.with(itemView.context).load(reviewPreview.lens.productImages[0])
                 .into(itemBinding.lensImage)
