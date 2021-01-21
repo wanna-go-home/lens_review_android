@@ -9,6 +9,9 @@ data class Review(
     @SerializedName("content")
     val content: String,
 
+    @SerializedName("isAuthor")
+    val isAuthor: Boolean = false,
+
     @SerializedName("createdAt")
     val createdAt: String,
 

@@ -96,7 +96,7 @@
                             android:textColor="@color/board_maintext" />
 
                         <TextView
-                            android:id="@+id/author"
+                            android:id="@+id/nickname"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"

@@ -14,6 +14,7 @@ class ArticleViewModel(private val articleId: Int) : BaseViewModel(), KoinCompon
 
     val article = MutableLiveData<Article>()
     val deleteSuccess = MutableLiveData<Boolean>(false)
+    val reportSuccess = MutableLiveData<Boolean>(false)
 
     private val lensClient: LensApiClient by inject()
 
@@ -37,5 +38,8 @@ class ArticleViewModel(private val articleId: Int) : BaseViewModel(), KoinCompon
             }, {
             })
             .addTo(compositeDisposable)
+    }
+    fun reportArticle() {
+        reportSuccess.value = true
     }
 }

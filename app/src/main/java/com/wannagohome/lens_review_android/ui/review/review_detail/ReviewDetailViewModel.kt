@@ -15,6 +15,7 @@ class ReviewDetailViewModel (private val reviewId: Int): BaseViewModel(), KoinCo
 
     val review = MutableLiveData<Review>()
     val deleteSuccess = MutableLiveData<Boolean>(false)
+    val reportSuccess = MutableLiveData<Boolean>(false)
 
     private val lensClient: LensApiClient by inject()
 
@@ -38,5 +39,8 @@ class ReviewDetailViewModel (private val reviewId: Int): BaseViewModel(), KoinCo
             }, {
             })
             .addTo(compositeDisposable)
+    }
+    fun reportReview(){
+        reportSuccess.value = true
     }
 }

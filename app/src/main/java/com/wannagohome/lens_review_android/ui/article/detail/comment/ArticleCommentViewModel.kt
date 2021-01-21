@@ -17,6 +17,7 @@ class ArticleCommentViewModel(private val articleId: Int, private val parentComm
     val refreshSuccess = MutableLiveData<Boolean>(true)
     val modifyCommentSuccess = MutableLiveData<Boolean>(false)
     val deleteCommentSuccess = MutableLiveData<Boolean>(false)
+    val reportCommentSuccess = MutableLiveData<Boolean>(false)
     val finishActivity = MutableLiveData<Boolean>(false)
 
     fun getCommentsByArticleId() {
@@ -112,5 +113,8 @@ class ArticleCommentViewModel(private val articleId: Int, private val parentComm
 
                 })
         )
+    }
+    fun reportComment() {
+        reportCommentSuccess.value = true
     }
 }

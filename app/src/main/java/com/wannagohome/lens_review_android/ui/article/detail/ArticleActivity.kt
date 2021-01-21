@@ -50,9 +50,6 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
 
         initCommentRecyclerView()
 
-        //@todo : implement isAuthor
-        addDialogListener(articleId, isAuthor = true)
-
         addBackListener()
 
         addCommentPostListener()
@@ -127,10 +124,11 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
         articleViewModel.article.observe(this, {
             binding.articleTitle.text = it.title
             binding.content.text = it.content
-            binding.author.text = it.author
+            binding.nickname.text = it.nickname
             binding.likes.text = it.likes.toString()
             binding.comments.text = it.comments.toString()
             binding.createdAt.text = dateHelper.calcCreatedBefore(it.createdAt)
+            addDialogListener(articleId, it.isAuthor)
         })
         articleCommentViewModel.comments.observe(this, {
             commentAdapter.commentList = ArrayList(it)
@@ -143,6 +141,11 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
             if (it) {
                 Utils.showToast(getString(R.string.delete_success))
                 finishActivityToRight()
+            }
+        })
+        articleViewModel.reportSuccess.observe(this, {
+            if (it) {
+                Utils.showToast(getString(R.string.report_success))
             }
         })
         articleCommentViewModel.postCommentSuccess.observe(this, {
@@ -165,6 +168,12 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
                 refreshArticle()
                 Utils.showToast(getString(R.string.modify_success))
                 hideKeyboard()
+            }
+        })
+        articleCommentViewModel.reportCommentSuccess.observe(this, {
+            if (it) {
+                Timber.d("reported3")
+                Utils.showToast(getString(R.string.report_success))
             }
         })
     }
@@ -190,6 +199,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
     }
 
     override fun onClickReportBtn(targetId: Int) {
-        TODO("Not yet implemented")
+        //todo:  implement report
+        articleViewModel.reportArticle()
     }
 }
