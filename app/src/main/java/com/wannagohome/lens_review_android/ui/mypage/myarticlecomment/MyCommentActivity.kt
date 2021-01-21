@@ -5,10 +5,11 @@ import android.os.Bundle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding4.view.clicks
-import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ActivityMyCommentBinding
-import com.wannagohome.lens_review_android.databinding.ActivityMyReviewBinding
+import com.wannagohome.lens_review_android.network.model.Comment
+import com.wannagohome.lens_review_android.network.model.CommentType
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
+import com.wannagohome.lens_review_android.ui.article.article.ArticleActivity
 import com.wannagohome.lens_review_android.ui.review.review_detail.ReviewDetailActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -16,7 +17,9 @@ class MyCommentActivity : BaseAppCompatActivity() {
 
     lateinit var binding: ActivityMyCommentBinding
 
-    val myCommentViewModel: MyCommentViewModel by viewModel()
+    private val myCommentViewModel: MyCommentViewModel by viewModel()
+
+    private val myCommentAdapter = MyCommentAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,20 +33,28 @@ class MyCommentActivity : BaseAppCompatActivity() {
 
         addListener()
 
+        myCommentViewModel.fetchMyCommentList()
 
     }
-    private fun initRecyclerView(){
-        binding.myCommentRecyclerView.run{
-//            reviewListAdapter.onItemClick = { pos ->
-//                val clickedComment = reviewListAdapter.getItem(pos)
-//
-//                val intent = Intent(context, ReviewDetailActivity::class.java)
-//                intent.putExtra(ReviewDetailActivity.REVIEW_ID, clickedReviewPreview.id)
-//
-//                startActivityFromRight(intent)
-//            }
 
-//            adapter = reviewListAdapter
+    private fun initRecyclerView() {
+        binding.myCommentRecyclerView.run {
+            myCommentAdapter.onItemClick = { pos ->
+                val clickedComment = myCommentAdapter.getItem(pos)
+
+                if(clickedComment.type == CommentType.ARTICLE.typeName){
+                    val intent = Intent(context, ArticleActivity::class.java)
+                    intent.putExtra(ArticleActivity.ARTICLE_ID, clickedComment.postId)
+                    startActivityFromRight(intent)
+                }
+                else if(clickedComment.type == CommentType.REVIEW.typeName){
+                    val intent = Intent(context, ReviewDetailActivity::class.java)
+                    intent.putExtra(ReviewDetailActivity.REVIEW_ID, clickedComment.postId)
+                    startActivityFromRight(intent)
+                }
+            }
+
+            adapter = myCommentAdapter
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
         }
@@ -59,7 +70,7 @@ class MyCommentActivity : BaseAppCompatActivity() {
 
     private fun observeEvents() {
         myCommentViewModel.myCommentList.observe(this, {
-
+            myCommentAdapter.items = it
         })
     }
 

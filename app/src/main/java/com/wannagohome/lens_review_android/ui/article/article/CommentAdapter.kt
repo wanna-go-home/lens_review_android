@@ -85,7 +85,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
 
             itemBinding.comments.setOnClickListener {
                 val intent = Intent(parent.context, CommentActivity::class.java)
-                intent.putExtra(ARTICLE_ID, comment.articleId)
+                intent.putExtra(ARTICLE_ID, comment.postId)
                 intent.putExtra(COMMENT_ID, comment.commentId)
                 parent.context.startActivity(intent)
             }
@@ -106,7 +106,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
                 itemBinding.moreComment.text = nOfComments
                 itemBinding.moreComment.setOnClickListener {
                     val intent = Intent(parent.context, CommentActivity::class.java)
-                    intent.putExtra(ARTICLE_ID, comment.articleId)
+                    intent.putExtra(ARTICLE_ID, comment.postId)
                     intent.putExtra(COMMENT_ID, comment.commentId)
                     parent.context.startActivity(intent)
                 }

@@ -1,10 +1,13 @@
 package com.wannagohome.lens_review_android.ui.mypage.myarticlecomment
 
 import androidx.lifecycle.MutableLiveData
+import com.wannagohome.lens_review_android.extension.addTo
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
 import com.wannagohome.lens_review_android.network.model.Comment
 import com.wannagohome.lens_review_android.support.baseclass.BaseViewModel
 import org.koin.core.inject
+import retrofit2.HttpException
+import timber.log.Timber
 
 class MyCommentViewModel : BaseViewModel() {
 
@@ -13,7 +16,15 @@ class MyCommentViewModel : BaseViewModel() {
     val myCommentList = MutableLiveData<List<Comment>>()
 
     fun fetchMyCommentList() {
+        lensApiClient.getMyComments()
+            .subscribe({
+                val myComments = it.body()
 
+                myCommentList.value = myComments
+            }, {
+                Timber.d(it)
+            })
+            .addTo(compositeDisposable)
     }
 
 }
