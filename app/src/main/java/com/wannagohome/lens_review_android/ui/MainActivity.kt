@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 import com.wannagohome.lens_review_android.databinding.ActivityMainBinding
 import org.koin.core.KoinComponent
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), KoinComponent {
 

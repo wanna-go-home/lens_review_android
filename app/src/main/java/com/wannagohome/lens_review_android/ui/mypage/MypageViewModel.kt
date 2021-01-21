@@ -21,7 +21,9 @@ class MypageViewModel : BaseViewModel() {
 
     val successLeave = MutableLiveData<Boolean>()
 
-    init{
+    val successModifyNickname = MutableLiveData<Boolean>()
+
+    init {
         fetchMyInfo()
     }
 
@@ -44,12 +46,30 @@ class MypageViewModel : BaseViewModel() {
             .addTo(compositeDisposable)
     }
 
-    fun leave(){
+    fun leave() {
         lensApiClient.leave()
             .subscribe({
                 successLeave.value = true
-            },{
+            }, {
 
             }).addTo(compositeDisposable)
+    }
+
+    fun modifyNickname(nickname: String) {
+        if (nickname.isEmpty()) {
+
+            return
+        }
+
+        lensApiClient.modifyNickname(nickname)
+            .doOnNext {
+
+                successModifyNickname.value = true
+            }
+            .subscribe {
+                fetchMyInfo()
+            }
+            .addTo(compositeDisposable)
+
     }
 }
