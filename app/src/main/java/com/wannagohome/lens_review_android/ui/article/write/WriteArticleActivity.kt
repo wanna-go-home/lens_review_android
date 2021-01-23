@@ -1,7 +1,6 @@
 package com.wannagohome.lens_review_android.ui.article.write
 
 import android.os.Bundle
-import android.text.SpannableStringBuilder
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ActivityWriteArticleBinding
@@ -74,8 +73,8 @@ class WriteArticleActivity : BaseAppCompatActivity() {
         })
         if (isModify){
             writeArticleViewModel.article.observe(this, {
-                binding.title.text = SpannableStringBuilder(it.title)
-                binding.content.text = SpannableStringBuilder(it.content)
+                binding.title.setText(it.title)
+                binding.content.setText(it.content)
             })
         }
     }
