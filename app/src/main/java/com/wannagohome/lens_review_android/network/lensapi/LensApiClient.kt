@@ -91,7 +91,7 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
     fun writeArticleComment(articleId: Int, contents: String, bundleId: Int?=null): Observable<Response<ResponseBody>> {
-        val writeCommentRequest = WriteCommentRequest(bundleId, contents)
+        val writeCommentRequest = WriteCommentRequest(contents, bundleId)
 
         return lensApiInterface.writeArticleComment(articleId, writeCommentRequest)
             .subscribeOn(Schedulers.io())
@@ -99,7 +99,7 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
     fun modifyArticleComment(articleId: Int, commentId: Int, contents: String): Observable<Response<ResponseBody>> {
-        val writeCommentRequest = WriteCommentRequest(null, contents)
+        val writeCommentRequest = WriteCommentRequest(contents, null)
 
         return lensApiInterface.modifyArticleComment(articleId, commentId, writeCommentRequest)
             .subscribeOn(Schedulers.io())
@@ -214,7 +214,7 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
     fun writeReviewComment(reviewId: Int, contents: String, bundleId: Int?=null): Observable<Response<ResponseBody>> {
-        val writeCommentRequest = WriteCommentRequest(bundleId, contents)
+        val writeCommentRequest = WriteCommentRequest(contents, bundleId)
 
         return lensApiInterface.writeReviewComment(reviewId, writeCommentRequest)
             .subscribeOn(Schedulers.io())
@@ -222,7 +222,7 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
     fun modifyReviewComment(reviewId: Int, commentId: Int, contents: String): Observable<Response<ResponseBody>> {
-        val writeCommentRequest = WriteCommentRequest(null, contents)
+        val writeCommentRequest = WriteCommentRequest(contents, null)
 
         return lensApiInterface.modifyReviewComment(reviewId, commentId, writeCommentRequest)
             .subscribeOn(Schedulers.io())
