@@ -1,21 +1,20 @@
-package com.wannagohome.lens_review_android.ui.article.article.modify
+package com.wannagohome.lens_review_android.ui.article.write
 
 import androidx.lifecycle.MutableLiveData
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
 import com.wannagohome.lens_review_android.support.baseclass.BaseViewModel
 import com.wannagohome.lens_review_android.extension.addTo
 import com.wannagohome.lens_review_android.network.model.article.Article
-import org.koin.core.KoinComponent
 import org.koin.core.inject
 import retrofit2.HttpException
 import timber.log.Timber
 
-class ModifyArticleViewModel : BaseViewModel(), KoinComponent {
-
-    val article = MutableLiveData<Article>()
+class WriteArticleViewModel(private val articleId: Int): BaseViewModel() {
     private val lensApiClient: LensApiClient by inject()
+    val article = MutableLiveData<Article>()
+    val writeSuccess = MutableLiveData<Boolean>(false)
 
-    fun getArticle(articleId: Int) {
+    fun getArticle() {
         compositeDisposable.add(lensApiClient.getArticleById(articleId).subscribe({
             Timber.d(it.body()?.title)
             article.value = it.body()
@@ -31,10 +30,16 @@ class ModifyArticleViewModel : BaseViewModel(), KoinComponent {
         }))
     }
 
-    val writeSuccess = MutableLiveData<Boolean>(false)
+    fun writeArticle(title: String, contents: String) {
+        lensApiClient.writeArticle(title, contents)
+            .subscribe {
+                writeSuccess.value = true
+            }
+            .addTo(compositeDisposable)
+    }
 
-    fun modifyArticle(id: Int, title: String, contents: String) {
-        lensApiClient.modifyArticle(id, title, contents)
+    fun modifyArticle(title: String, contents: String) {
+        lensApiClient.modifyArticle(articleId, title, contents)
             .subscribe {
                 writeSuccess.value = true
             }

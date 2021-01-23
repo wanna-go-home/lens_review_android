@@ -2,6 +2,9 @@ package com.wannagohome.lens_review_android.network.lensapi
 
 import com.wannagohome.lens_review_android.network.model.*
 import com.wannagohome.lens_review_android.network.model.article.*
+import com.wannagohome.lens_review_android.network.model.comment.Comment
+import com.wannagohome.lens_review_android.network.model.comment.WriteCommentRequest
+import com.wannagohome.lens_review_android.network.model.review.Review
 import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
 import com.wannagohome.lens_review_android.network.model.review.WriteReviewRequest
 import com.wannagohome.lens_review_android.network.model.user.LoginRequest
@@ -81,34 +84,31 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getCommentsByCommentId(articleId: Int, commentId: Int): Observable<Response<List<Comment>>> {
-        return lensApiInterface.getCommentsByCommentId(articleId, commentId)
+    fun getArticleCommentsByCommentId(articleId: Int, commentId: Int): Observable<Response<List<Comment>>> {
+        return lensApiInterface.getArticleCommentsByCommentId(articleId, commentId)
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
+    fun writeArticleComment(articleId: Int, contents: String, bundleId: Int?=null): Observable<Response<ResponseBody>> {
+        val writeCommentRequest = WriteCommentRequest(contents, bundleId)
 
-    fun writeComment(articleId: Int, contents: String, bundleId: Int? = null): Observable<Response<ResponseBody>> {
-        val writeCommentRequest = WriteCommentRequest(bundleId, contents)
-
-        return lensApiInterface.writeComment(articleId, writeCommentRequest)
+        return lensApiInterface.writeArticleComment(articleId, writeCommentRequest)
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
+    fun modifyArticleComment(articleId: Int, commentId: Int, contents: String): Observable<Response<ResponseBody>> {
+        val writeCommentRequest = WriteCommentRequest(contents, null)
 
-    fun modifyComment(articleId: Int, commentId: Int, contents: String): Observable<Response<ResponseBody>> {
-        val writeCommentRequest = WriteCommentRequest(null, contents)
-
-        return lensApiInterface.modifyComment(articleId, commentId, writeCommentRequest)
+        return lensApiInterface.modifyArticleComment(articleId, commentId, writeCommentRequest)
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
+    fun deleteArticleCommentById(articleId: Int, commentId: Int): Observable<Response<ResponseBody>> {
 
-    fun deleteCommentById(articleId: Int, commentId: Int): Observable<Response<ResponseBody>> {
-
-        return lensApiInterface.deleteCommentById(articleId, commentId)
+        return lensApiInterface.deleteArticleCommentById(articleId, commentId)
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
@@ -179,6 +179,19 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    fun getReviewById(reviewId: Int): Observable<Response<Review>> {
+        return lensApiInterface.getReviewById(reviewId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun deleteReviewById(reviewId: Int): Observable<Response<ResponseBody>> {
+        return lensApiInterface.deleteReviewById(reviewId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
     fun writeReview(title: String, content: String, lensId: Int): Observable<Response<ResponseBody>> {
 
         val writeReviewRequest = WriteReviewRequest(title, content, lensId)
@@ -188,7 +201,41 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
+    fun getReviewCommentsByCommentId(reviewId: Int, commentId: Int): Observable<Response<List<Comment>>> {
+        return lensApiInterface.getReviewCommentsByCommentId(reviewId, commentId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+    fun getCommentsByReviewId(reviewId: Int): Observable<Response<List<Comment>>> {
+        return lensApiInterface.getCommentsByReviewId(reviewId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+    fun writeReviewComment(reviewId: Int, contents: String, bundleId: Int?=null): Observable<Response<ResponseBody>> {
+        val writeCommentRequest = WriteCommentRequest(contents, bundleId)
 
+        return lensApiInterface.writeReviewComment(reviewId, writeCommentRequest)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+    fun modifyReviewComment(reviewId: Int, commentId: Int, contents: String): Observable<Response<ResponseBody>> {
+        val writeCommentRequest = WriteCommentRequest(contents, null)
+
+        return lensApiInterface.modifyReviewComment(reviewId, commentId, writeCommentRequest)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+    fun deleteReviewCommentById(reviewId: Int, commentId: Int): Observable<Response<ResponseBody>> {
+
+        return lensApiInterface.deleteReviewCommentById(reviewId, commentId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
     fun getMyArticle(): Observable<Response<List<ArticlePreview>>> {
         return lensApiInterface.getMyArticle()
             .subscribeOn(Schedulers.io())

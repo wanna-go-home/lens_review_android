@@ -1,7 +1,6 @@
-package com.wannagohome.lens_review_android.ui.article.article
+package com.wannagohome.lens_review_android.ui.review.review_detail.comment
 
 import android.os.Bundle
-import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.databinding.FragmentEditCommentBinding
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
-
 
 class CommentEditFragment : DialogFragment() {
     companion object {
@@ -48,7 +46,7 @@ class CommentEditFragment : DialogFragment() {
         arguments?.getString(CONTENT)?.let {
             content = it
         }
-        binding.content.text = SpannableStringBuilder(content)
+        binding.content.setText(content)
         return binding.root
     }
 

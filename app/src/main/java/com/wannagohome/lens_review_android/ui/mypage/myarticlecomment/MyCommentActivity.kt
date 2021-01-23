@@ -6,10 +6,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.databinding.ActivityMyCommentBinding
-import com.wannagohome.lens_review_android.network.model.Comment
-import com.wannagohome.lens_review_android.network.model.CommentType
+import com.wannagohome.lens_review_android.network.model.comment.CommentType
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
-import com.wannagohome.lens_review_android.ui.article.article.ArticleActivity
+import com.wannagohome.lens_review_android.ui.article.detail.ArticleActivity
 import com.wannagohome.lens_review_android.ui.review.review_detail.ReviewDetailActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

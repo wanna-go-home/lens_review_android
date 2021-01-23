@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ItemMyCommentBinding
-import com.wannagohome.lens_review_android.network.model.Comment
-import com.wannagohome.lens_review_android.network.model.CommentType
+import com.wannagohome.lens_review_android.network.model.comment.CommentType
 import com.wannagohome.lens_review_android.support.UtcHelper
+import com.wannagohome.lens_review_android.network.model.comment.Comment
 import com.wannagohome.lens_review_android.support.baseclass.BaseSimpleAdapter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 

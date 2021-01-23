@@ -83,7 +83,7 @@
     <string name="write_review_empty_contents">내용을 입력해주세요</string>
     <string name="write_review_title">리뷰 작성하기</string>
 
-    <string name="title_activity_wrtie_article">wrtie_article</string>
+    <string name="free_board">자유게시판</string>
     <string name="write_need_content">내용을 입력해주세요</string>
 
     <string name="child_comment_hint">대댓글을 남겨주세요</string>
@@ -119,5 +119,8 @@
     <string name="mypage_modify_nickname_cancel">취소</string>
 
     <string name="server_error_message">문제가 발생했어요. 관리자에게 문의해주세요.</string>
+
+
+    <string name="hashtag">#</string>
 
 </resources>

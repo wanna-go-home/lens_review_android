@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.ui.article.article.comment
+package com.wannagohome.lens_review_android.ui.review.review_detail.comment
 
 import android.os.Bundle
 import android.view.View
@@ -18,13 +18,14 @@ import java.util.concurrent.TimeUnit
 class CommentActivity : BaseAppCompatActivity() {
 
     companion object {
-        const val ARTICLE_ID = "articleId"
+        const val REVIEW_ID = "reviewId"
         const val COMMENT_ID = "commentId"
+        const val IS_ARTICLE = false
     }
-    private var articleId = -1
+    private var reviewId = -1
     private var commentId = -1
 
-    private val commentViewModel: CommentViewModel by viewModel {parametersOf(articleId, commentId)}
+    private val reviewCommentViewModel: ReviewCommentViewModel by viewModel {parametersOf(reviewId, commentId)}
     private lateinit var commentAdapter: CommentMultiViewAdapter
     private lateinit var binding: ActivityCommentBinding
 
@@ -36,12 +37,13 @@ class CommentActivity : BaseAppCompatActivity() {
         setContentView(binding.root)
 
         commentId = intent.getIntExtra(COMMENT_ID, -1)
-        articleId = intent.getIntExtra(ARTICLE_ID, -1)
-        if (articleId == -1 || commentId == -1) {
+        reviewId = intent.getIntExtra(REVIEW_ID, -1)
+        if (reviewId == -1 || commentId == -1) {
             //TODO error handling with UI
+            finishActivityToRight()
         }
 
-        commentAdapter = CommentMultiViewAdapter(supportFragmentManager, commentViewModel)
+        commentAdapter = CommentMultiViewAdapter(supportFragmentManager, reviewCommentViewModel, IS_ARTICLE)
 
         initCommentRecyclerView()
 
@@ -56,7 +58,7 @@ class CommentActivity : BaseAppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        commentViewModel.getComments()
+        reviewCommentViewModel.getCommentsByCommentId()
     }
 
     private fun initCommentRecyclerView() {
@@ -77,7 +79,7 @@ class CommentActivity : BaseAppCompatActivity() {
                     Utils.showToast(getString(R.string.write_need_content))
                     return@subscribe
                 }
-                commentViewModel.postComment(content)
+                reviewCommentViewModel.postComment(content)
             }
     }
 
@@ -91,34 +93,43 @@ class CommentActivity : BaseAppCompatActivity() {
 
     private fun addOnRefreshListener() {
         binding.swiperefresh.setOnRefreshListener {
-            commentViewModel.refreshComment()
+            reviewCommentViewModel.refreshComment()
         }
     }
 
     private fun observeEvent() {
-        commentViewModel.comments.observe(this, {
+        reviewCommentViewModel.comments.observe(this, {
             commentAdapter.commentList = ArrayList(it)
         })
 
-        commentViewModel.refreshSuccess.observe(this, {
+        reviewCommentViewModel.refreshSuccess.observe(this, {
             binding.swiperefresh.isRefreshing = !it
         })
 
-        commentViewModel.postCommentSuccess.observe(this, {
+        reviewCommentViewModel.postCommentSuccess.observe(this, {
             if (it) {
+                reviewCommentViewModel.refreshComment()
                 binding.commentInput.text.clear()
                 binding.scrollView.fullScroll(View.FOCUS_DOWN)
                 hideKeyboard()
             }
         })
-        commentViewModel.deleteCommentSuccess.observe(this, {
+        reviewCommentViewModel.deleteCommentSuccess.observe(this, {
             if (it) {
+                reviewCommentViewModel.refreshComment()
                 Utils.showToast(getString(R.string.delete_success))
             }
         })
-        commentViewModel.modifyCommentSuccess.observe(this, {
+        reviewCommentViewModel.finishActivity.observe(this, {
             if (it) {
+                finishActivityToRight()
+            }
+        })
+        reviewCommentViewModel.modifyCommentSuccess.observe(this, {
+            if (it) {
+                reviewCommentViewModel.refreshComment()
                 Utils.showToast(getString(R.string.modify_success))
+                hideKeyboard()
             }
         })
     }

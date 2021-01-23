@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.ui.article.article
+package com.wannagohome.lens_review_android.ui.article.detail
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,9 +12,13 @@ import com.wannagohome.lens_review_android.extension.hideKeyboard
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
-import com.wannagohome.lens_review_android.ui.article.article.modify.ModifyArticleActivity
+import com.wannagohome.lens_review_android.ui.BottomSheetFragment
+import com.wannagohome.lens_review_android.ui.article.write.WriteArticleActivity
+import com.wannagohome.lens_review_android.ui.article.detail.comment.CommentMultiViewAdapter
+import com.wannagohome.lens_review_android.ui.article.detail.comment.ArticleCommentViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -22,9 +26,13 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
 
     companion object {
         const val ARTICLE_ID = "articleId"
+        const val IS_ARTICLE = true
     }
 
-    private val articleViewModel: ArticleViewModel by viewModel()
+    private var articleId = -1
+    private val commentId = null
+    private val articleViewModel: ArticleViewModel by viewModel { parametersOf(articleId) }
+    private val articleCommentViewModel: ArticleCommentViewModel by viewModel { parametersOf(articleId, commentId) }
     private lateinit var commentAdapter: CommentMultiViewAdapter
     private lateinit var binding: ActivityArticleBinding
 
@@ -34,36 +42,32 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
         binding = ActivityArticleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val articleId = intent.getIntExtra(ARTICLE_ID, -1)
+        articleId = intent.getIntExtra(ARTICLE_ID, -1)
         if (articleId == -1) {
             Timber.d("article Id $articleId")
             //TODO error handling with UI
         }
 
-        initCommentRecyclerView(articleId)
+        initCommentRecyclerView()
 
         //@todo : implement isAuthor
         addDialogListener(articleId, isAuthor = true)
 
         addBackListener()
 
-        addCommentPostListener(articleId)
+        addCommentPostListener()
 
-        addOnRefreshListener(articleId)
+        addOnRefreshListener()
 
         addGoToBottomListener()
 
-        observeEvent(articleId)
+        observeEvent()
     }
 
     override fun onStart() {
         super.onStart()
-        val articleId = intent.getIntExtra(ARTICLE_ID, -1)
-        if (articleId == -1) {
-            //TODO error handling with UI
-        }
-        articleViewModel.getArticle(articleId)
-        articleViewModel.getComments(articleId)
+        articleViewModel.getArticle()
+        articleCommentViewModel.getCommentsByArticleId()
     }
 
 
@@ -90,7 +94,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
             }
     }
 
-    private fun addCommentPostListener(articleId: Int) {
+    private fun addCommentPostListener() {
         binding.writeBtn.clicks()
             .observeOn(AndroidSchedulers.mainThread())
             .throttleFirst(300, TimeUnit.MILLISECONDS)
@@ -99,29 +103,28 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
                 if (content.isEmpty()) {
                     Utils.showToast(getString(R.string.write_need_content))
                 } else {
-                    articleViewModel.postComment(articleId, content)
+                    articleCommentViewModel.postComment(content)
                 }
             }
     }
 
-    private fun addOnRefreshListener(articleId: Int) {
+    private fun addOnRefreshListener() {
         binding.swiperefresh.setOnRefreshListener {
-            articleViewModel.refreshArticle(articleId)
+            refreshArticle()
         }
     }
 
-    private fun initCommentRecyclerView(articleId: Int) {
+    private fun initCommentRecyclerView() {
         binding.commentRecyclerView.run {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
-            commentAdapter = CommentMultiViewAdapter(supportFragmentManager, articleViewModel, articleId)
+            commentAdapter = CommentMultiViewAdapter(supportFragmentManager, articleCommentViewModel, IS_ARTICLE)
             adapter = commentAdapter
         }
     }
 
-    private fun observeEvent(articleId: Int) {
+    private fun observeEvent() {
         articleViewModel.article.observe(this, {
-
             binding.articleTitle.text = it.title
             binding.content.text = it.content
             binding.author.text = it.author
@@ -129,12 +132,11 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
             binding.comments.text = it.comments.toString()
             binding.createdAt.text = dateHelper.calcCreatedBefore(it.createdAt)
         })
-        articleViewModel.comments.observe(this, {
+        articleCommentViewModel.comments.observe(this, {
             commentAdapter.commentList = ArrayList(it)
-        })
-
-        articleViewModel.refreshSuccess.observe(this, {
-                binding.swiperefresh.isRefreshing = !it
+            if (binding.swiperefresh.isRefreshing){
+                binding.swiperefresh.isRefreshing = false
+            }
         })
 
         articleViewModel.deleteSuccess.observe(this, {
@@ -143,25 +145,33 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
                 finishActivityToRight()
             }
         })
-        articleViewModel.postCommentSuccess.observe(this, {
+        articleCommentViewModel.postCommentSuccess.observe(this, {
             if (it) {
+                refreshArticle()
                 binding.commentInput.text.clear()
                 binding.scrollView.fullScroll(View.FOCUS_DOWN)
                 hideKeyboard()
 
             }
         })
-        articleViewModel.deleteCommentSuccess.observe(this, {
+        articleCommentViewModel.deleteCommentSuccess.observe(this, {
             if (it) {
+                refreshArticle()
                 Utils.showToast(getString(R.string.delete_success))
             }
         })
-        articleViewModel.modifyCommentSuccess.observe(this, {
+        articleCommentViewModel.modifyCommentSuccess.observe(this, {
             if (it) {
+                refreshArticle()
                 Utils.showToast(getString(R.string.modify_success))
                 hideKeyboard()
             }
         })
+    }
+    private fun refreshArticle() {
+        binding.swiperefresh.isRefreshing = true
+        articleViewModel.getArticle()
+        articleCommentViewModel.getCommentsByArticleId()
     }
 
     override fun onBackPressed() {
@@ -170,11 +180,11 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
     }
 
     override fun onClickDeleteBtn(targetId: Int) {
-        articleViewModel.deleteArticle(targetId)
+        articleViewModel.deleteArticle()
     }
 
     override fun onClickModifyBtn(targetId: Int) {
-        val intent = Intent(this@ArticleActivity, ModifyArticleActivity::class.java)
+        val intent = Intent(this@ArticleActivity, WriteArticleActivity::class.java)
         intent.putExtra(ARTICLE_ID, targetId)
         startActivity(intent)
     }

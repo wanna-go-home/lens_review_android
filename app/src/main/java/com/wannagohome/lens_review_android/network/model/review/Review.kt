@@ -1,9 +1,8 @@
 package com.wannagohome.lens_review_android.network.model.review
 
 import com.google.gson.annotations.SerializedName
-import com.wannagohome.lens_review_android.network.model.LensPreview
 
-data class ReviewPreview(
+data class Review(
     @SerializedName("account")
     val account: String,
 
@@ -29,12 +28,6 @@ data class ReviewPreview(
     val replyCnt: Int,
 
     @SerializedName("title")
-    val title: String,
-
-    @SerializedName("viewCnt")
-    val viewCnt: Int,
-
-    @SerializedName("lensPreviewEntity")
-    val lens: LensPreview
+    val title: String
 
 )

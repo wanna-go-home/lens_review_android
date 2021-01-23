@@ -1,7 +1,6 @@
-package com.wannagohome.lens_review_android.ui.article.article.write
+package com.wannagohome.lens_review_android.ui.article.write
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ActivityWriteArticleBinding
@@ -9,11 +8,17 @@ import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import java.util.concurrent.TimeUnit
 
 class WriteArticleActivity : BaseAppCompatActivity() {
 
-    private val writeArticleViewModel: WriteArticleViewModel by viewModel()
+    companion object {
+        const val ARTICLE_ID = "articleId"
+    }
+    private var articleId = -1
+    private var isModify = false
+    private val writeArticleViewModel: WriteArticleViewModel by viewModel { parametersOf(articleId) }
 
     private lateinit var binding: ActivityWriteArticleBinding
 
@@ -22,6 +27,19 @@ class WriteArticleActivity : BaseAppCompatActivity() {
         binding = ActivityWriteArticleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        articleId = intent.getIntExtra(ARTICLE_ID, -1)
+        if (articleId != -1) {
+            isModify = true
+        }
+
+        setOnclickListener()
+
+        observeEvent()
+
+        writeArticleViewModel.getArticle()
+    }
+
+    private fun setOnclickListener(){
         binding.backBtn.clicks()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -38,19 +56,30 @@ class WriteArticleActivity : BaseAppCompatActivity() {
                     Utils.showToast(getString(R.string.write_need_content))
                     return@subscribe
                 }
-                writeArticleViewModel.writeArticle(title, content)
+                if (isModify){
+                    writeArticleViewModel.modifyArticle(title, content)
+                }
+                else{
+                    writeArticleViewModel.writeArticle(title, content)
+                }
             }
 
+    }
+    private fun observeEvent() {
         writeArticleViewModel.writeSuccess.observe(this, {
             if (it) {
                 finishActivityToRight()
             }
         })
+        if (isModify){
+            writeArticleViewModel.article.observe(this, {
+                binding.title.setText(it.title)
+                binding.content.setText(it.content)
+            })
+        }
     }
     override fun onBackPressed() {
         super.onBackPressed()
-
         finishActivityToRight()
-
     }
 }
