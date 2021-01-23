@@ -10,7 +10,7 @@ import com.wannagohome.lens_review_android.databinding.ChildCommentListItemBindi
 import com.wannagohome.lens_review_android.databinding.CommentListItemBinding
 import com.wannagohome.lens_review_android.extension.invisible
 import com.wannagohome.lens_review_android.extension.visible
-import com.wannagohome.lens_review_android.network.model.article.Comment
+import com.wannagohome.lens_review_android.network.model.Comment
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.support.Utils.getString
 import com.wannagohome.lens_review_android.ui.article.article.comment.CommentActivity
@@ -85,7 +85,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
 
             itemBinding.comments.setOnClickListener {
                 val intent = Intent(parent.context, CommentActivity::class.java)
-                intent.putExtra(ARTICLE_ID, comment.articleId)
+                intent.putExtra(ARTICLE_ID, comment.postId)
                 intent.putExtra(COMMENT_ID, comment.commentId)
                 parent.context.startActivity(intent)
             }
@@ -106,7 +106,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
                 itemBinding.moreComment.text = nOfComments
                 itemBinding.moreComment.setOnClickListener {
                     val intent = Intent(parent.context, CommentActivity::class.java)
-                    intent.putExtra(ARTICLE_ID, comment.articleId)
+                    intent.putExtra(ARTICLE_ID, comment.postId)
                     intent.putExtra(COMMENT_ID, comment.commentId)
                     parent.context.startActivity(intent)
                 }

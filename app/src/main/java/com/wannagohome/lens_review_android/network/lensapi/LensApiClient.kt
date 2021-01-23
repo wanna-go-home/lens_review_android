@@ -203,6 +203,13 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    fun getMyComments(): Observable<Response<List<Comment>>>{
+        return lensApiInterface.getMyComments()
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
     fun modifyNickname(nickname: String): Observable<Response<ResponseBody>> {
         val modifyNicknameRequest = ModifyNicknameRequest(nickname)
 

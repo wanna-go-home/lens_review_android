@@ -1,4 +1,4 @@
-package com.wannagohome.lens_review_android.network.model.article
+package com.wannagohome.lens_review_android.network.model
 
 import com.google.gson.annotations.SerializedName
 
@@ -10,7 +10,7 @@ data class Comment(
     val author: String = "",
 
     @SerializedName("postId")
-    val articleId: Int = 0,
+    val postId: Int = 0,
 
     @SerializedName("content")
     val content: String = "",
@@ -19,7 +19,7 @@ data class Comment(
     val likes: Int = 0,
 
     @SerializedName("createdAt")
-    val createdAt:  String = "",
+    val createdAt: String = "",
 
     @SerializedName("depth")
     val depth: Int = 0,
@@ -28,6 +28,8 @@ data class Comment(
     val bundleId: Int = 0,
 
     @SerializedName("bundleSize")
-    val bundleSize: Int = 0
+    val bundleSize: Int = 0,
 
+    @SerializedName("type")
+    val type: String
 )
