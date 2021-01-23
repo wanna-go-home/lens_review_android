@@ -103,6 +103,9 @@ interface LensApiInterface {
     @GET("api/user/review/me")
     fun getMyReview(): Observable<Response<List<ReviewPreview>>>
 
+    @GET("api/user/comments/me")
+    fun getMyComments(): Observable<Response<List<Comment>>>
+
     @PUT("api/user/modify/nickname")
     fun modifyNickname(@Body nickname: ModifyNicknameRequest): Observable<Response<ResponseBody>>
 

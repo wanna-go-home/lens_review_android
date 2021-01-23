@@ -1,7 +1,6 @@
 package com.wannagohome.lens_review_android.ui.review.review_detail.comment
 
 import android.os.Bundle
-import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +46,7 @@ class CommentEditFragment : DialogFragment() {
         arguments?.getString(CONTENT)?.let {
             content = it
         }
-        binding.content.text = SpannableStringBuilder(content)
+        binding.content.setText(content)
         return binding.root
     }
 
