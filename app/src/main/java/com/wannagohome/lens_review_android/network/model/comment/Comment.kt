@@ -19,7 +19,7 @@ data class Comment(
     val likes: Int = 0,
 
     @SerializedName("createdAt")
-    val createdAt:  String = "",
+    val createdAt: String = "",
 
     @SerializedName("depth")
     val depth: Int = 0,
@@ -28,6 +28,8 @@ data class Comment(
     val bundleId: Int = 0,
 
     @SerializedName("bundleSize")
-    val bundleSize: Int = 0
+    val bundleSize: Int = 0,
 
+    @SerializedName("type")
+    val type: String
 )

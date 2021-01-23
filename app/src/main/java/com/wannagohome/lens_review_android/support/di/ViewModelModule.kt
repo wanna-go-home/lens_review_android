@@ -9,6 +9,7 @@ import com.wannagohome.lens_review_android.ui.lens_detail.LensDetailViewModel
 import com.wannagohome.lens_review_android.ui.login.LoginViewModel
 import com.wannagohome.lens_review_android.ui.mypage.MypageViewModel
 import com.wannagohome.lens_review_android.ui.mypage.myarticle.MyArticleViewModel
+import com.wannagohome.lens_review_android.ui.mypage.myarticlecomment.MyCommentViewModel
 import com.wannagohome.lens_review_android.ui.mypage.myreview.MyReviewViewModel
 import com.wannagohome.lens_review_android.ui.review.review_detail.ReviewDetailViewModel
 import com.wannagohome.lens_review_android.ui.review.review_list.ReviewPreviewViewModel
@@ -42,6 +43,6 @@ val viewModelModule = module {
     viewModel { MypageViewModel() }
     viewModel { MyArticleViewModel() }
     viewModel { SelectLensViewModel() }
-
+    viewModel { MyCommentViewModel() }
     viewModel { MyReviewViewModel() }
 }
