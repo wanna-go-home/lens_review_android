@@ -2,9 +2,13 @@ package com.wannagohome.lens_review_android.ui.mypage.myarticlecomment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding4.view.clicks
+import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ItemMyCommentBinding
+import com.wannagohome.lens_review_android.network.model.comment.CommentType
+import com.wannagohome.lens_review_android.support.UtcHelper
 import com.wannagohome.lens_review_android.network.model.comment.Comment
 import com.wannagohome.lens_review_android.support.baseclass.BaseSimpleAdapter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -30,8 +34,19 @@ class MyCommentAdapter : BaseSimpleAdapter<Comment, MyCommentAdapter.CommentView
         }
 
         fun bind(comment: Comment) {
+            if(comment.type == CommentType.ARTICLE.typeName){
+                val drawable = ContextCompat.getDrawable(itemView.context, R.drawable.ic_my_comment_article)
+                itemBinding.typeImage.setImageDrawable(drawable)
+
+            }
+            else if(comment.type == CommentType.REVIEW.typeName){
+                val drawable = ContextCompat.getDrawable(itemView.context, R.drawable.ic_my_comment_review)
+                itemBinding.typeImage.setImageDrawable(drawable)
+            }
+
             itemBinding.comment.text = comment.content
 
+            itemBinding.commentDate.text = UtcHelper.convertUTCtoDateString(comment.createdAt)
         }
     }
 }
