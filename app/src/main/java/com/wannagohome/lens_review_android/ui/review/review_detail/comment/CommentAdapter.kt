@@ -14,6 +14,7 @@ import com.wannagohome.lens_review_android.extension.invisible
 import com.wannagohome.lens_review_android.extension.visible
 import com.wannagohome.lens_review_android.network.model.comment.Comment
 import com.wannagohome.lens_review_android.support.Utils
+import com.wannagohome.lens_review_android.support.Utils.getString
 import com.wannagohome.lens_review_android.ui.BottomSheetFragment
 
 class CommentMultiViewAdapter(private val fm: FragmentManager, private val reviewCommentViewModel: ReviewCommentViewModel, private val IS_REVIEW: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
@@ -69,12 +70,12 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
         fun bind(comment: Comment) {
             currentComment = comment
             itemBinding.content.text = comment.content
-            itemBinding.author.text = comment.author
+            itemBinding.nickname.text = comment.nickname
             itemBinding.likes.text = comment.likes.toString()
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
 
             itemBinding.moreImg.setOnClickListener {
-                BottomSheetFragment.newInstance(comment.commentId, true).run{
+                BottomSheetFragment.newInstance(comment.commentId, comment.isAuthor).run{
                     setOnClickListener(this@CommentMultiViewAdapter)
                     show(fm, null)
                 }
@@ -90,7 +91,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
             //@todo : let "더 보기" be recyclerview item
             if (IS_REVIEW && comment.bundleSize > MAX_CHILDREN_IN_REVIEW) {
                     val nOfComments = String.format(
-                        Utils.getString(R.string.show_more_comments),
+                        getString(R.string.show_more_comments),
                         comment.bundleSize - MAX_CHILDREN_IN_REVIEW
                     )
                     itemBinding.moreComment.text = nOfComments
@@ -114,7 +115,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
         fun bind(comment: Comment) {
             currentComment = comment
             itemBinding.content.text = comment.content
-            itemBinding.author.text = comment.author
+            itemBinding.nickname.text = comment.nickname
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
             itemBinding.likes.text = comment.likes.toString()
             if (IS_REVIEW) {
@@ -122,7 +123,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
             }
             else{
                 itemBinding.optionBtn.setOnClickListener {
-                    BottomSheetFragment.newInstance(comment.commentId, true).run{
+                    BottomSheetFragment.newInstance(comment.commentId, comment.isAuthor).run{
                         setOnClickListener(this@CommentMultiViewAdapter)
                         show(fm, null)
                     }
@@ -145,7 +146,8 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
     }
 
     override fun onClickReportBtn(targetId: Int) {
-        TODO("Not yet implemented")
+        //todo:  implement report
+        reviewCommentViewModel.reportComment()
     }
 
     override fun onClickModifyPostBtn(targetId: Int, content: String) {

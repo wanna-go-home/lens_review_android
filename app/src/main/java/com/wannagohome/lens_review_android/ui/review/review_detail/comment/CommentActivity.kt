@@ -132,6 +132,11 @@ class CommentActivity : BaseAppCompatActivity() {
                 hideKeyboard()
             }
         })
+        reviewCommentViewModel.modifyCommentSuccess.observe(this, {
+            if (it) {
+                Utils.showToast(getString(R.string.report_success))
+            }
+        })
     }
 
     override fun onBackPressed() {

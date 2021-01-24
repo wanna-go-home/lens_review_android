@@ -120,6 +120,11 @@ class CommentActivity : BaseAppCompatActivity() {
                 Utils.showToast(getString(R.string.delete_success))
             }
         })
+        articleCommentViewModel.reportCommentSuccess.observe(this, {
+            if (it) {
+                Utils.showToast(getString(R.string.report_success))
+            }
+        })
         articleCommentViewModel.finishActivity.observe(this, {
             if (it) {
                 finishActivityToRight()

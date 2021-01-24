@@ -7,7 +7,10 @@ data class Article(
     val articleId: Int = 0,
 
     @SerializedName("nickname")
-    val author: String = "",
+    val nickname: String = "",
+
+    @SerializedName("isAuthor")
+    val isAuthor: Boolean = false,
 
     @SerializedName("title")
     val title: String = "",

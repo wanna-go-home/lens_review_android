@@ -53,9 +53,6 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
         }
         initCommentRecyclerView()
 
-        //@todo : implement isAuthor
-        addDialogListener(reviewId, isAuthor = true)
-
         addBackListener()
 
         addCommentPostListener()
@@ -134,6 +131,8 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
             binding.likeNum.text = it.likeCnt.toString()
             binding.commentNum.text = it.replyCnt.toString()
             binding.time.text = dateHelper.calcCreatedBefore(it.createdAt)
+
+            addDialogListener(reviewId, it.isAuthor)
         })
         reviewCommentViewModel.comments.observe(this, {
             commentAdapter.commentList = ArrayList(it)
@@ -146,6 +145,11 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
             if (it) {
                 Utils.showToast(getString(R.string.delete_success))
                 finishActivityToRight()
+            }
+        })
+        reviewDetailViewModel.reportSuccess.observe(this, {
+            if (it) {
+                Utils.showToast(getString(R.string.report_success))
             }
         })
         reviewCommentViewModel.postCommentSuccess.observe(this, {
@@ -170,6 +174,11 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
                 hideKeyboard()
             }
         })
+        reviewCommentViewModel.reportCommentSuccess.observe(this, {
+            if (it) {
+                Utils.showToast(getString(R.string.report_success))
+            }
+        })
     }
     private fun refreshreview() {
         binding.swiperefresh.isRefreshing = true
@@ -188,7 +197,8 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
     }
 
     override fun onClickReportBtn(targetId: Int) {
-        TODO("Not yet implemented")
+        //todo:  implement report
+        reviewDetailViewModel.reportReview()
     }
 
     override fun onBackPressed() {

@@ -33,7 +33,7 @@ class ArticleListAdapter : BaseSimpleAdapter<ArticlePreview, ArticleListAdapter.
         fun bind(article: ArticlePreview) {
             itemBinding.articleTitle.text = article.title
             itemBinding.content.text = article.content
-            itemBinding.author.text = article.nickname
+            itemBinding.nickname.text = article.nickname
             itemBinding.views.text = article.views.toString()
             itemBinding.likes.text = article.likes.toString()
             itemBinding.comments.text = article.comments.toString()

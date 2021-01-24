@@ -7,7 +7,10 @@ data class Comment(
     val commentId: Int = 0,
 
     @SerializedName("nickname")
-    val author: String = "",
+    val nickname: String = "",
+
+    @SerializedName("isAuthor")
+    val isAuthor: Boolean = false,
 
     @SerializedName("postId")
     val postId: Int = 0,

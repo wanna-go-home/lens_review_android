@@ -30,6 +30,7 @@
 
     <string name="delete_success">삭제되었습니다</string>
     <string name="modify_success">수정되었습니다</string>
+    <string name="report_success">신고되었습니다</string>
 
     <string name="login_login">로그인</string>
     <string name="login_fail_for_server">서버이상으로 로그인에 실패했어요. 관리자에게 문의해주세요</string>
