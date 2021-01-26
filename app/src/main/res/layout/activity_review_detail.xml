@@ -43,19 +43,19 @@
                 android:layout_marginStart="20dp"
                 app:srcCompat="@drawable/more" />
 
-            <ImageView
-                android:id="@+id/bookmarkImg"
-                style="@style/singlePageHeaderIcon"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                app:srcCompat="@drawable/bookmark" />
+<!--            <ImageView-->
+<!--                android:id="@+id/bookmarkImg"-->
+<!--                style="@style/singlePageHeaderIcon"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                app:srcCompat="@drawable/bookmark" />-->
 
-            <ImageView
-                android:id="@+id/notiImg"
-                style="@style/singlePageHeaderIcon"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                app:srcCompat="@drawable/noti_off" />
+<!--            <ImageView-->
+<!--                android:id="@+id/notiImg"-->
+<!--                style="@style/singlePageHeaderIcon"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                app:srcCompat="@drawable/noti_off" />-->
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -182,23 +182,23 @@
                         android:layout_marginTop="15dp"
                         android:background="@color/board_subtext" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_columnWeight="1"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="10dp">
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_columnWeight="1"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:layout_marginEnd="10dp">-->
 
-                        <ImageView
-                            android:id="@+id/shareImg"
-                            style="@style/middleMenuIcon"
-                            app:srcCompat="@drawable/share" />
+<!--                        <ImageView-->
+<!--                            android:id="@+id/shareImg"-->
+<!--                            style="@style/middleMenuIcon"-->
+<!--                            app:srcCompat="@drawable/share" />-->
 
-                        <TextView
-                            android:id="@+id/share"
-                            style="@style/middleMenuText"
-                            android:text="@string/share_text"  />
-                    </LinearLayout>
+<!--                        <TextView-->
+<!--                            android:id="@+id/share"-->
+<!--                            style="@style/middleMenuText"-->
+<!--                            android:text="@string/share_text"  />-->
+<!--                    </LinearLayout>-->
 
                 </GridLayout>
 
