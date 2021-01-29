@@ -35,14 +35,14 @@ class LensListAdapter : BaseSimpleAdapter<LensPreview, LensListAdapter.LensListV
             bindName(lens.name)
 
 
-            //TODO 제조사 정리
-            itemBinding.maker.text = "메이커"
+//            //TODO 제조사 정리
+//            itemBinding.maker.text = "메이커"
 
             //TODO 함수분리
             itemBinding.lensNumber.text = "${lens.lensId}"
 //            itemView.graphicDia.text = "${lens.graphicDia}"
             itemBinding.price.text = "${lens.price}원"
-            itemBinding.score.text = "4.15"
+//            itemBinding.score.text = "4.15"
 
         }
 
