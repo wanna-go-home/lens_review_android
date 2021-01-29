@@ -8,6 +8,7 @@ import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.bind
 import java.util.concurrent.TimeUnit
 
 class SignUpActivity : BaseAppCompatActivity() {
@@ -108,6 +109,10 @@ class SignUpActivity : BaseAppCompatActivity() {
                 val nickname = binding.nicknameEdit.text.toString()
 
                 signUpViewModel.signUp(email, pw, pwCheck, phoneNumber, nickname)
+            }
+        binding.termsBtn.clicks()
+            .subscribe {
+                startActivity(this@SignUpActivity, TermsActivity::class.java)
             }
     }
     override fun onBackPressed() {

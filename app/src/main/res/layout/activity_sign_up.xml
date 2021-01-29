@@ -94,6 +94,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/signup_warn_text" />
+
+        <TextView
+            android:id="@+id/termsBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textLink"
+            android:layout_gravity="center_horizontal"
+            android:textSize="15sp"
+            android:text="@string/signup_terms_btn" />
     </LinearLayout>
 
 
@@ -104,8 +113,8 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            style="@style/PrimaryButtonStyle"
             android:id="@+id/signUp"
+            style="@style/PrimaryButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:text="@string/signup_signup_btn" />
