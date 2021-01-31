@@ -122,17 +122,17 @@
             </LinearLayout>
         </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/bookmarkImg"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/bookmark_border">
+<!--        <FrameLayout-->
+<!--            android:id="@+id/bookmarkImg"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="@drawable/bookmark_border">-->
 
-            <ImageView
-                style="@style/boardListFooterIcon"
-                android:layout_gravity="center"
-                android:src="@drawable/bookmark" />
-        </FrameLayout>
+<!--            <ImageView-->
+<!--                style="@style/boardListFooterIcon"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:src="@drawable/bookmark" />-->
+<!--        </FrameLayout>-->
 
     </LinearLayout>
 
