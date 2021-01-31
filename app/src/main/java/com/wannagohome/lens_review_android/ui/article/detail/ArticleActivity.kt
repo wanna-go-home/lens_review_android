@@ -13,9 +13,9 @@ import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
 import com.wannagohome.lens_review_android.ui.BottomSheetFragment
-import com.wannagohome.lens_review_android.ui.article.write.WriteArticleActivity
-import com.wannagohome.lens_review_android.ui.article.detail.comment.CommentMultiViewAdapter
 import com.wannagohome.lens_review_android.ui.article.detail.comment.ArticleCommentViewModel
+import com.wannagohome.lens_review_android.ui.article.detail.comment.CommentMultiViewAdapter
+import com.wannagohome.lens_review_android.ui.article.write.WriteArticleActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -58,6 +58,8 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
 
         addGoToBottomListener()
 
+        addLikeListener()
+
         observeEvent()
     }
 
@@ -88,6 +90,20 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 finishActivityToRight()
+            }
+    }
+
+    private fun addLikeListener() {
+        binding.likesIcon.clicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .throttleFirst(300, TimeUnit.MILLISECONDS)
+            .subscribe {
+                if (binding.likesIcon.isChecked){
+                    articleViewModel.unlike()
+                }
+                else{
+                    articleViewModel.like()
+                }
             }
     }
 
@@ -125,15 +141,33 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
             binding.articleTitle.text = it.title
             binding.content.text = it.content
             binding.nickname.text = it.nickname
+            binding.likesIcon.isChecked = it.isLiked
             binding.likes.text = it.likes.toString()
             binding.comments.text = it.comments.toString()
             binding.createdAt.text = dateHelper.calcCreatedBefore(it.createdAt)
             addDialogListener(articleId, it.isAuthor)
         })
+
         articleCommentViewModel.comments.observe(this, {
             commentAdapter.commentList = ArrayList(it)
-            if (binding.swiperefresh.isRefreshing){
+            if (binding.swiperefresh.isRefreshing) {
                 binding.swiperefresh.isRefreshing = false
+            }
+        })
+
+        articleViewModel.likeSuccess.observe(this, {
+            if (it) {
+                var likes = Integer.parseInt(binding.likes.text.toString())
+                binding.likes.text = (likes+1).toString()
+                binding.likesIcon.setChecked(true,true)
+            }
+        })
+
+        articleViewModel.unlikeSuccess.observe(this, {
+            if (it) {
+                var likes = Integer.parseInt(binding.likes.text.toString())
+                binding.likes.text = (likes-1).toString()
+                binding.likesIcon.isChecked = false
             }
         })
 
@@ -172,7 +206,6 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
         })
         articleCommentViewModel.reportCommentSuccess.observe(this, {
             if (it) {
-                Timber.d("reported3")
                 Utils.showToast(getString(R.string.report_success))
             }
         })

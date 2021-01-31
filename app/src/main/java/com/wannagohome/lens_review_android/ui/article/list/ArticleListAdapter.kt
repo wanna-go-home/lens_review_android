@@ -35,6 +35,7 @@ class ArticleListAdapter : BaseSimpleAdapter<ArticlePreview, ArticleListAdapter.
             itemBinding.content.text = article.content
             itemBinding.nickname.text = article.nickname
             itemBinding.views.text = article.views.toString()
+            itemBinding.likesIcon.isChecked = article.isLiked
             itemBinding.likes.text = article.likes.toString()
             itemBinding.comments.text = article.comments.toString()
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(article.createdAt)

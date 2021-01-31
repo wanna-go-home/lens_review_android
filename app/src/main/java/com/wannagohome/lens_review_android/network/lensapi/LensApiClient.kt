@@ -58,7 +58,6 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
     }
 
     fun writeArticle(title: String, content: String): Observable<Response<ResponseBody>> {
-        //@todo : write/modify shares same request body : modify name of data class
         val writeArticleRequest = WriteArticleRequest(title, content)
 
         return lensApiInterface.writeArticle(writeArticleRequest)
@@ -265,5 +264,52 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
-
+    fun postArticleCommentLike(articleId: Int, commentId: Int): Observable<Response<ResponseBody>> {
+        return lensApiInterface.postArticleCommentLike(articleId, commentId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+    fun deleteArticleCommentLike(articleId: Int, commentId: Int): Observable<Response<ResponseBody>> {
+        return lensApiInterface.deleteArticleCommentLike(articleId, commentId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+    fun postArticleLike(articleId: Int): Observable<Response<ResponseBody>> {
+        return lensApiInterface.postArticleLike(articleId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+    fun deleteArticleLike(articleId: Int): Observable<Response<ResponseBody>> {
+        return lensApiInterface.deleteArticleLike(articleId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+    fun postReviewCommentLike(reviewId: Int, commentId: Int): Observable<Response<ResponseBody>> {
+        return lensApiInterface.postReviewCommentLike(reviewId, commentId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+    fun deleteReviewCommentLike(reviewId: Int, commentId: Int): Observable<Response<ResponseBody>> {
+        return lensApiInterface.deleteReviewCommentLike(reviewId, commentId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+    fun postReviewLike(reviewId: Int): Observable<Response<ResponseBody>> {
+        return lensApiInterface.postReviewLike(reviewId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+    fun deleteReviewLike(reviewId: Int): Observable<Response<ResponseBody>> {
+        return lensApiInterface.deleteReviewLike(reviewId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
 }
