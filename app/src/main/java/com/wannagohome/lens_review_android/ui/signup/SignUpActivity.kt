@@ -1,5 +1,6 @@
 package com.wannagohome.lens_review_android.ui.signup
 
+import android.content.Intent
 import android.os.Bundle
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
@@ -110,10 +111,11 @@ class SignUpActivity : BaseAppCompatActivity() {
 
                 signUpViewModel.signUp(email, pw, pwCheck, phoneNumber, nickname)
             }
-        binding.termsBtn.clicks()
+        binding.privacyTermsBtn.clicks()
             .subscribe {
                 startActivity(this@SignUpActivity, TermsActivity::class.java)
             }
+
     }
     override fun onBackPressed() {
         super.onBackPressed()

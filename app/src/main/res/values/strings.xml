@@ -48,7 +48,8 @@
     <string name="signup_pw_check_hint">비밀번호를 재확인해주세요</string>
     <string name="signup_nickname_hint">닉네임을 입력해주세요 (두글자 이상)</string>
     <string name="signup_hp_hint">연락처를 입력해주세요</string>
-    <string name="signup_terms_btn">가입약관 확인하기</string>
+    <string name="signup_terms_btn">개인정보 수집 및 이용약관 확인하기</string>
+
 
     <string name="signup_warn_empty_email">이메일을 입력해주세요.</string>
     <string name="signup_warn_not_email_form">올바른 이메일을 입력해 주세요</string>
