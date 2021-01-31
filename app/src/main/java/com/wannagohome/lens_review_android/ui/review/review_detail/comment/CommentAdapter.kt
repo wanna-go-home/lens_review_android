@@ -19,7 +19,7 @@ import com.wannagohome.lens_review_android.ui.BottomSheetFragment
 
 class CommentMultiViewAdapter(private val fm: FragmentManager, private val reviewCommentViewModel: ReviewCommentViewModel, private val IS_REVIEW: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     BottomSheetFragment.OnClickListener,
-    CommentEditFragment.OnClickListener, com.wannagohome.lens_review_android.ui.article.detail.comment.CommentEditFragment.OnClickListener {
+    CommentEditFragment.OnClickListener{
 
     companion object {
         const val MAX_CHILDREN_IN_REVIEW = 3

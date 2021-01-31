@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.databinding.FragmentEditCommentBinding
-import com.wannagohome.lens_review_android.ui.review.review_detail.comment.CommentEditFragment
-import com.wannagohome.lens_review_android.ui.review.review_detail.comment.CommentMultiViewAdapter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
