@@ -15,6 +15,11 @@ open class BaseAppCompatActivity : AppCompatActivity(), KoinComponent {
         overridePendingTransition(R.anim.left_to_center, R.anim.center_to_right)
     }
 
+    fun <T> startActivity(activity: Context, cls: Class<T>) {
+        val intent = Intent(activity, cls)
+        startActivity(intent)
+    }
+
     fun startActivityFromRight(intent: Intent) {
         startActivity(intent)
         overridePendingTransition(R.anim.right_to_center, R.anim.center_to_left)

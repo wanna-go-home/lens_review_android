@@ -1,5 +1,6 @@
 package com.wannagohome.lens_review_android.ui.signup
 
+import android.content.Intent
 import android.os.Bundle
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
@@ -8,6 +9,7 @@ import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.bind
 import java.util.concurrent.TimeUnit
 
 class SignUpActivity : BaseAppCompatActivity() {
@@ -109,6 +111,11 @@ class SignUpActivity : BaseAppCompatActivity() {
 
                 signUpViewModel.signUp(email, pw, pwCheck, phoneNumber, nickname)
             }
+        binding.privacyTermsBtn.clicks()
+            .subscribe {
+                startActivity(this@SignUpActivity, TermsActivity::class.java)
+            }
+
     }
     override fun onBackPressed() {
         super.onBackPressed()

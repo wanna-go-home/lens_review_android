@@ -13,10 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.mypage.myarticle.MyArticleActivity"/>
+        <activity android:name=".ui.signup.TermsActivity"></activity>
+        <activity android:name=".ui.mypage.myarticle.MyArticleActivity" />
         <activity android:name=".ui.article.write.WriteArticleActivity" />
-        <activity android:name=".ui.mypage.myreview.MyReviewActivity"/>
-        <activity android:name=".ui.mypage.myarticlecomment.MyCommentActivity"/>
+        <activity android:name=".ui.mypage.myreview.MyReviewActivity" />
+        <activity android:name=".ui.mypage.myarticlecomment.MyCommentActivity" />
         <activity android:name=".ui.review.write.WriteReviewActivity" />
         <activity android:name=".ui.review.review_detail.ReviewDetailActivity" />
         <activity
