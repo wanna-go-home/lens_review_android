@@ -6,6 +6,7 @@ import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ChildCommentListItemBinding
 import com.wannagohome.lens_review_android.databinding.CommentListItemBinding
@@ -13,13 +14,13 @@ import com.wannagohome.lens_review_android.extension.gone
 import com.wannagohome.lens_review_android.extension.invisible
 import com.wannagohome.lens_review_android.extension.visible
 import com.wannagohome.lens_review_android.network.model.comment.Comment
-import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.Utils.getString
 import com.wannagohome.lens_review_android.ui.BottomSheetFragment
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import java.util.concurrent.TimeUnit
 
-class CommentMultiViewAdapter(private val fm: FragmentManager, private val articleCommentViewModel: ArticleCommentViewModel, private val IS_ARTICLE: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
-    BottomSheetFragment.OnClickListener,
-    com.wannagohome.lens_review_android.ui.review.review_detail.comment.CommentEditFragment.OnClickListener {
+class CommentMultiViewAdapter(private val fm: FragmentManager, private val articleCommentViewModel: ArticleCommentViewModel, private val IS_ARTICLE: Boolean) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(), BottomSheetFragment.OnClickListener, CommentEditFragment.OnClickListener {
 
     companion object {
         const val MAX_CHILDREN_IN_ARTICLE = 3
@@ -71,11 +72,26 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
             currentComment = comment
             itemBinding.content.text = comment.content
             itemBinding.nickname.text = comment.nickname
+            itemBinding.likesIcon.isChecked = comment.isLiked
             itemBinding.likes.text = comment.likes.toString()
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
 
+            itemBinding.likesIcon.setOnClickListener {
+                var likes = Integer.parseInt(itemBinding.likes.text.toString())
+                val isChecked = itemBinding.likesIcon.isChecked
+                if (isChecked){
+                    articleCommentViewModel.unlike(comment.commentId)
+                    likes -= 1
+                }
+                else{
+                    articleCommentViewModel.like(comment.commentId)
+                    likes += 1
+                }
+                itemBinding.likesIcon.setChecked(!isChecked,true)
+                itemBinding.likes.text = likes.toString()
+            }
             itemBinding.moreImg.setOnClickListener {
-                BottomSheetFragment.newInstance(comment.commentId, comment.isAuthor).run{
+                BottomSheetFragment.newInstance(comment.commentId, comment.isAuthor).run {
                     setOnClickListener(this@CommentMultiViewAdapter)
                     show(fm, null)
                 }
@@ -90,20 +106,19 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
             }
             //@todo : let "더 보기" be recyclerview item
             if (IS_ARTICLE && comment.bundleSize > MAX_CHILDREN_IN_ARTICLE) {
-                    val nOfComments = String.format(
-                        getString(R.string.show_more_comments),
-                        comment.bundleSize - MAX_CHILDREN_IN_ARTICLE
-                    )
-                    itemBinding.moreComment.text = nOfComments
-                    itemBinding.moreComment.setOnClickListener {
-                        val intent = Intent(parent.context, CommentActivity::class.java)
-                        intent.putExtra(ARTICLE_ID, comment.postId)
-                        intent.putExtra(COMMENT_ID, comment.commentId)
-                        parent.context.startActivity(intent)
-                    }
-                    itemBinding.moreComment.visible()
-            }
-            else{
+                val nOfComments = String.format(
+                    getString(R.string.show_more_comments),
+                    comment.bundleSize - MAX_CHILDREN_IN_ARTICLE
+                )
+                itemBinding.moreComment.text = nOfComments
+                itemBinding.moreComment.setOnClickListener {
+                    val intent = Intent(parent.context, CommentActivity::class.java)
+                    intent.putExtra(ARTICLE_ID, comment.postId)
+                    intent.putExtra(COMMENT_ID, comment.commentId)
+                    parent.context.startActivity(intent)
+                }
+                itemBinding.moreComment.visible()
+            } else {
                 itemBinding.moreComment.gone()
             }
         }
@@ -117,13 +132,29 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
             itemBinding.content.text = comment.content
             itemBinding.nickname.text = comment.nickname
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
+            itemBinding.likesIcon.isChecked = comment.isLiked
             itemBinding.likes.text = comment.likes.toString()
+
+            itemBinding.likesIcon.setOnClickListener {
+                var likes = Integer.parseInt(itemBinding.likes.text.toString())
+                val isChecked = itemBinding.likesIcon.isChecked
+                if (isChecked){
+                    articleCommentViewModel.unlike(comment.commentId)
+                    likes -= 1
+                }
+                else{
+                    articleCommentViewModel.like(comment.commentId)
+                    likes += 1
+                }
+                itemBinding.likesIcon.setChecked(!isChecked,true)
+                itemBinding.likes.text = likes.toString()
+            }
+
             if (IS_ARTICLE) {
                 itemBinding.optionBtn.invisible()
-            }
-            else{
+            } else {
                 itemBinding.optionBtn.setOnClickListener {
-                    BottomSheetFragment.newInstance(comment.commentId, comment.isAuthor).run{
+                    BottomSheetFragment.newInstance(comment.commentId, comment.isAuthor).run {
                         setOnClickListener(this@CommentMultiViewAdapter)
                         show(fm, null)
                     }
@@ -139,7 +170,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
 
     override fun onClickModifyBtn(targetId: Int) {
         val content = commentList.find { it.commentId == targetId }?.content
-        CommentEditFragment.newInstance(targetId, content).run{
+        CommentEditFragment.newInstance(targetId, content).run {
             setOnClickListener(this@CommentMultiViewAdapter)
             show(fm, null)
         }

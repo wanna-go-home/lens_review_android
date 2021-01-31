@@ -18,6 +18,9 @@ data class Comment(
     @SerializedName("content")
     val content: String = "",
 
+    @SerializedName("isLiked")
+    val isLiked: Boolean = false,
+
     @SerializedName("likeCnt")
     val likes: Int = 0,
 

@@ -1,5 +1,6 @@
 package com.wannagohome.lens_review_android.ui.article.detail.comment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -8,8 +9,11 @@ import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ActivityCommentBinding
 import com.wannagohome.lens_review_android.extension.hideKeyboard
+import com.wannagohome.lens_review_android.network.model.comment.CommentType
 import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
+import com.wannagohome.lens_review_android.ui.article.detail.ArticleActivity
+import com.wannagohome.lens_review_android.ui.review.review_detail.ReviewDetailActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -28,7 +32,6 @@ class CommentActivity : BaseAppCompatActivity() {
     private val articleCommentViewModel: ArticleCommentViewModel by viewModel {parametersOf(articleId, commentId)}
     private lateinit var commentAdapter: CommentMultiViewAdapter
     private lateinit var binding: ActivityCommentBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,7 +104,6 @@ class CommentActivity : BaseAppCompatActivity() {
         articleCommentViewModel.comments.observe(this, {
             commentAdapter.commentList = ArrayList(it)
         })
-
         articleCommentViewModel.refreshSuccess.observe(this, {
             binding.swiperefresh.isRefreshing = !it
         })
