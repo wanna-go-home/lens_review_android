@@ -21,6 +21,9 @@ data class Review(
     @SerializedName("lensId")
     val lensId: Int,
 
+    @SerializedName("isLiked")
+    val isLiked: Boolean = false,
+
     @SerializedName("likeCnt")
     val likeCnt: Int,
 

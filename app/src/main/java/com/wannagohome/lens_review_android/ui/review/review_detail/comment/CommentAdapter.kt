@@ -71,9 +71,24 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
             currentComment = comment
             itemBinding.content.text = comment.content
             itemBinding.nickname.text = comment.nickname
+            itemBinding.likesIcon.isChecked = comment.isLiked
             itemBinding.likes.text = comment.likes.toString()
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
 
+            itemBinding.likesIcon.setOnClickListener {
+                var likes = Integer.parseInt(itemBinding.likes.text.toString())
+                val isChecked = itemBinding.likesIcon.isChecked
+                if (isChecked){
+                    reviewCommentViewModel.unlike(comment.commentId)
+                    likes -= 1
+                }
+                else{
+                    reviewCommentViewModel.like(comment.commentId)
+                    likes += 1
+                }
+                itemBinding.likesIcon.setChecked(!isChecked,true)
+                itemBinding.likes.text = likes.toString()
+            }
             itemBinding.moreImg.setOnClickListener {
                 BottomSheetFragment.newInstance(comment.commentId, comment.isAuthor).run{
                     setOnClickListener(this@CommentMultiViewAdapter)
@@ -116,8 +131,25 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
             currentComment = comment
             itemBinding.content.text = comment.content
             itemBinding.nickname.text = comment.nickname
-            itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
+            itemBinding.likesIcon.isChecked = comment.isLiked
             itemBinding.likes.text = comment.likes.toString()
+            itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
+
+            itemBinding.likesIcon.setOnClickListener {
+                var likes = Integer.parseInt(itemBinding.likes.text.toString())
+                val isChecked = itemBinding.likesIcon.isChecked
+                if (isChecked){
+                    reviewCommentViewModel.unlike(comment.commentId)
+                    likes -= 1
+                }
+                else{
+                    reviewCommentViewModel.like(comment.commentId)
+                    likes += 1
+                }
+                itemBinding.likesIcon.setChecked(!isChecked,true)
+                itemBinding.likes.text = likes.toString()
+            }
+
             if (IS_REVIEW) {
                 itemBinding.optionBtn.invisible()
             }

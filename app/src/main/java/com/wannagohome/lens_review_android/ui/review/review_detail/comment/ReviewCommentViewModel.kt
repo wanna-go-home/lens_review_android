@@ -1,6 +1,7 @@
 package com.wannagohome.lens_review_android.ui.review.review_detail.comment
 
 import androidx.lifecycle.MutableLiveData
+import com.wannagohome.lens_review_android.extension.addTo
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
 import com.wannagohome.lens_review_android.network.model.comment.Comment
 import com.wannagohome.lens_review_android.support.baseclass.BaseViewModel
@@ -19,6 +20,8 @@ class ReviewCommentViewModel(private val reviewId: Int, private val parentCommen
     val deleteCommentSuccess = MutableLiveData<Boolean>(false)
     val reportCommentSuccess = MutableLiveData<Boolean>(false)
     val finishActivity = MutableLiveData<Boolean>(false)
+    val likeSuccess = MutableLiveData<Int>(-1)
+    val unlikeSuccess = MutableLiveData<Int>(-1)
 
     fun getCommentsByReviewId() {
         compositeDisposable.add(lensClient.getCommentsByReviewId(reviewId).subscribe({
@@ -48,6 +51,23 @@ class ReviewCommentViewModel(private val reviewId: Int, private val parentCommen
         }
     }
 
+    fun like(commentId: Int) {
+        lensClient.postReviewCommentLike(reviewId, commentId)
+            .subscribe( {
+                likeSuccess.value = commentId
+            }, {
+            })
+            .addTo(compositeDisposable)
+    }
+
+    fun unlike(commentId: Int) {
+        lensClient.deleteReviewCommentLike(reviewId, commentId)
+            .subscribe( {
+                unlikeSuccess.value = commentId
+            }, {
+            })
+            .addTo(compositeDisposable)
+    }
     fun refreshComment() {
         refreshSuccess.value = false
         if (parentCommentId != null) {

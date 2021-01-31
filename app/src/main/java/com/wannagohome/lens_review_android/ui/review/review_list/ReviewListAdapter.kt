@@ -40,6 +40,8 @@ class ReviewListAdapter : BaseSimpleAdapter<ReviewPreview, ReviewListAdapter.Boo
 
             itemBinding.commentNum.text = reviewPreview.replyCnt.toString()
 
+            itemBinding.likesIcon.isChecked = reviewPreview.isLiked
+
             itemBinding.likeNum.text = reviewPreview.likeCnt.toString()
 
             itemBinding.reviewWriter.text = reviewPreview.nickname

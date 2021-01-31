@@ -61,6 +61,8 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
 
         addGoToBottomListener()
 
+        addLikeListener()
+
         observeEvent()
     }
 
@@ -84,6 +86,20 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
         binding.goToBottom.setOnClickListener {
             binding.scrollView.fullScroll(View.FOCUS_DOWN)
         }
+    }
+
+    private fun addLikeListener() {
+        binding.likesIcon.clicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .throttleFirst(300, TimeUnit.MILLISECONDS)
+            .subscribe {
+                if (binding.likesIcon.isChecked){
+                    reviewDetailViewModel.unlike()
+                }
+                else{
+                    reviewDetailViewModel.like()
+                }
+            }
     }
 
     private fun addBackListener() {
@@ -128,6 +144,7 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
             binding.reviewTitle.text = it.title
             binding.reviewContents.text = it.content
             binding.reviewWriter.text = it.nickname
+            binding.likesIcon.isChecked = it.isLiked
             binding.likeNum.text = it.likeCnt.toString()
             binding.commentNum.text = it.replyCnt.toString()
             binding.time.text = dateHelper.calcCreatedBefore(it.createdAt)
@@ -141,6 +158,21 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
             }
         })
 
+        reviewDetailViewModel.likeSuccess.observe(this, {
+            if (it) {
+                var likes = Integer.parseInt(binding.likeNum.text.toString())
+                binding.likeNum.text = (likes+1).toString()
+                binding.likesIcon.setChecked(true,true)
+            }
+        })
+
+        reviewDetailViewModel.unlikeSuccess.observe(this, {
+            if (it) {
+                var likes = Integer.parseInt(binding.likeNum.text.toString())
+                binding.likeNum.text = (likes-1).toString()
+                binding.likesIcon.isChecked = false
+            }
+        })
         reviewDetailViewModel.deleteSuccess.observe(this, {
             if (it) {
                 Utils.showToast(getString(R.string.delete_success))
