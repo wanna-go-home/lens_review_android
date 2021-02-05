@@ -6,13 +6,15 @@ import com.wannagohome.lens_review_android.BuildConfig
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ActivityTermsBinding
 
+
+
 class TermsActivity : AppCompatActivity() {
 
-    companion object{
+    companion object {
         const val TERMS_URL = "${BuildConfig.API_HOST}/terms.html"
     }
 
-    lateinit var binding : ActivityTermsBinding
+    lateinit var binding: ActivityTermsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
