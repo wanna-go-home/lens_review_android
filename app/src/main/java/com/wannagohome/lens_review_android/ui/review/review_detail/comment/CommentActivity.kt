@@ -29,7 +29,6 @@ class CommentActivity : BaseAppCompatActivity() {
     private lateinit var commentAdapter: CommentMultiViewAdapter
     private lateinit var binding: ActivityCommentBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -63,6 +62,15 @@ class CommentActivity : BaseAppCompatActivity() {
 
     private fun initCommentRecyclerView() {
         binding.commentRecyclerView.run {
+            commentAdapter.onLikeClick = { pos ->
+                val targetComment = commentAdapter.commentList[pos]
+                if (targetComment.isLiked){
+                    reviewCommentViewModel.unlike(targetComment.commentId)
+                }
+                else{
+                    reviewCommentViewModel.like(targetComment.commentId)
+                }
+            }
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
             adapter = commentAdapter

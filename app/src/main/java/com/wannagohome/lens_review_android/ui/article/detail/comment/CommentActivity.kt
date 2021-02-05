@@ -1,5 +1,6 @@
 package com.wannagohome.lens_review_android.ui.article.detail.comment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -28,7 +29,6 @@ class CommentActivity : BaseAppCompatActivity() {
     private val articleCommentViewModel: ArticleCommentViewModel by viewModel {parametersOf(articleId, commentId)}
     private lateinit var commentAdapter: CommentMultiViewAdapter
     private lateinit var binding: ActivityCommentBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +63,16 @@ class CommentActivity : BaseAppCompatActivity() {
 
     private fun initCommentRecyclerView() {
         binding.commentRecyclerView.run {
+            commentAdapter.onLikeClick = { pos ->
+                val targetComment = commentAdapter.commentList[pos]
+                if (targetComment.isLiked){
+                    articleCommentViewModel.unlike(targetComment.commentId)
+                }
+                else{
+                    articleCommentViewModel.like(targetComment.commentId)
+                }
+            }
+
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
             adapter = commentAdapter
@@ -101,7 +111,6 @@ class CommentActivity : BaseAppCompatActivity() {
         articleCommentViewModel.comments.observe(this, {
             commentAdapter.commentList = ArrayList(it)
         })
-
         articleCommentViewModel.refreshSuccess.observe(this, {
             binding.swiperefresh.isRefreshing = !it
         })
@@ -114,6 +123,7 @@ class CommentActivity : BaseAppCompatActivity() {
                 hideKeyboard()
             }
         })
+
         articleCommentViewModel.deleteCommentSuccess.observe(this, {
             if (it) {
                 articleCommentViewModel.refreshComment()

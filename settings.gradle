@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':shinebuttonlib'
 rootProject.name = "lens_review_android"

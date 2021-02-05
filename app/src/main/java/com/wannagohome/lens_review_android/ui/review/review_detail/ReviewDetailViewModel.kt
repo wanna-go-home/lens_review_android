@@ -32,6 +32,24 @@ class ReviewDetailViewModel (private val reviewId: Int): BaseViewModel(), KoinCo
         }))
     }
 
+    fun like() {
+        lensClient.postReviewLike(reviewId)
+            .subscribe( {
+                review.value = it.body()
+            }, {
+            })
+            .addTo(compositeDisposable)
+    }
+
+    fun unlike() {
+        lensClient.deleteReviewLike(reviewId)
+            .subscribe( {
+                review.value = it.body()
+            }, {
+            })
+            .addTo(compositeDisposable)
+    }
+
     fun deleteReview() {
         lensClient.deleteReviewById(reviewId)
             .subscribe( {
@@ -40,6 +58,7 @@ class ReviewDetailViewModel (private val reviewId: Int): BaseViewModel(), KoinCo
             })
             .addTo(compositeDisposable)
     }
+
     fun reportReview(){
         reportSuccess.value = true
     }

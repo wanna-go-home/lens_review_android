@@ -61,6 +61,8 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
 
         addGoToBottomListener()
 
+        addLikeListener()
+
         observeEvent()
     }
 
@@ -84,6 +86,20 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
         binding.goToBottom.setOnClickListener {
             binding.scrollView.fullScroll(View.FOCUS_DOWN)
         }
+    }
+
+    private fun addLikeListener() {
+        binding.likesIcon.clicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .throttleFirst(300, TimeUnit.MILLISECONDS)
+            .subscribe {
+                if (binding.likesIcon.isChecked){
+                    reviewDetailViewModel.unlike()
+                }
+                else{
+                    reviewDetailViewModel.like()
+                }
+            }
     }
 
     private fun addBackListener() {
@@ -119,6 +135,15 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
             commentAdapter = CommentMultiViewAdapter(supportFragmentManager, reviewCommentViewModel, IS_REVIEW)
+            commentAdapter.onLikeClick = { pos ->
+                val targetComment = commentAdapter.commentList[pos]
+                if (targetComment.isLiked){
+                    reviewCommentViewModel.unlike(targetComment.commentId)
+                }
+                else{
+                    reviewCommentViewModel.like(targetComment.commentId)
+                }
+            }
             adapter = commentAdapter
         }
     }
@@ -128,6 +153,7 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
             binding.reviewTitle.text = it.title
             binding.reviewContents.text = it.content
             binding.reviewWriter.text = it.nickname
+            binding.likesIcon.isChecked = it.isLiked
             binding.likeNum.text = it.likeCnt.toString()
             binding.commentNum.text = it.replyCnt.toString()
             binding.time.text = dateHelper.calcCreatedBefore(it.createdAt)

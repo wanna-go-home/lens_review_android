@@ -21,6 +21,9 @@ data class Article(
     @SerializedName("viewCnt")
     val views: Int = 0,
 
+    @SerializedName("isLiked")
+    val isLiked: Boolean = false,
+
     @SerializedName("likeCnt")
     val likes: Int = 0,
 

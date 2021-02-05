@@ -1,6 +1,8 @@
 package com.wannagohome.lens_review_android.ui.article.detail.comment
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
+import com.wannagohome.lens_review_android.extension.addTo
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
 import com.wannagohome.lens_review_android.network.model.comment.Comment
 import com.wannagohome.lens_review_android.support.baseclass.BaseViewModel
@@ -48,6 +50,35 @@ class ArticleCommentViewModel(private val articleId: Int, private val parentComm
         }
     }
 
+    fun like(commentId: Int) {
+        lensClient.postArticleCommentLike(articleId, commentId)
+            .subscribe( { it ->
+                val newComment = it.body()
+                var commentList = comments.value?.toMutableList()
+                if (commentList!=null && newComment !=null){
+                    val idx = commentList.indexOfFirst { comment ->  comment.commentId == newComment.commentId }
+                    commentList[idx] = newComment
+                }
+                comments.value = commentList
+            }, {
+            })
+            .addTo(compositeDisposable)
+    }
+
+    fun unlike(commentId: Int) {
+        lensClient.deleteArticleCommentLike(articleId, commentId)
+            .subscribe( {
+                val newComment = it.body()
+                var commentList = comments.value?.toMutableList()
+                if (commentList!=null && newComment !=null){
+                    val idx = commentList.indexOfFirst { comment ->  comment.commentId == newComment.commentId }
+                    commentList[idx] = newComment
+                }
+                comments.value = commentList
+            }, {
+            })
+            .addTo(compositeDisposable)
+    }
     fun refreshComment() {
         refreshSuccess.value = false
         if (parentCommentId != null) {

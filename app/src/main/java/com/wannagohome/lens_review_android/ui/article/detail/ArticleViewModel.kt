@@ -31,6 +31,24 @@ class ArticleViewModel(private val articleId: Int) : BaseViewModel(), KoinCompon
         }))
     }
 
+    fun like() {
+        lensClient.postArticleLike(articleId)
+            .subscribe( {
+                article.value = it.body()
+            }, {
+            })
+            .addTo(compositeDisposable)
+    }
+
+    fun unlike() {
+        lensClient.deleteArticleLike(articleId)
+            .subscribe( {
+                article.value = it.body()
+            }, {
+            })
+            .addTo(compositeDisposable)
+    }
+
     fun deleteArticle() {
         lensClient.deleteArticleById(articleId)
             .subscribe( {
@@ -39,6 +57,7 @@ class ArticleViewModel(private val articleId: Int) : BaseViewModel(), KoinCompon
             })
             .addTo(compositeDisposable)
     }
+
     fun reportArticle() {
         reportSuccess.value = true
     }
