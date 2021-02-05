@@ -132,6 +132,15 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
             commentAdapter = CommentMultiViewAdapter(supportFragmentManager, articleCommentViewModel, IS_ARTICLE)
+            commentAdapter.onLikeClick = { pos ->
+                val targetComment = commentAdapter.commentList[pos]
+                if (targetComment.isLiked){
+                    articleCommentViewModel.unlike(targetComment.commentId)
+                }
+                else{
+                    articleCommentViewModel.like(targetComment.commentId)
+                }
+            }
             adapter = commentAdapter
         }
     }
@@ -152,22 +161,6 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
             commentAdapter.commentList = ArrayList(it)
             if (binding.swiperefresh.isRefreshing) {
                 binding.swiperefresh.isRefreshing = false
-            }
-        })
-
-        articleViewModel.likeSuccess.observe(this, {
-            if (it) {
-                var likes = Integer.parseInt(binding.likes.text.toString())
-                binding.likes.text = (likes+1).toString()
-                binding.likesIcon.setChecked(true,true)
-            }
-        })
-
-        articleViewModel.unlikeSuccess.observe(this, {
-            if (it) {
-                var likes = Integer.parseInt(binding.likes.text.toString())
-                binding.likes.text = (likes-1).toString()
-                binding.likesIcon.isChecked = false
             }
         })
 

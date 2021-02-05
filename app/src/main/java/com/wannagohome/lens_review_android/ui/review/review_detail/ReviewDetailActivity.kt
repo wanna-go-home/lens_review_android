@@ -135,6 +135,15 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
             commentAdapter = CommentMultiViewAdapter(supportFragmentManager, reviewCommentViewModel, IS_REVIEW)
+            commentAdapter.onLikeClick = { pos ->
+                val targetComment = commentAdapter.commentList[pos]
+                if (targetComment.isLiked){
+                    reviewCommentViewModel.unlike(targetComment.commentId)
+                }
+                else{
+                    reviewCommentViewModel.like(targetComment.commentId)
+                }
+            }
             adapter = commentAdapter
         }
     }
@@ -158,21 +167,6 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
             }
         })
 
-        reviewDetailViewModel.likeSuccess.observe(this, {
-            if (it) {
-                var likes = Integer.parseInt(binding.likeNum.text.toString())
-                binding.likeNum.text = (likes+1).toString()
-                binding.likesIcon.setChecked(true,true)
-            }
-        })
-
-        reviewDetailViewModel.unlikeSuccess.observe(this, {
-            if (it) {
-                var likes = Integer.parseInt(binding.likeNum.text.toString())
-                binding.likeNum.text = (likes-1).toString()
-                binding.likesIcon.isChecked = false
-            }
-        })
         reviewDetailViewModel.deleteSuccess.observe(this, {
             if (it) {
                 Utils.showToast(getString(R.string.delete_success))

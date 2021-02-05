@@ -16,8 +16,6 @@ class ReviewDetailViewModel (private val reviewId: Int): BaseViewModel(), KoinCo
     val review = MutableLiveData<Review>()
     val deleteSuccess = MutableLiveData<Boolean>(false)
     val reportSuccess = MutableLiveData<Boolean>(false)
-    val likeSuccess = MutableLiveData<Boolean>(false)
-    val unlikeSuccess = MutableLiveData<Boolean>(false)
 
     private val lensClient: LensApiClient by inject()
 
@@ -37,7 +35,7 @@ class ReviewDetailViewModel (private val reviewId: Int): BaseViewModel(), KoinCo
     fun like() {
         lensClient.postReviewLike(reviewId)
             .subscribe( {
-                likeSuccess.value = true
+                review.value = it.body()
             }, {
             })
             .addTo(compositeDisposable)
@@ -46,7 +44,7 @@ class ReviewDetailViewModel (private val reviewId: Int): BaseViewModel(), KoinCo
     fun unlike() {
         lensClient.deleteReviewLike(reviewId)
             .subscribe( {
-                unlikeSuccess.value = true
+                review.value = it.body()
             }, {
             })
             .addTo(compositeDisposable)

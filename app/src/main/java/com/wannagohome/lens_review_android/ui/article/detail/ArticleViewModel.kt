@@ -15,8 +15,6 @@ class ArticleViewModel(private val articleId: Int) : BaseViewModel(), KoinCompon
     val article = MutableLiveData<Article>()
     val deleteSuccess = MutableLiveData<Boolean>(false)
     val reportSuccess = MutableLiveData<Boolean>(false)
-    val likeSuccess = MutableLiveData<Boolean>(false)
-    val unlikeSuccess = MutableLiveData<Boolean>(false)
 
     private val lensClient: LensApiClient by inject()
 
@@ -36,7 +34,7 @@ class ArticleViewModel(private val articleId: Int) : BaseViewModel(), KoinCompon
     fun like() {
         lensClient.postArticleLike(articleId)
             .subscribe( {
-                likeSuccess.value = true
+                article.value = it.body()
             }, {
             })
             .addTo(compositeDisposable)
@@ -45,7 +43,7 @@ class ArticleViewModel(private val articleId: Int) : BaseViewModel(), KoinCompon
     fun unlike() {
         lensClient.deleteArticleLike(articleId)
             .subscribe( {
-                unlikeSuccess.value = true
+                article.value = it.body()
             }, {
             })
             .addTo(compositeDisposable)
