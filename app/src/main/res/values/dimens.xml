@@ -6,9 +6,9 @@
     <dimen name="MiddleMenuHeight">45dp</dimen>
     <dimen name="ContentTextSize">17sp</dimen>
 
-    <dimen name="MiddleMenuIconSize">20dp</dimen>
+    <dimen name="MiddleMenuIconSize">22dp</dimen>
 
     <dimen name="CommentAuthorTextSize">12sp</dimen>
     <dimen name="CommentContentTextSize">15sp</dimen>
-    <dimen name="CommentIconSize">14dp</dimen>
+    <dimen name="CommentIconSize">16dp</dimen>
 </resources>
