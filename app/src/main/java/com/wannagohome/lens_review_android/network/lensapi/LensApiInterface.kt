@@ -110,27 +110,27 @@ interface LensApiInterface {
     fun modifyNickname(@Body nickname: ModifyNicknameRequest): Observable<Response<ResponseBody>>
 
     @POST("/api/boards/article/{articleId}/comments/{commentId}/like")
-    fun postArticleCommentLike(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int): Observable<Response<ResponseBody>>
+    fun postArticleCommentLike(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int): Observable<Response<Comment>>
 
     @DELETE("/api/boards/article/{articleId}/comments/{commentId}/like")
-    fun deleteArticleCommentLike(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int): Observable<Response<ResponseBody>>
+    fun deleteArticleCommentLike(@Path("articleId") articleId: Int, @Path("commentId") commentId: Int): Observable<Response<Comment>>
 
     @POST("/api/boards/article/{articleId}/like")
-    fun postArticleLike(@Path("articleId") articleId: Int): Observable<Response<ResponseBody>>
+    fun postArticleLike(@Path("articleId") articleId: Int): Observable<Response<Article>>
 
     @DELETE("/api/boards/article/{articleId}/like")
-    fun deleteArticleLike(@Path("articleId") articleId: Int): Observable<Response<ResponseBody>>
+    fun deleteArticleLike(@Path("articleId") articleId: Int): Observable<Response<Article>>
 
     @POST("/api/boards/review-board/{reviewId}/comments/{commentId}/like")
-    fun postReviewCommentLike(@Path("reviewId") reviewId: Int, @Path("commentId") commentId: Int): Observable<Response<ResponseBody>>
+    fun postReviewCommentLike(@Path("reviewId") reviewId: Int, @Path("commentId") commentId: Int): Observable<Response<Comment>>
 
     @DELETE("/api/boards/review-board/{reviewId}/comments/{commentId}/like")
-    fun deleteReviewCommentLike(@Path("reviewId") reviewId: Int, @Path("commentId") commentId: Int): Observable<Response<ResponseBody>>
+    fun deleteReviewCommentLike(@Path("reviewId") reviewId: Int, @Path("commentId") commentId: Int): Observable<Response<Comment>>
 
     @POST("/api/boards/review-board/{reviewId}/like")
-    fun postReviewLike(@Path("reviewId") reviewId: Int): Observable<Response<ResponseBody>>
+    fun postReviewLike(@Path("reviewId") reviewId: Int): Observable<Response<Review>>
 
     @DELETE("/api/boards/review-board/{reviewId}/like")
-    fun deleteReviewLike(@Path("reviewId") reviewId: Int): Observable<Response<ResponseBody>>
+    fun deleteReviewLike(@Path("reviewId") reviewId: Int): Observable<Response<Review>>
 
 }
