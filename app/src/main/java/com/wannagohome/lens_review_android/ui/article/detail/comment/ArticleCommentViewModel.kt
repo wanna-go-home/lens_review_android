@@ -1,6 +1,7 @@
 package com.wannagohome.lens_review_android.ui.article.detail.comment
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.wannagohome.lens_review_android.extension.addTo
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
 import com.wannagohome.lens_review_android.network.model.comment.Comment
@@ -20,8 +21,6 @@ class ArticleCommentViewModel(private val articleId: Int, private val parentComm
     val deleteCommentSuccess = MutableLiveData<Boolean>(false)
     val reportCommentSuccess = MutableLiveData<Boolean>(false)
     val finishActivity = MutableLiveData<Boolean>(false)
-    val likeSuccess = MutableLiveData<Int>(-1)
-    val unlikeSuccess = MutableLiveData<Int>(-1)
 
     fun getCommentsByArticleId() {
         compositeDisposable.add(lensClient.getCommentsByArticleId(articleId).subscribe({
@@ -53,8 +52,14 @@ class ArticleCommentViewModel(private val articleId: Int, private val parentComm
 
     fun like(commentId: Int) {
         lensClient.postArticleCommentLike(articleId, commentId)
-            .subscribe( {
-                likeSuccess.value = commentId
+            .subscribe( { it ->
+                val newComment = it.body()
+                var commentList = comments.value?.toMutableList()
+                if (commentList!=null && newComment !=null){
+                    val idx = commentList.indexOfFirst { comment ->  comment.commentId == newComment.commentId }
+                    commentList[idx] = newComment
+                }
+                comments.value = commentList
             }, {
             })
             .addTo(compositeDisposable)
@@ -63,7 +68,13 @@ class ArticleCommentViewModel(private val articleId: Int, private val parentComm
     fun unlike(commentId: Int) {
         lensClient.deleteArticleCommentLike(articleId, commentId)
             .subscribe( {
-                unlikeSuccess.value = commentId
+                val newComment = it.body()
+                var commentList = comments.value?.toMutableList()
+                if (commentList!=null && newComment !=null){
+                    val idx = commentList.indexOfFirst { comment ->  comment.commentId == newComment.commentId }
+                    commentList[idx] = newComment
+                }
+                comments.value = commentList
             }, {
             })
             .addTo(compositeDisposable)

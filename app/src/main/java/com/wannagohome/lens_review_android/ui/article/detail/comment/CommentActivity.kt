@@ -9,11 +9,8 @@ import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ActivityCommentBinding
 import com.wannagohome.lens_review_android.extension.hideKeyboard
-import com.wannagohome.lens_review_android.network.model.comment.CommentType
 import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
-import com.wannagohome.lens_review_android.ui.article.detail.ArticleActivity
-import com.wannagohome.lens_review_android.ui.review.review_detail.ReviewDetailActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -66,6 +63,16 @@ class CommentActivity : BaseAppCompatActivity() {
 
     private fun initCommentRecyclerView() {
         binding.commentRecyclerView.run {
+            commentAdapter.onLikeClick = { pos ->
+                val targetComment = commentAdapter.commentList[pos]
+                if (targetComment.isLiked){
+                    articleCommentViewModel.unlike(targetComment.commentId)
+                }
+                else{
+                    articleCommentViewModel.like(targetComment.commentId)
+                }
+            }
+
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
             adapter = commentAdapter
@@ -116,6 +123,7 @@ class CommentActivity : BaseAppCompatActivity() {
                 hideKeyboard()
             }
         })
+
         articleCommentViewModel.deleteCommentSuccess.observe(this, {
             if (it) {
                 articleCommentViewModel.refreshComment()

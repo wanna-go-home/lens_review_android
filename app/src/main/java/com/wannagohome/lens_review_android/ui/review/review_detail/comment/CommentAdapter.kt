@@ -6,6 +6,7 @@ import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.databinding.ChildCommentListItemBinding
 import com.wannagohome.lens_review_android.databinding.CommentListItemBinding
@@ -16,6 +17,8 @@ import com.wannagohome.lens_review_android.network.model.comment.Comment
 import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.Utils.getString
 import com.wannagohome.lens_review_android.ui.BottomSheetFragment
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import java.util.concurrent.TimeUnit
 
 class CommentMultiViewAdapter(private val fm: FragmentManager, private val reviewCommentViewModel: ReviewCommentViewModel, private val IS_REVIEW: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     BottomSheetFragment.OnClickListener,
@@ -28,6 +31,8 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
         const val COMMENT = 0
         const val INNER_COMMENT = 1
     }
+
+    var onLikeClick: ((Int) -> Unit)? = null
 
     var commentList = ArrayList<Comment>()
         set(shops) {
@@ -66,7 +71,14 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
 
     inner class CommentViewHolder(private val parent: ViewGroup, private val itemBinding: CommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         private lateinit var currentComment: Comment
-
+        init {
+            itemBinding.likesIcon.clicks()
+                .observeOn(AndroidSchedulers.mainThread())
+                .throttleFirst(300, TimeUnit.MILLISECONDS)
+                .subscribe {
+                    onLikeClick?.invoke(absoluteAdapterPosition)
+                }
+        }
         fun bind(comment: Comment) {
             currentComment = comment
             itemBinding.content.text = comment.content
@@ -74,21 +86,6 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
             itemBinding.likesIcon.isChecked = comment.isLiked
             itemBinding.likes.text = comment.likes.toString()
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
-
-            itemBinding.likesIcon.setOnClickListener {
-                var likes = Integer.parseInt(itemBinding.likes.text.toString())
-                val isChecked = itemBinding.likesIcon.isChecked
-                if (isChecked){
-                    reviewCommentViewModel.unlike(comment.commentId)
-                    likes -= 1
-                }
-                else{
-                    reviewCommentViewModel.like(comment.commentId)
-                    likes += 1
-                }
-                itemBinding.likesIcon.setChecked(!isChecked,true)
-                itemBinding.likes.text = likes.toString()
-            }
             itemBinding.moreImg.setOnClickListener {
                 BottomSheetFragment.newInstance(comment.commentId, comment.isAuthor).run{
                     setOnClickListener(this@CommentMultiViewAdapter)
@@ -126,7 +123,14 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
 
     inner class ChildCommentViewHolder(private val itemBinding: ChildCommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         private lateinit var currentComment: Comment
-
+        init {
+            itemBinding.likesIcon.clicks()
+                .observeOn(AndroidSchedulers.mainThread())
+                .throttleFirst(300,TimeUnit.MILLISECONDS)
+                .subscribe {
+                    onLikeClick?.invoke(absoluteAdapterPosition)
+                }
+        }
         fun bind(comment: Comment) {
             currentComment = comment
             itemBinding.content.text = comment.content
@@ -134,21 +138,6 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
             itemBinding.likesIcon.isChecked = comment.isLiked
             itemBinding.likes.text = comment.likes.toString()
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
-
-            itemBinding.likesIcon.setOnClickListener {
-                var likes = Integer.parseInt(itemBinding.likes.text.toString())
-                val isChecked = itemBinding.likesIcon.isChecked
-                if (isChecked){
-                    reviewCommentViewModel.unlike(comment.commentId)
-                    likes -= 1
-                }
-                else{
-                    reviewCommentViewModel.like(comment.commentId)
-                    likes += 1
-                }
-                itemBinding.likesIcon.setChecked(!isChecked,true)
-                itemBinding.likes.text = likes.toString()
-            }
 
             if (IS_REVIEW) {
                 itemBinding.optionBtn.invisible()

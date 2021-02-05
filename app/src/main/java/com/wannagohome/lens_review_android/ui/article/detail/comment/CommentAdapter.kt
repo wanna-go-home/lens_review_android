@@ -17,6 +17,7 @@ import com.wannagohome.lens_review_android.network.model.comment.Comment
 import com.wannagohome.lens_review_android.support.Utils.getString
 import com.wannagohome.lens_review_android.ui.BottomSheetFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class CommentMultiViewAdapter(private val fm: FragmentManager, private val articleCommentViewModel: ArticleCommentViewModel, private val IS_ARTICLE: Boolean) :
@@ -29,6 +30,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
         const val COMMENT = 0
         const val INNER_COMMENT = 1
     }
+    var onLikeClick: ((Int) -> Unit)? = null
 
     var commentList = ArrayList<Comment>()
         set(shops) {
@@ -67,6 +69,14 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
 
     inner class CommentViewHolder(private val parent: ViewGroup, private val itemBinding: CommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         private lateinit var currentComment: Comment
+        init {
+            itemBinding.likesIcon.clicks()
+                .observeOn(AndroidSchedulers.mainThread())
+                .throttleFirst(300,TimeUnit.MILLISECONDS)
+                .subscribe {
+                    onLikeClick?.invoke(absoluteAdapterPosition)
+                }
+        }
 
         fun bind(comment: Comment) {
             currentComment = comment
@@ -76,26 +86,13 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
             itemBinding.likes.text = comment.likes.toString()
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
 
-            itemBinding.likesIcon.setOnClickListener {
-                var likes = Integer.parseInt(itemBinding.likes.text.toString())
-                val isChecked = itemBinding.likesIcon.isChecked
-                if (isChecked){
-                    articleCommentViewModel.unlike(comment.commentId)
-                    likes -= 1
-                }
-                else{
-                    articleCommentViewModel.like(comment.commentId)
-                    likes += 1
-                }
-                itemBinding.likesIcon.setChecked(!isChecked,true)
-                itemBinding.likes.text = likes.toString()
-            }
             itemBinding.moreImg.setOnClickListener {
                 BottomSheetFragment.newInstance(comment.commentId, comment.isAuthor).run {
                     setOnClickListener(this@CommentMultiViewAdapter)
                     show(fm, null)
                 }
             }
+
             if (IS_ARTICLE) {
                 itemBinding.comments.setOnClickListener {
                     val intent = Intent(parent.context, CommentActivity::class.java)
@@ -126,7 +123,14 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
 
     inner class ChildCommentViewHolder(private val itemBinding: ChildCommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         private lateinit var currentComment: Comment
-
+        init {
+            itemBinding.likesIcon.clicks()
+                .observeOn(AndroidSchedulers.mainThread())
+                .throttleFirst(300,TimeUnit.MILLISECONDS)
+                .subscribe {
+                    onLikeClick?.invoke(absoluteAdapterPosition)
+                }
+        }
         fun bind(comment: Comment) {
             currentComment = comment
             itemBinding.content.text = comment.content
@@ -134,21 +138,6 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
             itemBinding.likesIcon.isChecked = comment.isLiked
             itemBinding.likes.text = comment.likes.toString()
-
-            itemBinding.likesIcon.setOnClickListener {
-                var likes = Integer.parseInt(itemBinding.likes.text.toString())
-                val isChecked = itemBinding.likesIcon.isChecked
-                if (isChecked){
-                    articleCommentViewModel.unlike(comment.commentId)
-                    likes -= 1
-                }
-                else{
-                    articleCommentViewModel.like(comment.commentId)
-                    likes += 1
-                }
-                itemBinding.likesIcon.setChecked(!isChecked,true)
-                itemBinding.likes.text = likes.toString()
-            }
 
             if (IS_ARTICLE) {
                 itemBinding.optionBtn.invisible()
