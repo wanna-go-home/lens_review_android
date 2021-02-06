@@ -24,22 +24,39 @@ android {
             keyAlias "release-key"
             keyPassword "123456"
         }
+        debug{
+            storeFile file("lens-debug-key.jks")
+            storePassword "gohome"
+            keyAlias "go-home"
+            keyPassword "gohome"
+        }
     }
 
     buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_HOST", "\"http://wy0105.iptime.org:8080\""
+            signingConfig signingConfigs.debug
+        }
+        qa {
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_HOST", "\"http://wy0105.iptime.org:8880\""
+            signingConfig signingConfigs.debug
+            matchingFallbacks = ['debug', 'qa']
+        }
+
         release {
             minifyEnabled true
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "API_HOST", "\"http://wy0105.iptime.org:8888\""
             signingConfig signingConfigs.publish
         }
-        debug{
-            debuggable true
 
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "API_HOST", "\"http://wy0105.iptime.org:8080\""
-        }
     }
 
     compileOptions {
