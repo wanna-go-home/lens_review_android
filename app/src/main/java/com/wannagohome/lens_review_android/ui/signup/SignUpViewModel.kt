@@ -101,16 +101,16 @@ class SignUpViewModel : BaseViewModel() {
     }
 
     fun phoneNumberCheck(phoneNumber: String) {
-        if(!isValidPhoneNumber(phoneNumber)){
+        if (!isValidPhoneNumber(phoneNumber)) {
             return
         }
 
         lensApiClient.checkSamePhoneNumber(phoneNumber)
             .subscribe({
                 phoneNumWarn.value = ""
-            },{
+            }, {
 
-                phoneNumWarn.value = when(it){
+                phoneNumWarn.value = when (it) {
                     is HttpException -> Utils.getString(R.string.signup_warn_duplicate_phone_number)
                     else -> ""
                 }
@@ -160,8 +160,9 @@ class SignUpViewModel : BaseViewModel() {
             .filter { it }
             .flatMap {
                 Observable.zip(lensApiClient.checkSameId(email).map { it.isSuccessful }, lensApiClient.checkSameNickname(nickname).map { it.isSuccessful },
-                    { emailForm: Boolean, nicknameForm: Boolean ->
-                        emailForm && nicknameForm
+                    lensApiClient.checkSamePhoneNumber(phoneNumber).map { it.isSuccessful },
+                    { emailForm: Boolean, nicknameForm: Boolean, phoneNumberForm: Boolean ->
+                        emailForm && nicknameForm && phoneNumberForm
                     })
                     .doOnError { errMessage.value = Utils.getString(R.string.signup_fail_for_server) }
                     .onErrorReturn { false }
