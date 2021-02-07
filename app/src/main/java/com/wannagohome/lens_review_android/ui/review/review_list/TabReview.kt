@@ -83,6 +83,6 @@ class TabReview : BaseFragment() {
     }
 
     companion object {
-        val instance = TabReview()
+        fun newInstance() = TabReview()
     }
 }

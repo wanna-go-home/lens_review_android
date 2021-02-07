@@ -17,7 +17,7 @@ import org.koin.core.KoinComponent
 class TabArticle : KoinComponent, BaseFragment()   {
 
     companion object {
-        val instance = TabArticle()
+        fun newInstance() = TabArticle()
     }
 
     private var _binding: FragmentBoardBinding? = null

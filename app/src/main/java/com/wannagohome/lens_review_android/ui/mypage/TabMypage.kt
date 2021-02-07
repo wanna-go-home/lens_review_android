@@ -149,7 +149,7 @@ class TabMypage : BaseFragment() {
     }
 
     companion object {
-        val instance = TabMypage()
+        fun newInstance() = TabMypage()
 
     }
 }
