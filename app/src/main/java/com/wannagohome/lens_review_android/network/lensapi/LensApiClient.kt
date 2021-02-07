@@ -156,6 +156,13 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    fun checkSamePhoneNumber(phoneNumber: String): Observable<Response<ResponseBody>> {
+        return lensApiInterface.checkSamePhoneNumber(phoneNumber)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
     fun myInfo(): Observable<Response<MyInfo>> {
         return lensApiInterface.me()
             .subscribeOn(Schedulers.io())

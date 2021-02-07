@@ -61,6 +61,9 @@ interface LensApiInterface {
     @GET("api/user/check/nickname")
     fun checkSameNickname(@Query("nickname") nickname: String): Observable<Response<ResponseBody>>
 
+    @GET("api/user/check/phoneNum")
+    fun checkSamePhoneNumber(@Query("phoneNum") phoneNumber: String): Observable<Response<ResponseBody>>
+
     @POST("api/user/signup")
     fun signUp(@Body signUpRequestRequest: SignUpRequest): Observable<Response<ResponseBody>>
 

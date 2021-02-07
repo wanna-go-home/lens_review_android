@@ -63,6 +63,7 @@
     <string name="signup_warn_wrong_phone_number">전화번호를 확인해주세요</string>
 
     <string name="signup_warn_duplicate_nickname">이미 존재하는 닉네임이에요</string>
+    <string name="signup_warn_duplicate_phone_number">이미 가입된 전화번호에요</string>
 
     <string name="signup_success">가입한 메일로 로그인해주세요</string>
     <string name="signup_signup_btn">회원가입</string>

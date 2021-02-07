@@ -99,6 +99,13 @@ class SignUpActivity : BaseAppCompatActivity() {
             .subscribe {
                 signUpViewModel.nicknameCheck(it.toString())
             }
+        binding.phoneNumberEdit.textChanges()
+            .debounce(400, TimeUnit.MILLISECONDS)
+            .skip(1)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                signUpViewModel.phoneNumberCheck(it.toString())
+            }
 
         binding.signUp.clicks()
             .throttleFirst(300, TimeUnit.MILLISECONDS)

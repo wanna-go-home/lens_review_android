@@ -100,6 +100,23 @@ class SignUpViewModel : BaseViewModel() {
         return true
     }
 
+    fun phoneNumberCheck(phoneNumber: String) {
+        if(!isValidPhoneNumber(phoneNumber)){
+            return
+        }
+
+        lensApiClient.checkSamePhoneNumber(phoneNumber)
+            .subscribe({
+                phoneNumWarn.value = ""
+            },{
+
+                phoneNumWarn.value = when(it){
+                    is HttpException -> Utils.getString(R.string.signup_warn_duplicate_phone_number)
+                    else -> ""
+                }
+            })
+    }
+
     fun nicknameCheck(nickname: String) {
         if (!isValidNickname(nickname)) {
             return
