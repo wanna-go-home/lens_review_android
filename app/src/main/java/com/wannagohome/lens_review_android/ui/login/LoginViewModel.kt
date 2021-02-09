@@ -5,6 +5,7 @@ import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
 import com.wannagohome.lens_review_android.support.baseclass.BaseViewModel
 import com.wannagohome.lens_review_android.extension.addTo
+import com.wannagohome.lens_review_android.support.AccessKeyHelper
 import com.wannagohome.lens_review_android.support.Utils
 import io.reactivex.rxjava3.core.Observable
 import org.koin.core.inject
@@ -91,6 +92,14 @@ class LoginViewModel : BaseViewModel() {
 
         passwordWarn.value = ""
         return true
+    }
+
+    fun checkAccessKey(){
+        val accessKey = AccessKeyHelper.readToken()
+
+        if(accessKey.isNotEmpty()){
+            loginSuccess.value = true
+        }
     }
 
 }
