@@ -17,7 +17,7 @@ import timber.log.Timber
 
 class TabSearch : Fragment(), KoinComponent {
     companion object {
-        val instance = TabSearch()
+        fun newInstance() = TabSearch()
     }
 
     private var _binding: FragmentSearchBinding? = null
