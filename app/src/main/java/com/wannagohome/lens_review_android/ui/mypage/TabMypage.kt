@@ -58,6 +58,11 @@ class TabMypage : BaseFragment() {
             .subscribe {
                 startActivityFromRight(requireActivity(), MyCommentActivity::class.java)
             }
+        binding.logoutMenu.clicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                showLogoutDialog()
+            }
         binding.leaveMenu.clicks()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -69,6 +74,23 @@ class TabMypage : BaseFragment() {
                 showModifyNicknameDialog()
             }
 
+    }
+
+    private fun showLogoutDialog() {
+        val builder = AlertDialog.Builder(context).apply {
+            setTitle(Utils.getString(R.string.mypage_logout_dialog_title))
+
+            setMessage(Utils.getString(R.string.mypage_logout_dialog_message))
+
+            setPositiveButton(Utils.getString(R.string.mypage_logout_dialog_positive)) { _, _ ->
+                mypageViewModel.logout()
+            }
+
+            setNegativeButton(Utils.getString(R.string.mypage_logout_dialog_negative)) { dialog, _ ->
+                dialog.dismiss()
+            }
+        }
+        builder.show()
     }
 
 
@@ -139,6 +161,13 @@ class TabMypage : BaseFragment() {
             startActivity(requireActivity(), LoginActivity::class.java)
 
             Utils.showToast(Utils.getString(R.string.mypage_leave_success_result))
+        })
+        mypageViewModel.successLogout.observe(viewLifecycleOwner, {
+            requireActivity().finish()
+
+            startActivity(requireActivity(), LoginActivity::class.java)
+
+            Utils.showToast(Utils.getString(R.string.mypage_logout_success_result))
         })
     }
 

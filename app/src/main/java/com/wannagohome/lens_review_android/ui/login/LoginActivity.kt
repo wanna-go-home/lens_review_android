@@ -1,6 +1,5 @@
 package com.wannagohome.lens_review_android.ui.login
 
-import android.content.Intent
 import android.os.Bundle
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
@@ -27,6 +26,9 @@ class LoginActivity : BaseAppCompatActivity() {
         addListener()
 
         observeEvents()
+
+        loginViewModel.checkAccessKey()
+
     }
 
     private fun addListener() {
