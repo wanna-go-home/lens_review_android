@@ -22,8 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:singleLine="true"
-            android:text="admin@admin.com" />
+            android:hint="@string/login_email_hint"
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/loginEmailWarn"
@@ -32,12 +32,13 @@
             android:textColor="@color/login_warn_text" />
 
         <EditText
+            android:inputType="textPassword"
+            android:hint="@string/login_password_hint"
             android:id="@+id/userPw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:singleLine="true"
-            android:text="admin123!" />
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/loginPwWarn"
@@ -48,6 +49,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
+
             android:layout_marginTop="100dp">
 
             <TextView
@@ -100,8 +103,8 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            style="@style/PrimaryButtonStyle"
             android:id="@+id/loginBtn"
+            style="@style/PrimaryButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:text="@string/login_login" />
