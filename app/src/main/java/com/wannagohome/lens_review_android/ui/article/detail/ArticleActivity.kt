@@ -27,6 +27,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
 
     companion object {
         const val ARTICLE_ID = "articleId"
+        const val COMMENT_ID = "commentId"
         const val IS_ARTICLE = true
     }
 
@@ -147,8 +148,8 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
             commentAdapter.onMoreCommentClick = { pos ->
                 val targetComment = commentAdapter.commentList[pos]
                 val intent = Intent(context, CommentActivity::class.java)
-                intent.putExtra(CommentMultiViewAdapter.ARTICLE_ID, targetComment.postId)
-                intent.putExtra(CommentMultiViewAdapter.COMMENT_ID, targetComment.commentId)
+                intent.putExtra(ARTICLE_ID, targetComment.postId)
+                intent.putExtra(COMMENT_ID, targetComment.commentId)
                 startActivityFromRight(intent)
             }
 
@@ -158,6 +159,14 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
                     setOnClickListener(commentAdapter)
                     show(supportFragmentManager, null)
                 }
+            }
+
+            commentAdapter.onCommentsClick = { pos ->
+                val targetComment = commentAdapter.commentList[pos]
+                val intent = Intent(context, CommentActivity::class.java)
+                intent.putExtra(ARTICLE_ID, targetComment.postId)
+                intent.putExtra(COMMENT_ID, targetComment.commentId)
+                startActivityFromRight(intent)
             }
 
             adapter = commentAdapter

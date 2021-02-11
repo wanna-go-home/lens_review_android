@@ -14,7 +14,7 @@ import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
 import com.wannagohome.lens_review_android.ui.BottomSheetFragment
-import com.wannagohome.lens_review_android.ui.article.detail.comment.CommentActivity
+import com.wannagohome.lens_review_android.ui.review.review_detail.comment.CommentActivity
 import com.wannagohome.lens_review_android.ui.review.write.WriteReviewActivity
 import com.wannagohome.lens_review_android.ui.review.review_detail.comment.CommentMultiViewAdapter
 import com.wannagohome.lens_review_android.ui.review.review_detail.comment.ReviewCommentViewModel
@@ -27,6 +27,7 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
 
     companion object{
         const val REVIEW_ID = "reviewId"
+        const val COMMENT_ID = "commentId"
         const val IS_REVIEW = true
         fun startReviewDetailActivity(context: Context, reviewId : Int){
             val intent = Intent(context, ReviewDetailActivity::class.java)
@@ -150,8 +151,8 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
             commentAdapter.onMoreCommentClick = { pos ->
                 val targetComment = commentAdapter.commentList[pos]
                 val intent = Intent(context, CommentActivity::class.java)
-                intent.putExtra(CommentMultiViewAdapter.REVIEW_ID, targetComment.postId)
-                intent.putExtra(CommentMultiViewAdapter.COMMENT_ID, targetComment.commentId)
+                intent.putExtra(REVIEW_ID, targetComment.postId)
+                intent.putExtra(COMMENT_ID, targetComment.commentId)
                 startActivityFromRight(intent)
             }
 
@@ -161,6 +162,14 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
                     setOnClickListener(commentAdapter)
                     show(supportFragmentManager, null)
                 }
+            }
+
+            commentAdapter.onCommentsClick = { pos ->
+                val targetComment = commentAdapter.commentList[pos]
+                val intent = Intent(context, CommentActivity::class.java)
+                intent.putExtra(REVIEW_ID, targetComment.postId)
+                intent.putExtra(COMMENT_ID, targetComment.commentId)
+                startActivityFromRight(intent)
             }
 
             adapter = commentAdapter

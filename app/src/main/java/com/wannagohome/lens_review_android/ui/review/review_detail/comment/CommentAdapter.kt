@@ -1,6 +1,5 @@
 package com.wannagohome.lens_review_android.ui.review.review_detail.comment
 
-import android.content.Intent
 import android.view.LayoutInflater
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import android.view.ViewGroup
@@ -34,6 +33,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
     var onLikeClick: ((Int) -> Unit)? = null
     var onMoreCommentClick: ((Int) -> Unit)? = null
     var onOptionClick: ((Int) -> Unit)? = null
+    var onCommentsClick: ((Int) -> Unit)? = null
 
     var commentList = ArrayList<Comment>()
         set(shops) {
@@ -79,17 +79,26 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
                 .subscribe {
                     onLikeClick?.invoke(absoluteAdapterPosition)
                 }
+
             itemBinding.moreComment.clicks()
                 .observeOn(AndroidSchedulers.mainThread())
                 .throttleFirst(300,TimeUnit.MILLISECONDS)
                 .subscribe {
                     onMoreCommentClick?.invoke(absoluteAdapterPosition)
                 }
+
             itemBinding.optionBtn.clicks()
                 .observeOn(AndroidSchedulers.mainThread())
                 .throttleFirst(300,TimeUnit.MILLISECONDS)
                 .subscribe {
                     onOptionClick?.invoke(absoluteAdapterPosition)
+                }
+
+            itemBinding.comments.clicks()
+                .observeOn(AndroidSchedulers.mainThread())
+                .throttleFirst(300,TimeUnit.MILLISECONDS)
+                .subscribe {
+                    onCommentsClick?.invoke(absoluteAdapterPosition)
                 }
         }
         fun bind(comment: Comment) {
@@ -99,14 +108,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
             itemBinding.likesIcon.isChecked = comment.isLiked
             itemBinding.likes.text = comment.likes.toString()
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
-            if (IS_REVIEW) {
-                itemBinding.comments.setOnClickListener {
-                    val intent = Intent(parent.context, CommentActivity::class.java)
-                    intent.putExtra(REVIEW_ID, comment.postId)
-                    intent.putExtra(COMMENT_ID, comment.commentId)
-                    parent.context.startActivity(intent)
-                }
-            }
+
             //@todo : let "더 보기" be recyclerview item
             if (IS_REVIEW && comment.bundleSize > MAX_CHILDREN_IN_REVIEW) {
                     val nOfComments = String.format(
