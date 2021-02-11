@@ -14,6 +14,7 @@ import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
 import com.wannagohome.lens_review_android.ui.BottomSheetFragment
 import com.wannagohome.lens_review_android.ui.article.detail.comment.ArticleCommentViewModel
+import com.wannagohome.lens_review_android.ui.article.detail.comment.CommentActivity
 import com.wannagohome.lens_review_android.ui.article.detail.comment.CommentMultiViewAdapter
 import com.wannagohome.lens_review_android.ui.article.write.WriteArticleActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -141,6 +142,14 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
                     articleCommentViewModel.like(targetComment.commentId)
                 }
             }
+            commentAdapter.onMoreCommentClick = { pos ->
+                val targetComment = commentAdapter.commentList[pos]
+                val intent = Intent(context, CommentActivity::class.java)
+                intent.putExtra(CommentMultiViewAdapter.ARTICLE_ID, targetComment.postId)
+                intent.putExtra(CommentMultiViewAdapter.COMMENT_ID, targetComment.commentId)
+                startActivityFromRight(intent)
+            }
+
             adapter = commentAdapter
         }
     }

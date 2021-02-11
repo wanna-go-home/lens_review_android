@@ -14,7 +14,6 @@ import com.wannagohome.lens_review_android.extension.gone
 import com.wannagohome.lens_review_android.extension.invisible
 import com.wannagohome.lens_review_android.extension.visible
 import com.wannagohome.lens_review_android.network.model.comment.Comment
-import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.Utils.getString
 import com.wannagohome.lens_review_android.ui.BottomSheetFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -33,6 +32,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
     }
 
     var onLikeClick: ((Int) -> Unit)? = null
+    var onMoreCommentClick: ((Int) -> Unit)? = null
 
     var commentList = ArrayList<Comment>()
         set(shops) {
@@ -77,6 +77,12 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
                 .throttleFirst(300, TimeUnit.MILLISECONDS)
                 .subscribe {
                     onLikeClick?.invoke(absoluteAdapterPosition)
+                }
+            itemBinding.moreComment.clicks()
+                .observeOn(AndroidSchedulers.mainThread())
+                .throttleFirst(300,TimeUnit.MILLISECONDS)
+                .subscribe {
+                    onMoreCommentClick?.invoke(absoluteAdapterPosition)
                 }
         }
         fun bind(comment: Comment) {

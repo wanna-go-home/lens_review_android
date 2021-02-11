@@ -31,6 +31,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
         const val INNER_COMMENT = 1
     }
     var onLikeClick: ((Int) -> Unit)? = null
+    var onMoreCommentClick: ((Int) -> Unit)? = null
 
     var commentList = ArrayList<Comment>()
         set(shops) {
@@ -76,6 +77,12 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
                 .subscribe {
                     onLikeClick?.invoke(absoluteAdapterPosition)
                 }
+            itemBinding.moreComment.clicks()
+                .observeOn(AndroidSchedulers.mainThread())
+                .throttleFirst(300,TimeUnit.MILLISECONDS)
+                .subscribe {
+                    onMoreCommentClick?.invoke(absoluteAdapterPosition)
+                }
         }
 
         fun bind(comment: Comment) {
@@ -108,12 +115,6 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
                     comment.bundleSize - MAX_CHILDREN_IN_ARTICLE
                 )
                 itemBinding.moreComment.text = nOfComments
-                itemBinding.moreComment.setOnClickListener {
-                    val intent = Intent(parent.context, CommentActivity::class.java)
-                    intent.putExtra(ARTICLE_ID, comment.postId)
-                    intent.putExtra(COMMENT_ID, comment.commentId)
-                    parent.context.startActivity(intent)
-                }
                 itemBinding.moreComment.visible()
             } else {
                 itemBinding.moreComment.gone()
