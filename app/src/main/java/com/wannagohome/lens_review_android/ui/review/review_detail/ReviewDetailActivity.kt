@@ -75,7 +75,7 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
 
 
     private fun addDialogListener(reviewId: Int, isAuthor: Boolean) {
-        binding.moreImg.setOnClickListener {
+        binding.optionBtn.setOnClickListener {
             BottomSheetFragment.newInstance(reviewId, isAuthor).run{
                 setOnClickListener(this@ReviewDetailActivity)
                 show(supportFragmentManager, null)
@@ -136,6 +136,7 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
             commentAdapter = CommentMultiViewAdapter(supportFragmentManager, reviewCommentViewModel, IS_REVIEW)
+
             commentAdapter.onLikeClick = { pos ->
                 val targetComment = commentAdapter.commentList[pos]
                 if (targetComment.isLiked){
@@ -152,6 +153,14 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
                 intent.putExtra(CommentMultiViewAdapter.REVIEW_ID, targetComment.postId)
                 intent.putExtra(CommentMultiViewAdapter.COMMENT_ID, targetComment.commentId)
                 startActivityFromRight(intent)
+            }
+
+            commentAdapter.onOptionClick = { pos ->
+                val targetComment = commentAdapter.commentList[pos]
+                BottomSheetFragment.newInstance(targetComment.commentId, targetComment.isAuthor).run {
+                    setOnClickListener(commentAdapter)
+                    show(supportFragmentManager, null)
+                }
             }
 
             adapter = commentAdapter

@@ -33,6 +33,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
 
     var onLikeClick: ((Int) -> Unit)? = null
     var onMoreCommentClick: ((Int) -> Unit)? = null
+    var onOptionClick: ((Int) -> Unit)? = null
 
     var commentList = ArrayList<Comment>()
         set(shops) {
@@ -84,6 +85,12 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
                 .subscribe {
                     onMoreCommentClick?.invoke(absoluteAdapterPosition)
                 }
+            itemBinding.optionBtn.clicks()
+                .observeOn(AndroidSchedulers.mainThread())
+                .throttleFirst(300,TimeUnit.MILLISECONDS)
+                .subscribe {
+                    onOptionClick?.invoke(absoluteAdapterPosition)
+                }
         }
         fun bind(comment: Comment) {
             currentComment = comment
@@ -92,12 +99,6 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
             itemBinding.likesIcon.isChecked = comment.isLiked
             itemBinding.likes.text = comment.likes.toString()
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
-            itemBinding.moreImg.setOnClickListener {
-                BottomSheetFragment.newInstance(comment.commentId, comment.isAuthor).run{
-                    setOnClickListener(this@CommentMultiViewAdapter)
-                    show(fm, null)
-                }
-            }
             if (IS_REVIEW) {
                 itemBinding.comments.setOnClickListener {
                     val intent = Intent(parent.context, CommentActivity::class.java)
@@ -113,12 +114,6 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
                         comment.bundleSize - MAX_CHILDREN_IN_REVIEW
                     )
                     itemBinding.moreComment.text = nOfComments
-                    itemBinding.moreComment.setOnClickListener {
-                        val intent = Intent(parent.context, CommentActivity::class.java)
-                        intent.putExtra(REVIEW_ID, comment.postId)
-                        intent.putExtra(COMMENT_ID, comment.commentId)
-                        parent.context.startActivity(intent)
-                    }
                     itemBinding.moreComment.visible()
             }
             else{
@@ -136,6 +131,12 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
                 .subscribe {
                     onLikeClick?.invoke(absoluteAdapterPosition)
                 }
+            itemBinding.optionBtn.clicks()
+                .observeOn(AndroidSchedulers.mainThread())
+                .throttleFirst(300,TimeUnit.MILLISECONDS)
+                .subscribe {
+                    onOptionClick?.invoke(absoluteAdapterPosition)
+                }
         }
         fun bind(comment: Comment) {
             currentComment = comment
@@ -147,14 +148,6 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
 
             if (IS_REVIEW) {
                 itemBinding.optionBtn.invisible()
-            }
-            else{
-                itemBinding.optionBtn.setOnClickListener {
-                    BottomSheetFragment.newInstance(comment.commentId, comment.isAuthor).run{
-                        setOnClickListener(this@CommentMultiViewAdapter)
-                        show(fm, null)
-                    }
-                }
             }
 
         }

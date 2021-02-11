@@ -72,7 +72,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
 
 
     private fun addDialogListener(articleId: Int, isAuthor: Boolean) {
-        binding.moreImg.setOnClickListener {
+        binding.optionBtn.setOnClickListener {
             BottomSheetFragment.newInstance(articleId, isAuthor).run{
                 setOnClickListener(this@ArticleActivity)
                 show(supportFragmentManager, null)
@@ -133,6 +133,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
             commentAdapter = CommentMultiViewAdapter(supportFragmentManager, articleCommentViewModel, IS_ARTICLE)
+
             commentAdapter.onLikeClick = { pos ->
                 val targetComment = commentAdapter.commentList[pos]
                 if (targetComment.isLiked){
@@ -142,12 +143,21 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
                     articleCommentViewModel.like(targetComment.commentId)
                 }
             }
+
             commentAdapter.onMoreCommentClick = { pos ->
                 val targetComment = commentAdapter.commentList[pos]
                 val intent = Intent(context, CommentActivity::class.java)
                 intent.putExtra(CommentMultiViewAdapter.ARTICLE_ID, targetComment.postId)
                 intent.putExtra(CommentMultiViewAdapter.COMMENT_ID, targetComment.commentId)
                 startActivityFromRight(intent)
+            }
+
+            commentAdapter.onOptionClick = { pos ->
+                val targetComment = commentAdapter.commentList[pos]
+                BottomSheetFragment.newInstance(targetComment.commentId, targetComment.isAuthor).run {
+                    setOnClickListener(commentAdapter)
+                    show(supportFragmentManager, null)
+                }
             }
 
             adapter = commentAdapter

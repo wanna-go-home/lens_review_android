@@ -32,6 +32,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
     }
     var onLikeClick: ((Int) -> Unit)? = null
     var onMoreCommentClick: ((Int) -> Unit)? = null
+    var onOptionClick: ((Int) -> Unit)? = null
 
     var commentList = ArrayList<Comment>()
         set(shops) {
@@ -83,6 +84,12 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
                 .subscribe {
                     onMoreCommentClick?.invoke(absoluteAdapterPosition)
                 }
+            itemBinding.optionBtn.clicks()
+                .observeOn(AndroidSchedulers.mainThread())
+                .throttleFirst(300,TimeUnit.MILLISECONDS)
+                .subscribe {
+                    onOptionClick?.invoke(absoluteAdapterPosition)
+                }
         }
 
         fun bind(comment: Comment) {
@@ -92,13 +99,6 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
             itemBinding.likesIcon.isChecked = comment.isLiked
             itemBinding.likes.text = comment.likes.toString()
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
-
-            itemBinding.moreImg.setOnClickListener {
-                BottomSheetFragment.newInstance(comment.commentId, comment.isAuthor).run {
-                    setOnClickListener(this@CommentMultiViewAdapter)
-                    show(fm, null)
-                }
-            }
 
             if (IS_ARTICLE) {
                 itemBinding.comments.setOnClickListener {
@@ -131,6 +131,12 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
                 .subscribe {
                     onLikeClick?.invoke(absoluteAdapterPosition)
                 }
+            itemBinding.optionBtn.clicks()
+                .observeOn(AndroidSchedulers.mainThread())
+                .throttleFirst(300,TimeUnit.MILLISECONDS)
+                .subscribe {
+                    onOptionClick?.invoke(absoluteAdapterPosition)
+                }
         }
         fun bind(comment: Comment) {
             currentComment = comment
@@ -142,15 +148,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
 
             if (IS_ARTICLE) {
                 itemBinding.optionBtn.invisible()
-            } else {
-                itemBinding.optionBtn.setOnClickListener {
-                    BottomSheetFragment.newInstance(comment.commentId, comment.isAuthor).run {
-                        setOnClickListener(this@CommentMultiViewAdapter)
-                        show(fm, null)
-                    }
-                }
             }
-
         }
     }
 
