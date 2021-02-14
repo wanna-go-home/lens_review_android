@@ -79,7 +79,6 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val artic
                 }
             itemBinding.moreComment.clicks()
                 .observeOn(AndroidSchedulers.mainThread())
-                .throttleFirst(300,TimeUnit.MILLISECONDS)
                 .subscribe {
                     onMoreCommentClick?.invoke(absoluteAdapterPosition)
                 }
