@@ -14,7 +14,7 @@ import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
 import com.wannagohome.lens_review_android.ui.BottomSheetFragment
-import com.wannagohome.lens_review_android.ui.article.detail.comment.CommentActivity
+import com.wannagohome.lens_review_android.ui.review.review_detail.comment.CommentActivity
 import com.wannagohome.lens_review_android.ui.review.write.WriteReviewActivity
 import com.wannagohome.lens_review_android.ui.review.review_detail.comment.CommentMultiViewAdapter
 import com.wannagohome.lens_review_android.ui.review.review_detail.comment.ReviewCommentViewModel
@@ -27,6 +27,7 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
 
     companion object{
         const val REVIEW_ID = "reviewId"
+        const val COMMENT_ID = "commentId"
         const val IS_REVIEW = true
         fun startReviewDetailActivity(context: Context, reviewId : Int){
             val intent = Intent(context, ReviewDetailActivity::class.java)
@@ -75,7 +76,7 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
 
 
     private fun addDialogListener(reviewId: Int, isAuthor: Boolean) {
-        binding.moreImg.setOnClickListener {
+        binding.optionBtn.setOnClickListener {
             BottomSheetFragment.newInstance(reviewId, isAuthor).run{
                 setOnClickListener(this@ReviewDetailActivity)
                 show(supportFragmentManager, null)
@@ -136,6 +137,7 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
             commentAdapter = CommentMultiViewAdapter(supportFragmentManager, reviewCommentViewModel, IS_REVIEW)
+
             commentAdapter.onLikeClick = { pos ->
                 val targetComment = commentAdapter.commentList[pos]
                 if (targetComment.isLiked){
@@ -149,8 +151,24 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
             commentAdapter.onMoreCommentClick = { pos ->
                 val targetComment = commentAdapter.commentList[pos]
                 val intent = Intent(context, CommentActivity::class.java)
-                intent.putExtra(CommentMultiViewAdapter.REVIEW_ID, targetComment.postId)
-                intent.putExtra(CommentMultiViewAdapter.COMMENT_ID, targetComment.commentId)
+                intent.putExtra(REVIEW_ID, targetComment.postId)
+                intent.putExtra(COMMENT_ID, targetComment.commentId)
+                startActivityFromRight(intent)
+            }
+
+            commentAdapter.onOptionClick = { pos ->
+                val targetComment = commentAdapter.commentList[pos]
+                BottomSheetFragment.newInstance(targetComment.commentId, targetComment.isAuthor).run {
+                    setOnClickListener(commentAdapter)
+                    show(supportFragmentManager, null)
+                }
+            }
+
+            commentAdapter.onCommentsClick = { pos ->
+                val targetComment = commentAdapter.commentList[pos]
+                val intent = Intent(context, CommentActivity::class.java)
+                intent.putExtra(REVIEW_ID, targetComment.postId)
+                intent.putExtra(COMMENT_ID, targetComment.commentId)
                 startActivityFromRight(intent)
             }
 
