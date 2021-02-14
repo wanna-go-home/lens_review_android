@@ -66,6 +66,15 @@ class TabArticle : KoinComponent, BaseFragment()   {
                 intent.putExtra(ArticleActivity.ARTICLE_ID, clickedArticle.articleId)
                 startActivityFromRight(intent)
             }
+            boardListAdapter.onLikeClick = { pos ->
+                val clickedArticle = boardListAdapter.getItem(pos)
+                if (clickedArticle.isLiked){
+                    boardViewModel.unlike(clickedArticle.articleId)
+                }
+                else{
+                    boardViewModel.like(clickedArticle.articleId)
+                }
+            }
 
             adapter = boardListAdapter
         }

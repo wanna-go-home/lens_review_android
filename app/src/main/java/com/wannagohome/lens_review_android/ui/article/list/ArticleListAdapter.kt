@@ -3,13 +3,18 @@ package com.wannagohome.lens_review_android.ui.article.list
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.databinding.ArticleListItemBinding
 import com.wannagohome.lens_review_android.network.model.article.ArticlePreview
 import com.wannagohome.lens_review_android.support.baseclass.BaseSimpleAdapter
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import java.util.concurrent.TimeUnit
 
 
 class ArticleListAdapter : BaseSimpleAdapter<ArticlePreview, ArticleListAdapter.ArticleListViewHolder>() {
+
+    var onLikeClick: ((Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleListViewHolder {
         val binding = ArticleListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,8 +31,15 @@ class ArticleListAdapter : BaseSimpleAdapter<ArticlePreview, ArticleListAdapter.
 
         init {
             itemView.setOnClickListener {
-                onItemClick?.invoke(adapterPosition)
+                onItemClick?.invoke(absoluteAdapterPosition)
             }
+
+            itemBinding.likesIcon.clicks()
+                .observeOn(AndroidSchedulers.mainThread())
+                .throttleFirst(300, TimeUnit.MILLISECONDS)
+                .subscribe {
+                    onLikeClick?.invoke(absoluteAdapterPosition)
+                }
         }
 
         fun bind(article: ArticlePreview) {

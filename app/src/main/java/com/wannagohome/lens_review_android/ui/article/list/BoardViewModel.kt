@@ -28,7 +28,6 @@ class BoardViewModel : BaseViewModel(), KoinComponent {
 
     }
 
-
     fun refreshArticleList() {
         refreshSuccess.value = false
         lensClient.getArticleList()
@@ -41,5 +40,36 @@ class BoardViewModel : BaseViewModel(), KoinComponent {
                     it.printStackTrace()
                 }
             ).addTo(compositeDisposable)
+    }
+
+
+    fun like(articleId: Int) {
+        lensClient.postArticleLikeFromList(articleId)
+            .subscribe( {
+                val newArticle = it.body()
+                var oldArticleList = articleList.value?.toMutableList()
+                if (oldArticleList!=null && newArticle !=null){
+                    val idx = oldArticleList.indexOfFirst { article ->  article.articleId == newArticle.articleId }
+                    oldArticleList[idx] = newArticle
+                }
+                articleList.value = oldArticleList
+            }, {
+            })
+            .addTo(compositeDisposable)
+    }
+
+    fun unlike(articleId: Int) {
+        lensClient.deleteArticleLikeFromList(articleId)
+            .subscribe( {
+                val newArticle = it.body()
+                var oldArticleList = articleList.value?.toMutableList()
+                if (oldArticleList!=null && newArticle !=null){
+                    val idx = oldArticleList.indexOfFirst { article ->  article.articleId == newArticle.articleId }
+                    oldArticleList[idx] = newArticle
+                }
+                articleList.value = oldArticleList
+            }, {
+            })
+            .addTo(compositeDisposable)
     }
 }
