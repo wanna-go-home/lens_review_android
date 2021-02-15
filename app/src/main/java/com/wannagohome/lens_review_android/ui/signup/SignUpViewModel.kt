@@ -114,7 +114,7 @@ class SignUpViewModel : BaseViewModel() {
 
     private fun isValidNickname(nickname: String): Boolean {
         if (nickname.isEmpty() || nickname.isBlank()) {
-            nicknameWarn.value = Utils.getString(R.string.signup_warn_duplicate_nickname)
+            nicknameWarn.value = Utils.getString(R.string.signup_warn_empty_nickname)
             return false
         }
         return true

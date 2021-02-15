@@ -27,4 +27,10 @@ object AccessKeyHelper {
         editor.remove(KEY_TOKEN)
         editor.apply()
     }
+
+    fun deleteTokenSync() {
+        val editor = AppComponents.applicationContext.getSharedPreferences(KEY_AUTH, Context.MODE_PRIVATE).edit()
+        editor.remove(KEY_TOKEN)
+        editor.commit()
+    }
 }

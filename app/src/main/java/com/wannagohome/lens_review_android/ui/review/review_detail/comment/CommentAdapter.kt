@@ -1,6 +1,5 @@
 package com.wannagohome.lens_review_android.ui.review.review_detail.comment
 
-import android.content.Intent
 import android.view.LayoutInflater
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import com.wannagohome.lens_review_android.extension.gone
 import com.wannagohome.lens_review_android.extension.invisible
 import com.wannagohome.lens_review_android.extension.visible
 import com.wannagohome.lens_review_android.network.model.comment.Comment
-import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.Utils.getString
 import com.wannagohome.lens_review_android.ui.BottomSheetFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -33,6 +31,9 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
     }
 
     var onLikeClick: ((Int) -> Unit)? = null
+    var onMoreCommentClick: ((Int) -> Unit)? = null
+    var onOptionClick: ((Int) -> Unit)? = null
+    var onCommentsClick: ((Int) -> Unit)? = null
 
     var commentList = ArrayList<Comment>()
         set(shops) {
@@ -78,6 +79,26 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
                 .subscribe {
                     onLikeClick?.invoke(absoluteAdapterPosition)
                 }
+
+            itemBinding.moreComment.clicks()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    onMoreCommentClick?.invoke(absoluteAdapterPosition)
+                }
+
+            itemBinding.optionBtn.clicks()
+                .observeOn(AndroidSchedulers.mainThread())
+                .throttleFirst(300,TimeUnit.MILLISECONDS)
+                .subscribe {
+                    onOptionClick?.invoke(absoluteAdapterPosition)
+                }
+
+            itemBinding.comments.clicks()
+                .observeOn(AndroidSchedulers.mainThread())
+                .throttleFirst(300,TimeUnit.MILLISECONDS)
+                .subscribe {
+                    onCommentsClick?.invoke(absoluteAdapterPosition)
+                }
         }
         fun bind(comment: Comment) {
             currentComment = comment
@@ -86,20 +107,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
             itemBinding.likesIcon.isChecked = comment.isLiked
             itemBinding.likes.text = comment.likes.toString()
             itemBinding.createdAt.text = dateHelper.calcCreatedBefore(comment.createdAt)
-            itemBinding.moreImg.setOnClickListener {
-                BottomSheetFragment.newInstance(comment.commentId, comment.isAuthor).run{
-                    setOnClickListener(this@CommentMultiViewAdapter)
-                    show(fm, null)
-                }
-            }
-            if (IS_REVIEW) {
-                itemBinding.comments.setOnClickListener {
-                    val intent = Intent(parent.context, CommentActivity::class.java)
-                    intent.putExtra(REVIEW_ID, comment.postId)
-                    intent.putExtra(COMMENT_ID, comment.commentId)
-                    parent.context.startActivity(intent)
-                }
-            }
+
             //@todo : let "더 보기" be recyclerview item
             if (IS_REVIEW && comment.bundleSize > MAX_CHILDREN_IN_REVIEW) {
                     val nOfComments = String.format(
@@ -107,12 +115,6 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
                         comment.bundleSize - MAX_CHILDREN_IN_REVIEW
                     )
                     itemBinding.moreComment.text = nOfComments
-                    itemBinding.moreComment.setOnClickListener {
-                        val intent = Intent(parent.context, CommentActivity::class.java)
-                        intent.putExtra(REVIEW_ID, comment.postId)
-                        intent.putExtra(COMMENT_ID, comment.commentId)
-                        parent.context.startActivity(intent)
-                    }
                     itemBinding.moreComment.visible()
             }
             else{
@@ -130,6 +132,12 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
                 .subscribe {
                     onLikeClick?.invoke(absoluteAdapterPosition)
                 }
+            itemBinding.optionBtn.clicks()
+                .observeOn(AndroidSchedulers.mainThread())
+                .throttleFirst(300,TimeUnit.MILLISECONDS)
+                .subscribe {
+                    onOptionClick?.invoke(absoluteAdapterPosition)
+                }
         }
         fun bind(comment: Comment) {
             currentComment = comment
@@ -141,14 +149,6 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
 
             if (IS_REVIEW) {
                 itemBinding.optionBtn.invisible()
-            }
-            else{
-                itemBinding.optionBtn.setOnClickListener {
-                    BottomSheetFragment.newInstance(comment.commentId, comment.isAuthor).run{
-                        setOnClickListener(this@CommentMultiViewAdapter)
-                        show(fm, null)
-                    }
-                }
             }
 
         }

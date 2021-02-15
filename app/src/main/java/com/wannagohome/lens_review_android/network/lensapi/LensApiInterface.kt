@@ -97,7 +97,7 @@ interface LensApiInterface {
     @DELETE("api/boards/review-board/{reviewId}/comments/{commentId}")
     fun deleteReviewCommentById(@Path("reviewId") reviewId: Int, @Path("commentId") commentId: Int ): Observable<Response<ResponseBody>>
 
-    @GET("api/boards/article/me")
+    @GET("api/user/article/me")
     fun getMyArticle(): Observable<Response<List<ArticlePreview>>>
 
     @GET("api/user/review/me")

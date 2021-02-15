@@ -35,6 +35,8 @@
     <string name="login_login">로그인</string>
     <string name="login_fail_for_server">서버이상으로 로그인에 실패했어요. 관리자에게 문의해주세요</string>
     <string name="login_fail_wrong_input">이메일과 비밀번호를 확인해주세요</string>
+    <string name="login_email_hint">이메일을 입력해 주세요</string>
+    <string name="login_password_hint">비밀번호를 입력해 주세요</string>
     <string name="login_email_empty">이메일을 입력해 주세요</string>
     <string name="login_email_invalid">올바른 이메일을 입력해 주세요</string>
     <string name="login_pw_empty">비밀번호를 입력해 주세요</string>
@@ -49,6 +51,7 @@
     <string name="signup_nickname_hint">닉네임을 입력해주세요 (두글자 이상)</string>
     <string name="signup_hp_hint">연락처를 입력해주세요</string>
     <string name="signup_terms_btn">개인정보 수집 및 이용약관 확인하기</string>
+    <string name="terms_title">개인정보 이용약관</string>
 
 
     <string name="signup_warn_empty_email">이메일을 입력해주세요.</string>
@@ -63,6 +66,7 @@
     <string name="signup_warn_wrong_phone_number">전화번호를 확인해주세요</string>
     <string name="signup_warn_duplicate_phone_number">이미 가입한 전화번호예요</string>
 
+    <string name="signup_warn_empty_nickname">닉네임을 입력해주세요</string>
     <string name="signup_warn_duplicate_nickname">이미 존재하는 닉네임이에요</string>
 
     <string name="signup_success">가입한 메일로 로그인해주세요</string>
@@ -110,14 +114,20 @@
     <string name="mypage_my_article">내가 작성한 포스트</string>
     <string name="mypage_my_comments">내가 작성한 댓글</string>
     <string name="mypage_leave">회원탈퇴</string>
+    <string name="mypage_logout">로그아웃</string>
     <string name="mypage_my_review_count_header">내 리뷰</string>
     <string name="mypage_my_article_count_header">내 포스트</string>
     <string name="mypage_my_comment_count_header">내 댓글</string>
     <string name="mypage_leave_dialog_title">회원탈퇴</string>
+    <string name="mypage_logout_dialog_title">로그아웃</string>
     <string name="mypage_leave_dialog_message">탈퇴 후 정보를 복구할 수 없습니다. \n계속하시겠습니까?</string>
+    <string name="mypage_logout_dialog_message">로그아웃하시겠습니까?</string>
     <string name="mypage_leave_dialog_negative">취소</string>
     <string name="mypage_leave_dialog_positive">탈퇴</string>
+    <string name="mypage_logout_dialog_negative">취소</string>
+    <string name="mypage_logout_dialog_positive">로그아웃</string>
     <string name="mypage_leave_success_result">회원탈퇴 되었습니다.</string>
+    <string name="mypage_logout_success_result">로그아웃 되었습니다.</string>
     <string name="mypage_modify_nickname_dialog_title">새로운 닉네임을 입력하세요</string>
     <string name="mypage_modify_nickname_confirm">확인</string>
     <string name="mypage_modify_nickname_cancel">취소</string>

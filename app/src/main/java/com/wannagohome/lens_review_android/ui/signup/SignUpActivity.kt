@@ -113,7 +113,7 @@ class SignUpActivity : BaseAppCompatActivity() {
             }
         binding.privacyTermsBtn.clicks()
             .subscribe {
-                startActivity(this@SignUpActivity, TermsActivity::class.java)
+                startActivityFromRight(this@SignUpActivity, TermsActivity::class.java)
             }
 
     }
