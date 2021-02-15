@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.lens_review_android.network.model.helper.dateHelper
 import com.wannagohome.lens_review_android.databinding.ArticleListItemBinding
-import com.wannagohome.lens_review_android.network.model.article.ArticlePreview
+import com.wannagohome.lens_review_android.network.model.article.Article
 import com.wannagohome.lens_review_android.support.baseclass.BaseSimpleAdapter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
 
-class ArticleListAdapter : BaseSimpleAdapter<ArticlePreview, ArticleListAdapter.ArticleListViewHolder>() {
+class ArticleListAdapter : BaseSimpleAdapter<Article, ArticleListAdapter.ArticleListViewHolder>() {
 
     var onLikeClick: ((Int) -> Unit)? = null
 
@@ -30,7 +30,7 @@ class ArticleListAdapter : BaseSimpleAdapter<ArticlePreview, ArticleListAdapter.
     inner class ArticleListViewHolder(private val itemBinding: ArticleListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
 
         init {
-            itemView.setOnClickListener {
+            itemBinding.mainContentView.setOnClickListener {
                 onItemClick?.invoke(absoluteAdapterPosition)
             }
 
@@ -42,7 +42,7 @@ class ArticleListAdapter : BaseSimpleAdapter<ArticlePreview, ArticleListAdapter.
                 }
         }
 
-        fun bind(article: ArticlePreview) {
+        fun bind(article: Article) {
             itemBinding.articleTitle.text = article.title
             itemBinding.content.text = article.content
             itemBinding.nickname.text = article.nickname
