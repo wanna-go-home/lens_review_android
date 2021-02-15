@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.wannagohome.lens_review_android.R
 import com.wannagohome.lens_review_android.extension.addTo
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
+import com.wannagohome.lens_review_android.network.model.user.CheckDuplicateResponse
 import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -83,13 +84,32 @@ class SignUpViewModel : BaseViewModel() {
         return true
     }
 
-    fun isValidPhoneNumber(phoneNum: String): Boolean {
+    private fun isValidPhoneNumber(phoneNum: String): Boolean {
         if (phoneNum.length != 11) {
             phoneNumWarn.value = Utils.getString(R.string.signup_warn_wrong_phone_number)
             return false
         }
         phoneNumWarn.value = ""
         return true
+    }
+
+    fun checkPhoneNumber(phoneNumber: String) {
+        if (!isValidPhoneNumber(phoneNumber)) {
+            return
+        }
+
+        lensApiClient.checkSamePhoneNumber(phoneNumber)
+            .subscribe({
+                val duplicate = it.body()!!
+
+                if (duplicate.available) {
+                    phoneNumWarn.value = ""
+                } else {
+                    phoneNumWarn.value = Utils.getString(R.string.signup_warn_duplicate_phone_number)
+                }
+            }, {
+
+            })
     }
 
     private fun isValidNickname(nickname: String): Boolean {
@@ -142,14 +162,25 @@ class SignUpViewModel : BaseViewModel() {
         checkAll(email, pw, pwCheck, phoneNumber, nickname)
             .filter { it }
             .flatMap {
-                Observable.zip(lensApiClient.checkSameId(email).map { it.isSuccessful }, lensApiClient.checkSameNickname(nickname).map { it.isSuccessful },
-                    { emailForm: Boolean, nicknameForm: Boolean ->
-                        emailForm && nicknameForm
-                    })
-                    .doOnError { errMessage.value = Utils.getString(R.string.signup_fail_for_server) }
-                    .onErrorReturn { false }
-
+                Observable.zip(lensApiClient.checkSameId(email).map { it.body() }, lensApiClient.checkSameNickname(nickname).map { it.body() },
+                    lensApiClient.checkSamePhoneNumber(phoneNumber).map { it.body() })
+                { emailAvailable: CheckDuplicateResponse, nicknameAvailable: CheckDuplicateResponse, phoneNumberAvailable: CheckDuplicateResponse ->
+                    Timber.d("kgp pp")
+                    if (!emailAvailable.available) {
+                        emailWarn.value = Utils.getString(R.string.signup_warn_duplicate_email)
+                    }
+                    if (!nicknameAvailable.available) {
+                        nicknameWarn.value = Utils.getString(R.string.signup_warn_duplicate_nickname)
+                    }
+                    if (!phoneNumberAvailable.available) {
+                        phoneNumWarn.value = Utils.getString(R.string.signup_warn_duplicate_phone_number)
+                    }
+                    emailAvailable.available && nicknameAvailable.available && phoneNumberAvailable.available
+                }
             }
+
+            .doOnError { errMessage.value = Utils.getString(R.string.signup_fail_for_server) }
+            .onErrorReturn { false }
             .subscribe { canSignUp ->
                 if (canSignUp) {
                     callSignUp(email, pw, phoneNumber, nickname)

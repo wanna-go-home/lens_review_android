@@ -5,10 +5,7 @@ import com.wannagohome.lens_review_android.network.model.article.*
 import com.wannagohome.lens_review_android.network.model.comment.Comment
 import com.wannagohome.lens_review_android.network.model.comment.WriteCommentRequest
 import com.wannagohome.lens_review_android.network.model.review.*
-import com.wannagohome.lens_review_android.network.model.user.LoginRequest
-import com.wannagohome.lens_review_android.network.model.user.ModifyNicknameRequest
-import com.wannagohome.lens_review_android.network.model.user.MyInfo
-import com.wannagohome.lens_review_android.network.model.user.SignUpRequest
+import com.wannagohome.lens_review_android.network.model.user.*
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -56,10 +53,13 @@ interface LensApiInterface {
     fun login(@Body loginRequest: LoginRequest): Observable<Response<ResponseBody>>
 
     @GET("api/user/check/id")
-    fun checkSameId(@Query("id") emailId: String): Observable<Response<ResponseBody>>
+    fun checkSameId(@Query("id") emailId: String): Observable<Response<CheckDuplicateResponse>>
 
     @GET("api/user/check/nickname")
-    fun checkSameNickname(@Query("nickname") nickname: String): Observable<Response<ResponseBody>>
+    fun checkSameNickname(@Query("nickname") nickname: String): Observable<Response<CheckDuplicateResponse>>
+
+    @GET("api/user/check/phoneNum")
+    fun checkSamePhoneNumber(@Query("phoneNum") phoneNumber: String): Observable<Response<CheckDuplicateResponse>>
 
     @POST("api/user/signup")
     fun signUp(@Body signUpRequestRequest: SignUpRequest): Observable<Response<ResponseBody>>

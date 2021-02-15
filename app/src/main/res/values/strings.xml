@@ -61,6 +61,7 @@
     <string name="signup_warn_different_with_pw">비밀번호가 일치하지 않아요</string>
 
     <string name="signup_warn_wrong_phone_number">전화번호를 확인해주세요</string>
+    <string name="signup_warn_duplicate_phone_number">이미 가입한 전화번호예요</string>
 
     <string name="signup_warn_duplicate_nickname">이미 존재하는 닉네임이에요</string>
 
