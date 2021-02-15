@@ -165,7 +165,6 @@ class SignUpViewModel : BaseViewModel() {
                 Observable.zip(lensApiClient.checkSameId(email).map { it.body() }, lensApiClient.checkSameNickname(nickname).map { it.body() },
                     lensApiClient.checkSamePhoneNumber(phoneNumber).map { it.body() })
                 { emailAvailable: CheckDuplicateResponse, nicknameAvailable: CheckDuplicateResponse, phoneNumberAvailable: CheckDuplicateResponse ->
-                    Timber.d("kgp pp")
                     if (!emailAvailable.available) {
                         emailWarn.value = Utils.getString(R.string.signup_warn_duplicate_email)
                     }
@@ -178,7 +177,6 @@ class SignUpViewModel : BaseViewModel() {
                     emailAvailable.available && nicknameAvailable.available && phoneNumberAvailable.available
                 }
             }
-
             .doOnError { errMessage.value = Utils.getString(R.string.signup_fail_for_server) }
             .onErrorReturn { false }
             .subscribe { canSignUp ->
