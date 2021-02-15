@@ -5,7 +5,6 @@ import com.wannagohome.lens_review_android.network.model.article.*
 import com.wannagohome.lens_review_android.network.model.comment.Comment
 import com.wannagohome.lens_review_android.network.model.comment.WriteCommentRequest
 import com.wannagohome.lens_review_android.network.model.review.Review
-import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
 import com.wannagohome.lens_review_android.network.model.review.WriteReviewRequest
 import com.wannagohome.lens_review_android.network.model.user.LoginRequest
 import com.wannagohome.lens_review_android.network.model.user.ModifyNicknameRequest
@@ -36,7 +35,7 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getArticleList(): Observable<Response<List<ArticlePreview>>> {
+    fun getArticleList(): Observable<Response<List<Article>>> {
         return lensApiInterface.getArticleList()
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
@@ -171,7 +170,7 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getAllReviews(): Observable<Response<List<ReviewPreview>>> {
+    fun getAllReviews(): Observable<Response<List<Review>>> {
         return lensApiInterface.getAllReviews()
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
@@ -235,14 +234,14 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
-    fun getMyArticle(): Observable<Response<List<ArticlePreview>>> {
+    fun getMyArticle(): Observable<Response<List<Article>>> {
         return lensApiInterface.getMyArticle()
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun getMyReview(): Observable<Response<List<ReviewPreview>>> {
+    fun getMyReview(): Observable<Response<List<Review>>> {
         return lensApiInterface.getMyReview()
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
