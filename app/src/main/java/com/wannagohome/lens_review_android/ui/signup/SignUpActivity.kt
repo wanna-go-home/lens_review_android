@@ -89,7 +89,7 @@ class SignUpActivity : BaseAppCompatActivity() {
             .skip(1)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                signUpViewModel.isValidPhoneNumber(it.toString())
+                signUpViewModel.checkPhoneNumber(it.toString())
             }
 
         binding.nicknameEdit.textChanges()

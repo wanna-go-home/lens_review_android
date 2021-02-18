@@ -7,10 +7,7 @@ import com.wannagohome.lens_review_android.network.model.comment.WriteCommentReq
 import com.wannagohome.lens_review_android.network.model.review.Review
 import com.wannagohome.lens_review_android.network.model.review.ReviewPreview
 import com.wannagohome.lens_review_android.network.model.review.WriteReviewRequest
-import com.wannagohome.lens_review_android.network.model.user.LoginRequest
-import com.wannagohome.lens_review_android.network.model.user.ModifyNicknameRequest
-import com.wannagohome.lens_review_android.network.model.user.MyInfo
-import com.wannagohome.lens_review_android.network.model.user.SignUpRequest
+import com.wannagohome.lens_review_android.network.model.user.*
 import com.wannagohome.lens_review_android.support.AccessKeyHelper
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -141,7 +138,7 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun checkSameId(email: String): Observable<Response<ResponseBody>> {
+    fun checkSameId(email: String): Observable<Response<CheckDuplicateResponse>> {
         return lensApiInterface.checkSameId(email)
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
@@ -149,8 +146,15 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
 
     }
 
-    fun checkSameNickname(nickname: String): Observable<Response<ResponseBody>> {
+    fun checkSameNickname(nickname: String): Observable<Response<CheckDuplicateResponse>> {
         return lensApiInterface.checkSameNickname(nickname)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun checkSamePhoneNumber(phoneNumber: String): Observable<Response<CheckDuplicateResponse>> {
+        return lensApiInterface.checkSamePhoneNumber(phoneNumber)
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())
