@@ -20,6 +20,7 @@ import retrofit2.Response
 class LensApiClient(private val lensApiInterface: LensApiInterface) {
 
     fun getLensList(): Observable<Response<List<LensPreview>>> {
+
         return lensApiInterface.getLensList()
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
