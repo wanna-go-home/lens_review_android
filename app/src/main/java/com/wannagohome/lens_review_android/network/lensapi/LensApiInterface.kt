@@ -20,7 +20,7 @@ interface LensApiInterface {
     fun getLensById(@Path("id") lensId: Int): Observable<Response<DetailedLens>>
 
     @GET("api/boards/article")
-    fun getArticleList(): Observable<Response<List<ArticlePreview>>>
+    fun getArticleList(): Observable<Response<List<Article>>>
 
     @GET("api/boards/article/{id}")
     fun getArticleById(@Path("id") articleId: Int): Observable<Response<Article>>
@@ -71,7 +71,7 @@ interface LensApiInterface {
     fun leave(): Observable<Response<ResponseBody>>
 
     @GET("api/boards/review-board")
-    fun getAllReviews(): Observable<Response<List<ReviewPreview>>>
+    fun getAllReviews(): Observable<Response<List<Review>>>
 
     @GET("api/boards/review-board/{id}")
     fun getReviewById(@Path("id") reviewId: Int): Observable<Response<Review>>
@@ -98,10 +98,10 @@ interface LensApiInterface {
     fun deleteReviewCommentById(@Path("reviewId") reviewId: Int, @Path("commentId") commentId: Int ): Observable<Response<ResponseBody>>
 
     @GET("api/user/article/me")
-    fun getMyArticle(): Observable<Response<List<ArticlePreview>>>
+    fun getMyArticle(): Observable<Response<List<Article>>>
 
     @GET("api/user/review/me")
-    fun getMyReview(): Observable<Response<List<ReviewPreview>>>
+    fun getMyReview(): Observable<Response<List<Review>>>
 
     @GET("api/user/comments/me")
     fun getMyComments(): Observable<Response<List<Comment>>>

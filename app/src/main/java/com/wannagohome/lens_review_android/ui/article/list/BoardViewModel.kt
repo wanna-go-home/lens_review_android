@@ -2,7 +2,7 @@ package com.wannagohome.lens_review_android.ui.article.list
 
 import androidx.lifecycle.MutableLiveData
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
-import com.wannagohome.lens_review_android.network.model.article.ArticlePreview
+import com.wannagohome.lens_review_android.network.model.article.Article
 import com.wannagohome.lens_review_android.support.baseclass.BaseViewModel
 import com.wannagohome.lens_review_android.extension.addTo
 import org.koin.core.KoinComponent
@@ -10,7 +10,7 @@ import org.koin.core.inject
 
 class BoardViewModel : BaseViewModel(), KoinComponent {
 
-    val articleList = MutableLiveData<List<ArticlePreview>>()
+    val articleList = MutableLiveData<List<Article>>()
     val refreshSuccess = MutableLiveData<Boolean>(true)
     private val lensClient: LensApiClient by inject()
 
@@ -28,7 +28,6 @@ class BoardViewModel : BaseViewModel(), KoinComponent {
 
     }
 
-
     fun refreshArticleList() {
         refreshSuccess.value = false
         lensClient.getArticleList()
@@ -41,5 +40,35 @@ class BoardViewModel : BaseViewModel(), KoinComponent {
                     it.printStackTrace()
                 }
             ).addTo(compositeDisposable)
+    }
+
+    fun like(articleId: Int) {
+        lensClient.postArticleLike(articleId)
+            .subscribe( {
+                val newArticle = it.body()
+                var oldArticleList = articleList.value?.toMutableList()
+                if (oldArticleList!=null && newArticle !=null){
+                    val idx = oldArticleList.indexOfFirst { article ->  article.articleId == newArticle.articleId }
+                    oldArticleList[idx] = newArticle
+                }
+                articleList.value = oldArticleList
+            }, {
+            })
+            .addTo(compositeDisposable)
+    }
+
+    fun unlike(articleId: Int) {
+        lensClient.deleteArticleLike(articleId)
+            .subscribe( {
+                val newArticle = it.body()
+                var oldArticleList = articleList.value?.toMutableList()
+                if (oldArticleList!=null && newArticle !=null){
+                    val idx = oldArticleList.indexOfFirst { article ->  article.articleId == newArticle.articleId }
+                    oldArticleList[idx] = newArticle
+                }
+                articleList.value = oldArticleList
+            }, {
+            })
+            .addTo(compositeDisposable)
     }
 }
