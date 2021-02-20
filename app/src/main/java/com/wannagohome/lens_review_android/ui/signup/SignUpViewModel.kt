@@ -50,12 +50,16 @@ class SignUpViewModel : BaseViewModel() {
 
         lensApiClient.checkSameId(email)
             .subscribe({
-                emailWarn.value = ""
-            }, {
-                emailWarn.value = when (it) {
-                    is HttpException -> Utils.getString(R.string.signup_warn_duplicate_email)
-                    else -> ""
+                val available = it.body()!!.available
+
+                if (available) {
+                    emailWarn.value = ""
+                } else {
+                    emailWarn.value = Utils.getString(R.string.signup_warn_duplicate_email)
                 }
+
+            }, {
+                errMessage.value = Utils.getString(R.string.signup_fail_for_server)
             }).addTo(compositeDisposable)
     }
 
@@ -108,7 +112,7 @@ class SignUpViewModel : BaseViewModel() {
                     phoneNumWarn.value = Utils.getString(R.string.signup_warn_duplicate_phone_number)
                 }
             }, {
-
+                errMessage.value = Utils.getString(R.string.signup_fail_for_server)
             })
     }
 
@@ -127,16 +131,15 @@ class SignUpViewModel : BaseViewModel() {
 
         lensApiClient.checkSameNickname(nickname)
             .subscribe({
-                nicknameWarn.value = ""
-            }, {
-                nicknameWarn.value = when (it) {
-                    is HttpException -> Utils.getString(R.string.signup_warn_duplicate_nickname)
-                    else ->
-
-                        ""
-
+                val available = it.body()!!.available
+                if (available) {
+                    nicknameWarn.value = ""
+                } else {
+                    nicknameWarn.value = Utils.getString(R.string.signup_warn_duplicate_nickname)
                 }
 
+            }, {
+                errMessage.value = Utils.getString(R.string.signup_fail_for_server)
             }).addTo(compositeDisposable)
 
     }

@@ -37,6 +37,7 @@ class MypageViewModel : BaseViewModel() {
     }
 
     fun fetchMyInfo() {
+
         lensApiClient.myInfo()
             .subscribe({
                 val myInfo = it.body()!!
@@ -48,7 +49,6 @@ class MypageViewModel : BaseViewModel() {
                 myCommentCount.value = myInfo.articleCommentCount + myInfo.reviewCommentCount
 
                 myNickname.value = myInfo.nickname
-
             }, {
                 Timber.e(it)
             })
