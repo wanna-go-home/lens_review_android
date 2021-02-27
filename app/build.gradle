@@ -37,14 +37,14 @@ android {
             debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "API_HOST", "\"http://wy0105.iptime.org:8080\""
+            buildConfigField "String", "API_HOST", "\"http://wy0105.asuscomm.com:8080\""
             signingConfig signingConfigs.debug
         }
         qa {
             debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "API_HOST", "\"http://wy0105.iptime.org:6060\""
+            buildConfigField "String", "API_HOST", "\"http://wy0105.asuscomm.com:6060\""
             signingConfig signingConfigs.debug
             matchingFallbacks = ['debug', 'qa']
         }
@@ -53,7 +53,7 @@ android {
             minifyEnabled true
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "API_HOST", "\"http://wy0105.iptime.org:7070\""
+            buildConfigField "String", "API_HOST", "\"http://wy0105.asuscomm.com:7070\""
             signingConfig signingConfigs.publish
         }
 
