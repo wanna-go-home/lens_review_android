@@ -5,10 +5,7 @@ import com.wannagohome.lens_review_android.network.model.article.*
 import com.wannagohome.lens_review_android.network.model.comment.Comment
 import com.wannagohome.lens_review_android.network.model.comment.WriteCommentRequest
 import com.wannagohome.lens_review_android.network.model.review.*
-import com.wannagohome.lens_review_android.network.model.user.LoginRequest
-import com.wannagohome.lens_review_android.network.model.user.ModifyNicknameRequest
-import com.wannagohome.lens_review_android.network.model.user.MyInfo
-import com.wannagohome.lens_review_android.network.model.user.SignUpRequest
+import com.wannagohome.lens_review_android.network.model.user.*
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -23,7 +20,7 @@ interface LensApiInterface {
     fun getLensById(@Path("id") lensId: Int): Observable<Response<DetailedLens>>
 
     @GET("api/boards/article")
-    fun getArticleList(): Observable<Response<List<ArticlePreview>>>
+    fun getArticleList(): Observable<Response<List<Article>>>
 
     @GET("api/boards/article/{id}")
     fun getArticleById(@Path("id") articleId: Int): Observable<Response<Article>>
@@ -56,10 +53,13 @@ interface LensApiInterface {
     fun login(@Body loginRequest: LoginRequest): Observable<Response<ResponseBody>>
 
     @GET("api/user/check/id")
-    fun checkSameId(@Query("id") emailId: String): Observable<Response<ResponseBody>>
+    fun checkSameId(@Query("id") emailId: String): Observable<Response<CheckDuplicateResponse>>
 
     @GET("api/user/check/nickname")
-    fun checkSameNickname(@Query("nickname") nickname: String): Observable<Response<ResponseBody>>
+    fun checkSameNickname(@Query("nickname") nickname: String): Observable<Response<CheckDuplicateResponse>>
+
+    @GET("api/user/check/phoneNum")
+    fun checkSamePhoneNumber(@Query("phoneNum") phoneNumber: String): Observable<Response<CheckDuplicateResponse>>
 
     @POST("api/user/signup")
     fun signUp(@Body signUpRequestRequest: SignUpRequest): Observable<Response<ResponseBody>>
@@ -71,7 +71,7 @@ interface LensApiInterface {
     fun leave(): Observable<Response<ResponseBody>>
 
     @GET("api/boards/review-board")
-    fun getAllReviews(): Observable<Response<List<ReviewPreview>>>
+    fun getAllReviews(): Observable<Response<List<Review>>>
 
     @GET("api/boards/review-board/{id}")
     fun getReviewById(@Path("id") reviewId: Int): Observable<Response<Review>>
@@ -97,11 +97,11 @@ interface LensApiInterface {
     @DELETE("api/boards/review-board/{reviewId}/comments/{commentId}")
     fun deleteReviewCommentById(@Path("reviewId") reviewId: Int, @Path("commentId") commentId: Int ): Observable<Response<ResponseBody>>
 
-    @GET("api/boards/article/me")
-    fun getMyArticle(): Observable<Response<List<ArticlePreview>>>
+    @GET("api/user/article/me")
+    fun getMyArticle(): Observable<Response<List<Article>>>
 
     @GET("api/user/review/me")
-    fun getMyReview(): Observable<Response<List<ReviewPreview>>>
+    fun getMyReview(): Observable<Response<List<Review>>>
 
     @GET("api/user/comments/me")
     fun getMyComments(): Observable<Response<List<Comment>>>

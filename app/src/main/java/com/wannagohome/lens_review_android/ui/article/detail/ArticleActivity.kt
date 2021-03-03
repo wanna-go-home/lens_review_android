@@ -14,6 +14,7 @@ import com.wannagohome.lens_review_android.support.Utils
 import com.wannagohome.lens_review_android.support.baseclass.BaseAppCompatActivity
 import com.wannagohome.lens_review_android.ui.BottomSheetFragment
 import com.wannagohome.lens_review_android.ui.article.detail.comment.ArticleCommentViewModel
+import com.wannagohome.lens_review_android.ui.article.detail.comment.CommentActivity
 import com.wannagohome.lens_review_android.ui.article.detail.comment.CommentMultiViewAdapter
 import com.wannagohome.lens_review_android.ui.article.write.WriteArticleActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -26,6 +27,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
 
     companion object {
         const val ARTICLE_ID = "articleId"
+        const val COMMENT_ID = "commentId"
         const val IS_ARTICLE = true
     }
 
@@ -71,7 +73,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
 
 
     private fun addDialogListener(articleId: Int, isAuthor: Boolean) {
-        binding.moreImg.setOnClickListener {
+        binding.optionBtn.setOnClickListener {
             BottomSheetFragment.newInstance(articleId, isAuthor).run{
                 setOnClickListener(this@ArticleActivity)
                 show(supportFragmentManager, null)
@@ -132,6 +134,7 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
             commentAdapter = CommentMultiViewAdapter(supportFragmentManager, articleCommentViewModel, IS_ARTICLE)
+
             commentAdapter.onLikeClick = { pos ->
                 val targetComment = commentAdapter.commentList[pos]
                 if (targetComment.isLiked){
@@ -141,6 +144,31 @@ class ArticleActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickList
                     articleCommentViewModel.like(targetComment.commentId)
                 }
             }
+
+            commentAdapter.onMoreCommentClick = { pos ->
+                val targetComment = commentAdapter.commentList[pos]
+                val intent = Intent(context, CommentActivity::class.java)
+                intent.putExtra(ARTICLE_ID, targetComment.postId)
+                intent.putExtra(COMMENT_ID, targetComment.commentId)
+                startActivityFromRight(intent)
+            }
+
+            commentAdapter.onOptionClick = { pos ->
+                val targetComment = commentAdapter.commentList[pos]
+                BottomSheetFragment.newInstance(targetComment.commentId, targetComment.isAuthor).run {
+                    setOnClickListener(commentAdapter)
+                    show(supportFragmentManager, null)
+                }
+            }
+
+            commentAdapter.onCommentsClick = { pos ->
+                val targetComment = commentAdapter.commentList[pos]
+                val intent = Intent(context, CommentActivity::class.java)
+                intent.putExtra(ARTICLE_ID, targetComment.postId)
+                intent.putExtra(COMMENT_ID, targetComment.commentId)
+                startActivityFromRight(intent)
+            }
+
             adapter = commentAdapter
         }
     }

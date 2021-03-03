@@ -3,6 +3,7 @@ package com.wannagohome.lens_review_android.ui.mypage
 import androidx.lifecycle.MutableLiveData
 import com.wannagohome.lens_review_android.extension.addTo
 import com.wannagohome.lens_review_android.network.lensapi.LensApiClient
+import com.wannagohome.lens_review_android.support.AccessKeyHelper
 import com.wannagohome.lens_review_android.support.baseclass.BaseViewModel
 import org.koin.core.inject
 import timber.log.Timber
@@ -21,13 +22,22 @@ class MypageViewModel : BaseViewModel() {
 
     val successLeave = MutableLiveData<Boolean>()
 
+    val successLogout = MutableLiveData<Boolean>()
+
     val successModifyNickname = MutableLiveData<Boolean>()
 
     init {
         fetchMyInfo()
     }
 
+    fun logout() {
+        AccessKeyHelper.deleteTokenSync()
+
+        successLogout.value = true
+    }
+
     fun fetchMyInfo() {
+
         lensApiClient.myInfo()
             .subscribe({
                 val myInfo = it.body()!!
@@ -39,7 +49,6 @@ class MypageViewModel : BaseViewModel() {
                 myCommentCount.value = myInfo.articleCommentCount + myInfo.reviewCommentCount
 
                 myNickname.value = myInfo.nickname
-
             }, {
                 Timber.e(it)
             })

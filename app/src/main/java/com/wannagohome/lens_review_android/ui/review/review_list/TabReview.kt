@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wannagohome.lens_review_android.databinding.FragmentReviewBinding
@@ -66,6 +65,16 @@ class TabReview : BaseFragment() {
                 startActivityFromRight(intent)
             }
 
+            reviewPreviewAdapter.onLikeClick = { pos ->
+                val clickedReview = reviewPreviewAdapter.getItem(pos)
+                if (clickedReview.isLiked){
+                    reviewPreviewViewModel.unlike(clickedReview.id)
+                }
+                else{
+                    reviewPreviewViewModel.like(clickedReview.id)
+                }
+            }
+
             adapter = reviewPreviewAdapter
         }
     }
@@ -83,6 +92,6 @@ class TabReview : BaseFragment() {
     }
 
     companion object {
-        val instance = TabReview()
+        fun newInstance() = TabReview()
     }
 }

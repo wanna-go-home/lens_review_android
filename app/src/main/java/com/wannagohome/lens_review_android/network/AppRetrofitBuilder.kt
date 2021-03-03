@@ -1,21 +1,19 @@
 package com.wannagohome.lens_review_android.network
 
-import com.facebook.stetho.okhttp3.StethoInterceptor
-import com.wannagohome.lens_review_android.support.AccessKeyHelper
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
-import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-class AppRetrofitBuilder(private val baseUrl: String, private val interceptor: Interceptor? = null) {
+class AppRetrofitBuilder(private val baseUrl: String, private val interceptor: Interceptor? = null) : KoinComponent {
+
+    private val interceptorManager: InterceptorManager by inject()
 
     fun build(): Retrofit {
-
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(createClient())
@@ -25,14 +23,12 @@ class AppRetrofitBuilder(private val baseUrl: String, private val interceptor: I
     }
 
     private fun createClient(): OkHttpClient {
-        val httpLogging = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
+
 
         val okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(httpLogging)
-            .addNetworkInterceptor(AuthenticationInterceptor())
-            .addNetworkInterceptor(StethoInterceptor())
+            .addInterceptor(interceptorManager.httpLogging)
+            .addNetworkInterceptor(interceptorManager.stethoInterceptor)
+            .addNetworkInterceptor(interceptorManager.autoInterceptor)
             .connectTimeout(NetworkConfig.ALL_TIMEOUT, TimeUnit.SECONDS)
             .writeTimeout(NetworkConfig.ALL_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(NetworkConfig.ALL_TIMEOUT, TimeUnit.SECONDS)
@@ -43,28 +39,5 @@ class AppRetrofitBuilder(private val baseUrl: String, private val interceptor: I
 
         return okHttpClient.build()
     }
-    class AuthenticationInterceptor : Interceptor {
 
-        private var accessToken = ""
-
-        override fun intercept(chain: Interceptor.Chain): Response {
-            val originalRequest = chain.request()
-            val url = originalRequest.url
-
-            //TODO NON-auth list를 만들거나, non-auth api builder를 따로 만들기
-            if (url.toString().contains("check") || url.toString().contains("signup") || url.toString().contains("login")) {
-                return chain.proceed(originalRequest)
-            }
-
-            if (accessToken.isBlank() || accessToken.isEmpty()) {
-                accessToken = AccessKeyHelper.readToken()
-            }
-
-            val newRequest = originalRequest.newBuilder()
-                .addHeader("authorization", accessToken)
-                .build()
-            Timber.d("my token!! $accessToken")
-            return chain.proceed(newRequest)
-        }
-    }
 }

@@ -89,7 +89,7 @@ class SignUpActivity : BaseAppCompatActivity() {
             .skip(1)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                signUpViewModel.isValidPhoneNumber(it.toString())
+                signUpViewModel.checkPhoneNumber(it.toString())
             }
 
         binding.nicknameEdit.textChanges()
@@ -113,7 +113,7 @@ class SignUpActivity : BaseAppCompatActivity() {
             }
         binding.privacyTermsBtn.clicks()
             .subscribe {
-                startActivity(this@SignUpActivity, TermsActivity::class.java)
+                startActivityFromRight(this@SignUpActivity, TermsActivity::class.java)
             }
 
     }

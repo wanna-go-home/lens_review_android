@@ -17,7 +17,7 @@ import org.koin.core.KoinComponent
 class TabArticle : KoinComponent, BaseFragment()   {
 
     companion object {
-        val instance = TabArticle()
+        fun newInstance() = TabArticle()
     }
 
     private var _binding: FragmentBoardBinding? = null
@@ -65,6 +65,15 @@ class TabArticle : KoinComponent, BaseFragment()   {
                 val intent = Intent(activity, ArticleActivity::class.java)
                 intent.putExtra(ArticleActivity.ARTICLE_ID, clickedArticle.articleId)
                 startActivityFromRight(intent)
+            }
+            boardListAdapter.onLikeClick = { pos ->
+                val clickedArticle = boardListAdapter.getItem(pos)
+                if (clickedArticle.isLiked){
+                    boardViewModel.unlike(clickedArticle.articleId)
+                }
+                else{
+                    boardViewModel.like(clickedArticle.articleId)
+                }
             }
 
             adapter = boardListAdapter

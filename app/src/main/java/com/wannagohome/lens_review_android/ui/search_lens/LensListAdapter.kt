@@ -24,7 +24,7 @@ class LensListAdapter : BaseSimpleAdapter<LensPreview, LensListAdapter.LensListV
 
         init {
             itemView.setOnClickListener {
-                onItemClick?.invoke(adapterPosition)
+                onItemClick?.invoke(absoluteAdapterPosition)
             }
         }
 

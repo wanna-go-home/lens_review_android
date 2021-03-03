@@ -16,10 +16,10 @@ class MainViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAV
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            1-> TabReview.instance
-            2 -> TabArticle.instance
-            3 -> TabMypage.instance
-            else -> TabSearch.instance
+            1-> TabReview.newInstance()
+            2 -> TabArticle.newInstance()
+            3 -> TabMypage.newInstance()
+            else -> TabSearch.newInstance()
         }
     }
 
