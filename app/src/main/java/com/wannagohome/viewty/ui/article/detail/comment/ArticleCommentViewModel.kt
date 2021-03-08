@@ -1,7 +1,6 @@
 package com.wannagohome.viewty.ui.article.detail.comment
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import com.wannagohome.viewty.extension.addTo
 import com.wannagohome.viewty.network.lensapi.LensApiClient
 import com.wannagohome.viewty.network.model.comment.Comment

@@ -1,6 +1,5 @@
 package com.wannagohome.viewty.network.model.user
 
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 

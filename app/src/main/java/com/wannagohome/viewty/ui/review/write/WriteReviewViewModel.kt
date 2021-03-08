@@ -8,7 +8,6 @@ import com.wannagohome.viewty.extension.addTo
 import com.wannagohome.viewty.network.model.LensPreview
 import com.wannagohome.viewty.support.Utils
 import org.koin.core.inject
-import timber.log.Timber
 
 class WriteReviewViewModel : BaseViewModel() {
     private val lensApiClient: LensApiClient by inject()

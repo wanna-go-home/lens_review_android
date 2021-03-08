@@ -9,7 +9,6 @@ import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.viewty.databinding.FragmentBottomsheetDialogBinding
 import com.wannagohome.viewty.extension.gone
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 

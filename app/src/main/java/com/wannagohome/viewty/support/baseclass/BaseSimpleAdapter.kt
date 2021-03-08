@@ -1,7 +1,6 @@
 package com.wannagohome.viewty.support.baseclass
 
 import androidx.recyclerview.widget.RecyclerView
-import timber.log.Timber
 
 abstract class BaseSimpleAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
 

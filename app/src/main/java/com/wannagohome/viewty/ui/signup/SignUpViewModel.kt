@@ -7,12 +7,9 @@ import com.wannagohome.viewty.network.lensapi.LensApiClient
 import com.wannagohome.viewty.network.model.user.CheckDuplicateResponse
 import com.wannagohome.viewty.support.Utils
 import com.wannagohome.viewty.support.baseclass.BaseViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.subjects.PublishSubject
 import org.koin.core.inject
 import retrofit2.HttpException
-import timber.log.Timber
 import java.net.SocketTimeoutException
 
 class SignUpViewModel : BaseViewModel() {

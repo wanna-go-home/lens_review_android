@@ -5,9 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.util.Util
 import com.jakewharton.rxbinding4.view.clicks
-import com.wannagohome.viewty.R
 import com.wannagohome.viewty.databinding.FragmentWriteReviewBinding
 import com.wannagohome.viewty.support.Utils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

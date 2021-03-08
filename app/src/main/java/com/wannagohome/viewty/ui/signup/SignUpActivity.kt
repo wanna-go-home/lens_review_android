@@ -1,6 +1,5 @@
 package com.wannagohome.viewty.ui.signup
 
-import android.content.Intent
 import android.os.Bundle
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
@@ -9,7 +8,6 @@ import com.wannagohome.viewty.support.Utils
 import com.wannagohome.viewty.support.baseclass.BaseAppCompatActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.bind
 import java.util.concurrent.TimeUnit
 
 class SignUpActivity : BaseAppCompatActivity() {

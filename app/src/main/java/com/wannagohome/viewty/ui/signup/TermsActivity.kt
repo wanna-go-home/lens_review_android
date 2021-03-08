@@ -1,10 +1,8 @@
 package com.wannagohome.viewty.ui.signup
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.viewty.BuildConfig
-import com.wannagohome.viewty.R
 import com.wannagohome.viewty.databinding.ActivityTermsBinding
 import com.wannagohome.viewty.support.baseclass.BaseAppCompatActivity
 

@@ -1,6 +1,5 @@
 package com.wannagohome.viewty.ui.article.detail.comment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration

@@ -13,7 +13,7 @@ import java.io.IOException
 import java.net.SocketException
 
 
-class LensReviewApplication : Application() {
+class ViewtyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -43,7 +43,7 @@ class LensReviewApplication : Application() {
 
     private fun startKoin() {
         startKoin {
-            androidContext(this@LensReviewApplication)
+            androidContext(this@ViewtyApplication)
             modules(koinModulesList)
         }
     }

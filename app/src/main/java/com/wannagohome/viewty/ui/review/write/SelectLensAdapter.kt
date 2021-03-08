@@ -2,7 +2,6 @@ package com.wannagohome.viewty.ui.review.write
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.wannagohome.viewty.AppComponents
@@ -10,8 +9,6 @@ import com.wannagohome.viewty.R
 import com.wannagohome.viewty.databinding.ItemSelectReviewLensBinding
 import com.wannagohome.viewty.network.model.LensPreview
 import com.wannagohome.viewty.support.baseclass.BaseSimpleAdapter
-import okhttp3.internal.notify
-import timber.log.Timber
 
 class SelectLensAdapter : BaseSimpleAdapter<LensPreview, SelectLensAdapter.LensPreviewViewHolder>() {
 
