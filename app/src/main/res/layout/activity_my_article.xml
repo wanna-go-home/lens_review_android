@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".ui.mypage.myarticle.MyArticleActivity">
 
-    <com.wannagohome.lens_review_android.ui.LensCustomTitleBar
+    <com.wannagohome.viewty.ui.LensCustomTitleBar
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
