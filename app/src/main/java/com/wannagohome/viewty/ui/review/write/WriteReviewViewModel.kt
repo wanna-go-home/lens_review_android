@@ -1,0 +1,99 @@
+package com.wannagohome.viewty.ui.review.write
+
+import androidx.lifecycle.MutableLiveData
+import com.wannagohome.viewty.R
+import com.wannagohome.viewty.network.lensapi.LensApiClient
+import com.wannagohome.viewty.support.baseclass.BaseViewModel
+import com.wannagohome.viewty.extension.addTo
+import com.wannagohome.viewty.network.model.LensPreview
+import com.wannagohome.viewty.support.Utils
+import org.koin.core.inject
+
+class WriteReviewViewModel : BaseViewModel() {
+    private val lensApiClient: LensApiClient by inject()
+
+    val writeSuccess = MutableLiveData<Boolean>(false)
+    val errMessageLiveData = MutableLiveData<String>()
+
+    val selectedLensLiveData = MutableLiveData<LensPreview>()
+
+    var lensList = listOf<LensPreview>()
+    val lensListLiveData = MutableLiveData<List<LensPreview>>()
+
+    var selectedLensId = -1
+    var previousSelectedId = -1
+
+    enum class WriteReviewStage{
+        SELECT_LENS,
+        WRITE_REVIEW,
+        OFF,
+    }
+    val curStageLiveData = MutableLiveData<WriteReviewStage>(WriteReviewStage.SELECT_LENS)
+
+    fun writeReview(title: String, contents: String, lensId: Int) {
+        lensApiClient.writeReview(title, contents, lensId)
+            .subscribe {
+                writeSuccess.value = true
+            }
+            .addTo(compositeDisposable)
+    }
+
+    fun writeReview(title:String, contents:String){
+        if(title.isEmpty()){
+            errMessageLiveData.value = Utils.getString(R.string.write_review_empty_title)
+            return
+        }
+
+        if(contents.isEmpty()){
+            errMessageLiveData.value = Utils.getString(R.string.write_review_empty_contents)
+            return
+        }
+
+        writeReview(title,contents,selectedLensId)
+    }
+    fun resetStage(){
+        curStageLiveData.value = WriteReviewStage.SELECT_LENS
+    }
+    fun next(){
+        curStageLiveData.value = WriteReviewStage.WRITE_REVIEW
+    }
+
+    fun back(){
+        curStageLiveData.value = when(curStageLiveData.value){
+            WriteReviewStage.SELECT_LENS -> WriteReviewStage.OFF
+            WriteReviewStage.WRITE_REVIEW -> WriteReviewStage.SELECT_LENS
+            else -> WriteReviewStage.OFF
+        }
+    }
+
+    fun getLensList(){
+        lensApiClient.getLensList()
+            .subscribe ({
+
+                lensList = it.body()!!
+
+                lensListLiveData.value = lensList
+
+                if(selectedLensId == -1)
+                    selectLens(1)
+            },{})
+            .addTo(compositeDisposable)
+    }
+
+
+    fun selectLens(selectLensId : Int){
+        previousSelectedId = selectedLensId
+
+        selectedLensId = selectLensId
+
+        selectedLensLiveData.value = lensList.first { it.lensId == selectedLensId }
+    }
+
+    fun searchLens(name : String){
+        if(name.isEmpty()) {
+            lensListLiveData.value = lensList
+            return
+        }
+        lensListLiveData.value = lensList.filter { it.name.contains(name) }
+    }
+}
