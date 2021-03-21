@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.wannagohome.viewty.ui.signup.TermsActivity"></activity>
+        <activity android:name="com.wannagohome.viewty.ui.signup.TermsActivity"/>
         <activity android:name="com.wannagohome.viewty.ui.mypage.myarticle.MyArticleActivity" />
         <activity android:name="com.wannagohome.viewty.ui.article.write.WriteArticleActivity" />
         <activity android:name="com.wannagohome.viewty.ui.mypage.myreview.MyReviewActivity" />
@@ -22,15 +22,18 @@
         <activity android:name="com.wannagohome.viewty.ui.review.review_detail.ReviewDetailActivity" />
         <activity
             android:name="com.wannagohome.viewty.ui.signup.SignUpActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name="com.wannagohome.viewty.ui.login.LoginActivity"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.wannagohome.viewty.ui.login.LoginActivity"
+            android:windowSoftInputMode="adjustResize">
+
         </activity>
         <activity android:name="com.wannagohome.viewty.ui.lens_detail.LensDetailActivity" />
         <activity android:name="com.wannagohome.viewty.ui.article.detail.ArticleActivity" />

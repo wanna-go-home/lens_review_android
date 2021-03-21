@@ -1,135 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical"
     tools:context=".ui.signup.SignUpActivity">
 
-    <LinearLayout
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/signUpViewPager"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="30dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:layout_marginTop="14dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:orientation="vertical"-->
+    <!--        android:padding="30dp"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent">-->
 
-        <EditText
-            android:id="@+id/emailEdit"
-            style="@style/signUpEditStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="false"
-            android:hint="@string/signup_email_hint"
-            android:singleLine="true" />
+    <!--        <EditText-->
+    <!--            android:id="@+id/emailEdit"-->
+    <!--            style="@style/signUpEditStyle"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:autofillHints="false"-->
+    <!--            android:hint="@string/signup_email_hint"-->
+    <!--            android:singleLine="true" />-->
 
-        <TextView
-            android:id="@+id/emailWarnText"
-            style="@style/signUpWarnStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/signup_warn_text" />
+    <!--        <TextView-->
+    <!--            android:id="@+id/emailWarnText"-->
+    <!--            style="@style/signUpWarnStyle"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:textColor="@color/signup_warn_text" />-->
 
-        <EditText
-            android:id="@+id/pwEdit"
-            style="@style/signUpEditStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/signup_pw_hint"
-            android:inputType="textPassword"
-            android:singleLine="true" />
+    <!--        <EditText-->
+    <!--            android:id="@+id/pwEdit"-->
+    <!--            style="@style/signUpEditStyle"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:hint="@string/signup_pw_hint"-->
+    <!--            android:inputType="textPassword"-->
+    <!--            android:singleLine="true" />-->
 
-        <TextView
-            android:id="@+id/pwWarnText"
-            style="@style/signUpWarnStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/signup_warn_text" />
-
-
-        <EditText
-            android:id="@+id/pwCheckEdit"
-            style="@style/signUpEditStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/signup_pw_check_hint"
-            android:inputType="textPassword"
-            android:singleLine="true" />
-
-        <TextView
-            android:id="@+id/pwCheckWarnText"
-            style="@style/signUpWarnStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/signup_warn_text" />
-
-        <EditText
-            android:id="@+id/phoneNumberEdit"
-            style="@style/signUpEditStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/signup_hp_hint"
-            android:inputType="number"
-            android:maxLength="11"
-
-            android:singleLine="true" />
-
-        <TextView
-            android:id="@+id/phoneNumWarnText"
-            style="@style/signUpWarnStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/signup_warn_text" />
-
-        <EditText
-            android:id="@+id/nicknameEdit"
-            style="@style/signUpEditStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/signup_nickname_hint"
-            android:singleLine="true" />
-
-        <TextView
-            android:id="@+id/nicknameWarnText"
-            style="@style/signUpWarnStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/signup_warn_text" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:id="@+id/privacyTermsBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="@string/signup_terms_btn"
-                android:textColor="@color/textLink"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-    </LinearLayout>
+    <!--        <TextView-->
+    <!--            android:id="@+id/pwWarnText"-->
+    <!--            style="@style/signUpWarnStyle"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:textColor="@color/signup_warn_text" />-->
 
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+    <!--        <EditText-->
+    <!--            android:id="@+id/pwCheckEdit"-->
+    <!--            style="@style/signUpEditStyle"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:hint="@string/signup_pw_check_hint"-->
+    <!--            android:inputType="textPassword"-->
+    <!--            android:singleLine="true" />-->
 
-        <Button
-            android:id="@+id/signUp"
-            style="@style/PrimaryButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:text="@string/signup_signup_btn" />
-    </FrameLayout>
+    <!--        <TextView-->
+    <!--            android:id="@+id/pwCheckWarnText"-->
+    <!--            style="@style/signUpWarnStyle"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:textColor="@color/signup_warn_text" />-->
+
+    <!--        <EditText-->
+    <!--            android:id="@+id/phoneNumberEdit"-->
+    <!--            style="@style/signUpEditStyle"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:hint="@string/signup_hp_hint"-->
+    <!--            android:inputType="number"-->
+    <!--            android:maxLength="11"-->
+
+    <!--            android:singleLine="true" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/phoneNumWarnText"-->
+    <!--            style="@style/signUpWarnStyle"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:textColor="@color/signup_warn_text" />-->
+
+    <!--        <EditText-->
+    <!--            android:id="@+id/nicknameEdit"-->
+    <!--            style="@style/signUpEditStyle"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:hint="@string/signup_nickname_hint"-->
+    <!--            android:singleLine="true" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/nicknameWarnText"-->
+    <!--            style="@style/signUpWarnStyle"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:textColor="@color/signup_warn_text" />-->
+
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="20dp">-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/privacyTermsBtn"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:gravity="center"-->
+    <!--                android:text="@string/signup_terms_btn"-->
+    <!--                android:textColor="@color/textLink"-->
+    <!--                android:textSize="15sp" />-->
+
+    <!--        </LinearLayout>-->
+
+    <!--    </LinearLayout>-->
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!--    <FrameLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent">-->
+
+    <!--        <Button-->
+    <!--            android:id="@+id/signUp"-->
+    <!--            style="@style/PrimaryButtonStyle"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="70dp"-->
+    <!--            android:text="@string/signup_signup_btn" />-->
+    <!--    </FrameLayout>-->
+
+
+</LinearLayout>
