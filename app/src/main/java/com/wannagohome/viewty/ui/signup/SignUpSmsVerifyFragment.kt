@@ -1,19 +1,46 @@
 package com.wannagohome.viewty.ui.signup
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.wannagohome.viewty.R
+import com.jakewharton.rxbinding4.view.clicks
+import com.wannagohome.viewty.databinding.FragmentSignUpSmsVerifyBinding
+import com.wannagohome.viewty.extension.addTo
+import com.wannagohome.viewty.support.baseclass.BaseFragment
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class SignUpSmsVerifyFragment : Fragment() {
+class SignUpSmsVerifyFragment : BaseFragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_sign_up_sms_verify, container, false)
+    val signUpViewModel : SignUpViewModel by sharedViewModel()
+
+    var _binding: FragmentSignUpSmsVerifyBinding? = null
+
+    val binding: FragmentSignUpSmsVerifyBinding
+        get() = _binding!!
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentSignUpSmsVerifyBinding.inflate(inflater, container, false)
+
+        return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        initListener()
+    }
+
+    private fun initListener() {
+        binding.verifySmsCodeBtn.clicks()
+            .subscribe {
+                signUpViewModel.verifySmsCode(binding.smsCodeEdit.text.toString())
+            }.addTo(compositeDisposable)
+
+        binding.backLayout.clicks()
+            .subscribe {
+                signUpViewModel.backStage()
+            }.addTo(compositeDisposable)
     }
 
     companion object {

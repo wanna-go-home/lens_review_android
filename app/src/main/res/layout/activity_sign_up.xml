@@ -8,8 +8,6 @@
     android:orientation="vertical"
     tools:context=".ui.signup.SignUpActivity">
 
-
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/signUpViewPager"
         android:layout_marginLeft="17dp"

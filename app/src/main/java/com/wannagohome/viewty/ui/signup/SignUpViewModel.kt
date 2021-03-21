@@ -15,6 +15,12 @@ import java.net.SocketTimeoutException
 class SignUpViewModel : BaseViewModel() {
     private val lensApiClient: LensApiClient by inject()
 
+    enum class SignUpStage {
+        REQUEST_SMS_CODE,
+        VERIFY_SMS_CODE,
+        SIGN_UP
+    }
+
     val emailWarn = MutableLiveData<String>()
     val pwWarn = MutableLiveData<String>()
     val pwCheckWarn = MutableLiveData<String>()
@@ -24,6 +30,43 @@ class SignUpViewModel : BaseViewModel() {
     val signUpResult = MutableLiveData<String>()
 
     val errMessage = MutableLiveData<String>()
+
+    val signUpCurrentStagePosition = MutableLiveData(0)
+    private var signUpCurrentStage = SignUpStage.REQUEST_SMS_CODE
+        set(value) {
+            field = value
+
+            signUpCurrentStagePosition.value = field.ordinal
+        }
+
+    fun backStage() {
+        signUpCurrentStage = when (signUpCurrentStage) {
+            SignUpStage.SIGN_UP -> SignUpStage.VERIFY_SMS_CODE
+            SignUpStage.VERIFY_SMS_CODE -> SignUpStage.REQUEST_SMS_CODE
+            else -> SignUpStage.REQUEST_SMS_CODE
+        }
+    }
+
+    private fun nextStage() {
+        signUpCurrentStage = when (signUpCurrentStage) {
+            SignUpStage.REQUEST_SMS_CODE -> SignUpStage.VERIFY_SMS_CODE
+            SignUpStage.VERIFY_SMS_CODE -> SignUpStage.SIGN_UP
+            SignUpStage.SIGN_UP -> SignUpStage.SIGN_UP
+        }
+    }
+
+    fun requestSmsCode(phoneNumber: String) {
+        nextStage()
+    }
+
+    fun verifySmsCode(smsCode: String) {
+        nextStage()
+    }
+
+    fun register(pass1: String, pass2: String) {
+
+    }
+
 
     private fun isValidEmail(email: String): Boolean {
         if (email.isEmpty() || email.isBlank()) {

@@ -1,14 +1,9 @@
 package com.wannagohome.viewty.ui.signup
 
 import android.os.Bundle
-import com.jakewharton.rxbinding4.view.clicks
-import com.jakewharton.rxbinding4.widget.textChanges
 import com.wannagohome.viewty.databinding.ActivitySignUpBinding
-import com.wannagohome.viewty.support.Utils
 import com.wannagohome.viewty.support.baseclass.BaseAppCompatActivity
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.concurrent.TimeUnit
 
 class SignUpActivity : BaseAppCompatActivity() {
 
@@ -24,19 +19,22 @@ class SignUpActivity : BaseAppCompatActivity() {
         initViewPager()
 
 
-//        observeEvents()
+        observeEvents()
 
 //        addEventListener()
 
     }
 
-    private fun initViewPager(){
+    private fun initViewPager() {
         binding.signUpViewPager.adapter = SignUpViewPagerAdapter(this)
         //TODO api 연결시 제거
 //        binding.signUpViewPager.isUserInputEnabled = false
     }
 
     private fun observeEvents() {
+        signUpViewModel.signUpCurrentStagePosition.observe(this, { position ->
+            binding.signUpViewPager.currentItem = position
+        })
 //        signUpViewModel.emailWarn.observe(this, {
 //            binding.emailWarnText.text = it
 //        })

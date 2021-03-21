@@ -5,37 +5,37 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding4.view.clicks
-import com.wannagohome.viewty.databinding.FragmentSignUpPhoneNumberBinding
+import com.wannagohome.viewty.databinding.FragmentSignUpPasswordBinding
 import com.wannagohome.viewty.extension.addTo
 import com.wannagohome.viewty.support.baseclass.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
-class SignUpPhoneNumberFragment : BaseFragment() {
+class SignUpPasswordFragment : BaseFragment() {
 
-    private var _binding: FragmentSignUpPhoneNumberBinding? = null
+    val signUpViewModel: SignUpViewModel by sharedViewModel()
 
-    private val binding: FragmentSignUpPhoneNumberBinding
+    var _binding: FragmentSignUpPasswordBinding? = null
+    val binding: FragmentSignUpPasswordBinding
         get() = _binding!!
 
-    private val signUpViewModel: SignUpViewModel by sharedViewModel()
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentSignUpPhoneNumberBinding.inflate(layoutInflater, container, false)
-        return _binding!!.root
+        _binding = FragmentSignUpPasswordBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         initListener()
-
     }
 
     private fun initListener() {
-        binding.requestSmsCodeBtn.clicks()
+        binding.registerBtn.clicks()
             .subscribe {
-                signUpViewModel.requestSmsCode(binding.phoneNumberEdit.text.toString())
+                val pass1 = binding.passwordEdit1.text.toString()
+                val pass2 = binding.passwordEdit2.text.toString()
+                signUpViewModel.register(pass1, pass2)
             }.addTo(compositeDisposable)
 
         binding.backLayout.clicks()
@@ -45,8 +45,8 @@ class SignUpPhoneNumberFragment : BaseFragment() {
     }
 
     companion object {
-
         @JvmStatic
-        fun newInstance() = SignUpPhoneNumberFragment()
+        fun newInstance() = SignUpPasswordFragment()
+
     }
 }
