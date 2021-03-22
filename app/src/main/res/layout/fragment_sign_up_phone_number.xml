@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
+    android:paddingStart="17dp"
+    android:paddingEnd="17dp"
     android:orientation="vertical"
     tools:context=".ui.signup.SignUpPhoneNumberFragment">
 
@@ -36,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
 
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="26dp"
             style="@style/SignUpTextInputLayoutStyle"
 
             android:hint="휴대폰 번호를 입력 해 주세요">
@@ -61,7 +63,7 @@
             android:textColor="@android:color/black"
             android:paddingTop="6dp"
             android:paddingBottom="7dp"
-            android:layout_marginTop="49dp"
+            android:layout_marginTop="41dp"
             android:text="다음"
             android:textSize="27sp" />
 

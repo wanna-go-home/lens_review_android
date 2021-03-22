@@ -28,5 +28,7 @@
     <color name="gray_button_normal">@android:color/darker_gray</color>
     <color name="gray_button_pressed">#757575</color>
 
+    <color name="link_blue">#0077ff</color>
+
 
 </resources>

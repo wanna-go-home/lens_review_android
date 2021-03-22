@@ -1,10 +1,15 @@
 package com.wannagohome.viewty.ui.signup
 
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.jakewharton.rxbinding4.view.clicks
+import com.wannagohome.viewty.AppComponents
+import com.wannagohome.viewty.R
 import com.wannagohome.viewty.databinding.FragmentSignUpSmsVerifyBinding
 import com.wannagohome.viewty.extension.addTo
 import com.wannagohome.viewty.support.baseclass.BaseFragment
@@ -29,6 +34,7 @@ class SignUpSmsVerifyFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
 
         initListener()
+
     }
 
     private fun initListener() {
@@ -42,6 +48,7 @@ class SignUpSmsVerifyFragment : BaseFragment() {
                 signUpViewModel.backStage()
             }.addTo(compositeDisposable)
     }
+
 
     companion object {
 

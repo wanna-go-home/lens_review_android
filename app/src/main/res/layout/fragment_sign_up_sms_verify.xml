@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingStart="17dp"
+    android:paddingEnd="17dp"
     tools:context=".ui.signup.SignUpSmsVerifyFragment">
 
 
@@ -41,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="26dp"
             android:hint="인증코드를 입력해 주세요">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -49,7 +51,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dp"
                 android:inputType="numberSigned"
                 android:maxLength="6"
                 android:singleLine="true"
@@ -62,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="49dp"
+            android:layout_marginTop="41dp"
             android:paddingTop="6dp"
             android:paddingBottom="7dp"
             android:text="다음"
