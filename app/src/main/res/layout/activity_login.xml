@@ -22,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
+            android:text="admin@admin.com"
             android:hint="@string/login_email_hint"
             android:singleLine="true" />
 
@@ -35,6 +36,7 @@
             android:inputType="textPassword"
             android:hint="@string/login_password_hint"
             android:id="@+id/userPw"
+            android:text="admin123!"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
