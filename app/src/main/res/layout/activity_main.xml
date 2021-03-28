@@ -33,7 +33,9 @@
             android:background="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mainViewPager"
-            app:tabRippleColor="@null"></com.google.android.material.tabs.TabLayout>
+            app:tabBackground="@drawable/main_tab_color_selector"
+            app:tabIndicator="@null"
+            app:tabRippleColor="@null"/>
 
         <FrameLayout
             android:layout_width="0dp"
@@ -63,7 +65,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#99787878"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="111dp"
@@ -75,24 +78,24 @@
             app:layout_constraintRight_toRightOf="parent">
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/writeReviewBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
-                android:text="리뷰 쓰기"
                 android:padding="0dp"
-                android:id="@+id/writeReviewBtn"
+                android:text="리뷰 쓰기"
 
                 android:textColor="@android:color/black"
                 android:textSize="15sp" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/writeArticleBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="0dp"
                 android:layout_marginTop="5dp"
                 android:background="@android:color/white"
+                android:padding="0dp"
                 android:text="잡담 쓰기"
-                android:id="@+id/writeArticleBtn"
                 android:textColor="@android:color/black"
                 android:textSize="15sp" />
 

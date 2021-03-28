@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
+import androidx.core.view.isVisible
 import com.google.android.material.tabs.TabLayout
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.viewty.R
@@ -34,7 +35,6 @@ class MainActivity : BaseAppCompatActivity(), KoinComponent {
         initMainTab()
 
         initWriteButton()
-
 
     }
 
@@ -99,7 +99,7 @@ class MainActivity : BaseAppCompatActivity(), KoinComponent {
 
         binding.writeBtn.clicks()
             .subscribe {
-                if (binding.writeMenuLayout.visibility == View.VISIBLE) {
+                if (binding.writeMenuLayout.isVisible) {
                     binding.writeMenuLayout.gone()
                 } else {
                     binding.writeMenuLayout.visible()
@@ -130,5 +130,15 @@ class MainActivity : BaseAppCompatActivity(), KoinComponent {
     private fun initViewPager() {
         binding.mainViewPager.adapter = MainViewPagerAdapter(this)
         binding.mainViewPager.isUserInputEnabled = false
+    }
+
+    override fun onBackPressed() {
+
+        if(binding.writeMenuLayout.isVisible){
+            binding.writeMenuLayout.gone()
+            return
+        }
+
+        super.onBackPressed()
     }
 }
