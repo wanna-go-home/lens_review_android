@@ -7,7 +7,7 @@
     android:background="@color/write_review_background"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".ui.review.write.SelectLensFragment">
+    tools:context=".ui.bulletin.review.write.SelectLensFragment">
 
     <TextView
         android:layout_width="match_parent"

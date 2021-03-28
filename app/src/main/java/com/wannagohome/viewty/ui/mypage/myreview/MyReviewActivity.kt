@@ -8,8 +8,8 @@ import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.viewty.databinding.ActivityMyReviewBinding
 import com.wannagohome.viewty.support.Utils
 import com.wannagohome.viewty.support.baseclass.BaseAppCompatActivity
-import com.wannagohome.viewty.ui.review.review_detail.ReviewDetailActivity
-import com.wannagohome.viewty.ui.review.review_list.ReviewListAdapter
+import com.wannagohome.viewty.ui.bulletin.review.review_detail.ReviewDetailActivity
+import com.wannagohome.viewty.ui.bulletin.review.review_list.ReviewListAdapter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

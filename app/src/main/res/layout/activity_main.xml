@@ -6,6 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
+    <LinearLayout
+        android:background="@color/colorPrimary"
+        android:id="@+id/mainTitleBar"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_marginLeft="6dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_main_title"
+            android:layout_width="39dp"
+            android:layout_height="39dp"/>
+
+        <TextView
+            android:layout_marginLeft="11dp"
+            android:layout_gravity="center_vertical"
+            android:textSize="24sp"
+            android:id="@+id/mainTitleText"
+            android:text="asdf"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/mainViewPager"
@@ -13,7 +40,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/mainTabContainer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/mainTitleBar" />
 
     <LinearLayout
         android:id="@+id/mainTabContainer"

@@ -1,11 +1,11 @@
 package com.wannagohome.viewty.ui
 
 import android.os.Bundle
-import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import com.google.android.material.tabs.TabLayout
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.viewty.R
@@ -14,16 +14,18 @@ import com.wannagohome.viewty.extension.addTo
 import com.wannagohome.viewty.extension.gone
 import com.wannagohome.viewty.extension.visible
 import com.wannagohome.viewty.support.baseclass.BaseAppCompatActivity
-import com.wannagohome.viewty.ui.article.write.WriteArticleActivity
-import com.wannagohome.viewty.ui.review.write.WriteReviewActivity
+import com.wannagohome.viewty.ui.bulletin.article.write.WriteArticleActivity
+import com.wannagohome.viewty.ui.bulletin.review.write.WriteReviewActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.KoinComponent
-import timber.log.Timber
 
 class MainActivity : BaseAppCompatActivity(), KoinComponent {
 
     private lateinit var binding: ActivityMainBinding
 
     private val iconEnumArray = TabIconEnum.values()
+
+    private val mainViewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +38,19 @@ class MainActivity : BaseAppCompatActivity(), KoinComponent {
 
         initWriteButton()
 
+        observeEvents()
+
+    }
+
+    private fun observeEvents() {
+
+        mainViewModel.tabPosition.observe(this, Observer {
+            binding.mainViewPager.setCurrentItem(it, false)
+        })
+
+        mainViewModel.mainTitle.observe(this, Observer {
+            binding.mainTitleText.text = it
+        })
     }
 
     private fun initMainTab() {
@@ -74,18 +89,18 @@ class MainActivity : BaseAppCompatActivity(), KoinComponent {
                     BlendModeCompat.SRC_IN
                 )
 
-                binding.mainViewPager.run {
-                    setCurrentItem(p0.position, false)
-                }
+                mainViewModel.setTabPosition(p0.position)
             }
         })
 
-        val firstTab = binding.mainTabLayout.getTabAt(0)
-        binding.mainTabLayout.selectTab(firstTab)
-        firstTab?.icon?.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-            selectedFilterColor,
-            BlendModeCompat.SRC_IN
-        )
+//        val firstTab = binding.mainTabLayout.getTabAt(0)
+//        binding.mainTabLayout.selectTab(firstTab)
+//        firstTab?.icon?.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+//            selectedFilterColor,
+//            BlendModeCompat.SRC_IN
+//        )
+        mainViewModel.setTabPosition(0)
+
 
     }
 
@@ -134,7 +149,7 @@ class MainActivity : BaseAppCompatActivity(), KoinComponent {
 
     override fun onBackPressed() {
 
-        if(binding.writeMenuLayout.isVisible){
+        if (binding.writeMenuLayout.isVisible) {
             binding.writeMenuLayout.gone()
             return
         }
