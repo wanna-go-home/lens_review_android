@@ -1,10 +1,12 @@
 package com.wannagohome.viewty.ui
 
-enum class MainTitleEnum(val code : Int,val titleName: String) {
-    REVIEW(4, "VIEWTY 리뷰"),
-    ARTICLE(5, "VIEWTY 잡담"),
-    LIPS(1, "VIEWTY 제품"),
-    VIDEO(2, "VIEWTY 영상"),
-    MYPAGE(3, "마이페이지"),
+
+enum class MainTitleEnum(val titleName: String) {
+    //위에서부터 게시글 순서대로 -> 나머지 탭 순서대
+    REVIEW("VIEWTY 리뷰"),
+    ARTICLE("VIEWTY 잡담"),
+    LIPS("VIEWTY 제품"),
+    VIDEO("VIEWTY 영상"),
+    MYPAGE("마이페이지"),
 
 }
