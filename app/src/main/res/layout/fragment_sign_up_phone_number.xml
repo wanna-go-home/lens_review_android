@@ -53,11 +53,7 @@
                 android:maxLength="13"
                 android:singleLine="true"
                 android:textSize="16sp" />
-            <TextView
-                android:id="@+id/phoneNumberWarn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/login_warn_text" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

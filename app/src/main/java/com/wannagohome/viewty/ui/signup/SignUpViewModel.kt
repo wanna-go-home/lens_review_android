@@ -4,10 +4,11 @@ import androidx.lifecycle.MutableLiveData
 import com.wannagohome.viewty.R
 import com.wannagohome.viewty.extension.addTo
 import com.wannagohome.viewty.network.lensapi.LensApiClient
+import com.wannagohome.viewty.support.AccessKeyHelper
 import com.wannagohome.viewty.support.Utils
 import com.wannagohome.viewty.support.baseclass.BaseViewModel
-import io.reactivex.rxjava3.core.Observable
 import org.koin.core.inject
+import timber.log.Timber
 import java.util.regex.Pattern
 
 class SignUpViewModel : BaseViewModel() {
@@ -19,17 +20,26 @@ class SignUpViewModel : BaseViewModel() {
         SIGN_UP
     }
 
+    companion object{
+        const val PIN_NUMBER_LENGTH = 6
+    }
+
     val emailWarn = MutableLiveData<String>()
-    val pwWarn = MutableLiveData<String>()
-    val pwCheckWarn = MutableLiveData<String>()
-    val phoneNumberWarn = MutableLiveData<String>()
+    val pwError = MutableLiveData<String>()
+    val pwCheckError = MutableLiveData<String>()
+    val phoneNumberError = MutableLiveData<String>()
+    val verifyCodeError = MutableLiveData<String>()
     val nicknameWarn = MutableLiveData<String>()
 
     val signUpResult = MutableLiveData<String>()
 
+    val signUpDone = MutableLiveData<Boolean>()
+
     val errMessage = MutableLiveData<String>()
 
     val signUpCurrentStagePosition = MutableLiveData(0)
+
+    val autoLogin = MutableLiveData<Boolean>()
 
     private var requestId = -1
 
@@ -39,6 +49,16 @@ class SignUpViewModel : BaseViewModel() {
 
             signUpCurrentStagePosition.value = field.ordinal
         }
+
+    fun checkAccessKey(){
+        val accessKey = AccessKeyHelper.readToken()
+
+        Timber.d("kgp token " + accessKey)
+
+        if(accessKey.isNotEmpty()){
+            autoLogin.value = true
+        }
+    }
 
     fun backStage() {
         signUpCurrentStage = when (signUpCurrentStage) {
@@ -57,13 +77,12 @@ class SignUpViewModel : BaseViewModel() {
     }
 
     fun requestAuthCode(phoneNumberWithHyphen: String) {
-        if(!Pattern.matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$", phoneNumberWithHyphen))
-        {
-            phoneNumberWarn.value = Utils.getString(R.string.signup_warn_wrong_phone_number)
+        if (!Pattern.matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$", phoneNumberWithHyphen)) {
+            phoneNumberError.value = Utils.getString(R.string.signup_warn_wrong_phone_number)
             return
         }
-        phoneNumberWarn.value = ""
-        val phoneNumber = phoneNumberWithHyphen.replace("-","")
+        phoneNumberError.value = ""
+        val phoneNumber = phoneNumberWithHyphen.replace("-", "")
         lensApiClient.requestAuthCode(phoneNumber)
             .subscribe({
                 requestId = it.body()!!.requestId
@@ -76,194 +95,46 @@ class SignUpViewModel : BaseViewModel() {
     fun verifyAuthCode(authCode: String) {
         lensApiClient.verifyAuthCode(authCode, requestId)
             .subscribe({
+                verifyCodeError.value = ""
+
                 nextStage()
             }, {
-                errMessage.value = Utils.getString(R.string.signup_fail_for_server)
+                verifyCodeError.value = Utils.getString(R.string.signup_fail_verification_code)
             }).addTo(compositeDisposable)
     }
 
     fun register(pass1: String, pass2: String) {
-        if (pass1!=pass2){
-            pwCheckWarn.value = Utils.getString(R.string.signup_warn_different_with_pw)
+        if(pass1.length != PIN_NUMBER_LENGTH){
+            pwError.value = Utils.getString(R.string.signup_pin_length)
             return
         }
         else{
-            lensApiClient.signUp(pass1, requestId)
-                .subscribe({
-                    signUpResult.value = Utils.getString(R.string.signup_success)
-                }, {
-                    errMessage.value = Utils.getString(R.string.signup_fail_for_server)
-                }).addTo(compositeDisposable)
+            pwError.value = ""
         }
 
-    }
-
-
-    private fun isValidEmail(email: String): Boolean {
-        if (email.isEmpty() || email.isBlank()) {
-            emailWarn.value = Utils.getString(R.string.signup_warn_empty_email)
-            return false
+        if(pass2.length != PIN_NUMBER_LENGTH){
+            pwCheckError.value = Utils.getString(R.string.signup_pin_length)
+            return
+        }
+        else{
+            pwCheckError.value = ""
         }
 
-        val reg = Regex("[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}")
-        if (!email.matches(reg)) {
-            emailWarn.value = Utils.getString(R.string.signup_warn_not_email_form)
-            return false
-        }
-        return true
-    }
-
-    fun checkEmail(email: String) {
-
-        if (!isValidEmail(email)) {
+        if (pass1 != pass2) {
+            pwCheckError.value = Utils.getString(R.string.signup_warn_different_with_pw)
             return
         }
 
-        lensApiClient.checkSameId(email)
+        lensApiClient.signUp(pass1, requestId)
             .subscribe({
-                val available = it.body()!!.available
+                //signUpResult.value = Utils.getString(R.string.signup_success)
 
-                if (available) {
-                    emailWarn.value = ""
-                } else {
-                    emailWarn.value = Utils.getString(R.string.signup_warn_duplicate_email)
-                }
-
-            }, {
-                errMessage.value = Utils.getString(R.string.signup_fail_for_server)
-            }).addTo(compositeDisposable)
-    }
-
-    fun isValidPw(pw: String): Boolean {
-        if (pw.isEmpty() || pw.isBlank()) {
-            pwWarn.value = Utils.getString(R.string.signup_warn_empty_pw)
-            return false
-        }
-
-        val reg = Regex("[0-9|a-zA-Z|!|@|#]{6,15}")
-        if (pw.length < 6 || !pw.matches(reg)) {
-            pwWarn.value = Utils.getString(R.string.signup_warn_not_acceptable_pw)
-            return false
-        }
-        pwWarn.value = ""
-
-        return true
-    }
-
-    fun isValidPwCheck(pw: String, pwCheck: String): Boolean {
-        if (pw != pwCheck) {
-            pwCheckWarn.value = Utils.getString(R.string.signup_warn_different_with_pw)
-            return false
-        }
-        pwCheckWarn.value = ""
-        return true
-    }
-
-//    fun checkPhoneNumber(phoneNumber: String) {
-//        if (!isValidPhoneNumber(phoneNumber)) {
-//            return
-//        }
-//
-//        lensApiClient.checkSamePhoneNumber(phoneNumber)
-//            .subscribe({
-//                val duplicate = it.body()!!
-//
-//                if (duplicate.available) {
-//                    phoneNumberWarn.value = ""
-//                } else {
-//                    phoneNumberWarn.value = Utils.getString(R.string.signup_warn_duplicate_phone_number)
-//                }
-//            }, {
-//                errMessage.value = Utils.getString(R.string.signup_fail_for_server)
-//            })
-//    }
-
-    private fun isValidNickname(nickname: String): Boolean {
-        if (nickname.isEmpty() || nickname.isBlank()) {
-            nicknameWarn.value = Utils.getString(R.string.signup_warn_empty_nickname)
-            return false
-        }
-        return true
-    }
-
-    fun nicknameCheck(nickname: String) {
-        if (!isValidNickname(nickname)) {
-            return
-        }
-
-        lensApiClient.checkSameNickname(nickname)
-            .subscribe({
-                val available = it.body()!!.available
-                if (available) {
-                    nicknameWarn.value = ""
-                } else {
-                    nicknameWarn.value = Utils.getString(R.string.signup_warn_duplicate_nickname)
-                }
+                signUpDone.value = true
 
             }, {
                 errMessage.value = Utils.getString(R.string.signup_fail_for_server)
             }).addTo(compositeDisposable)
 
-    }
 
-//    private fun checkAll(email: String, pw: String, pwCheck: String, phoneNumber: String, nickname: String): Observable<Boolean> {
-//        val validEmail = isValidEmail(email)
-//        val validPw = isValidPw(pw)
-//        val validPwCheck = isValidPwCheck(pw, pwCheck)
-//        val validPhoneNumber = isValidPhoneNumber(phoneNumber)
-//        val validNickname = isValidNickname(nickname)
-//
-//        return Observable.just(
-//            validEmail &&
-//                    validPw &&
-//                    validPwCheck &&
-//                    validPhoneNumber &&
-//                    validNickname
-//        )
-//    }
-
-//    fun signUp(email: String, pw: String, pwCheck: String, phoneNumber: String, nickname: String) {
-//
-//        checkAll(email, pw, pwCheck, phoneNumber, nickname)
-//            .filter { it }
-//            .flatMap {
-//                Observable.zip(lensApiClient.checkSameId(email).map { it.body() }, lensApiClient.checkSameNickname(nickname).map { it.body() },
-//                    lensApiClient.checkSamePhoneNumber(phoneNumber).map { it.body() })
-//                { emailAvailable: CheckDuplicateResponse, nicknameAvailable: CheckDuplicateResponse, phoneNumberAvailable: CheckDuplicateResponse ->
-//                    if (!emailAvailable.available) {
-//                        emailWarn.value = Utils.getString(R.string.signup_warn_duplicate_email)
-//                    }
-//                    if (!nicknameAvailable.available) {
-//                        nicknameWarn.value = Utils.getString(R.string.signup_warn_duplicate_nickname)
-//                    }
-//                    if (!phoneNumberAvailable.available) {
-//                        phoneNumberWarn.value = Utils.getString(R.string.signup_warn_duplicate_phone_number)
-//                    }
-//                    emailAvailable.available && nicknameAvailable.available && phoneNumberAvailable.available
-//                }
-//            }
-//            .doOnError { errMessage.value = Utils.getString(R.string.signup_fail_for_server) }
-//            .onErrorReturn { false }
-//            .subscribe { canSignUp ->
-//                if (canSignUp) {
-//                    callSignUp(email, pw, phoneNumber, nickname)
-//                }
-//            }
-//            .addTo(compositeDisposable)
-//    }
-
-//    private fun callSignUp(email: String, pw: String, phoneNumber: String, nickname: String) {
-//        lensApiClient.signUp(email, pw, phoneNumber, nickname)
-//            .subscribe({
-//                signUpResult.value = Utils.getString(R.string.signup_success)
-//            }, {
-//
-//                errMessage.value = when (it) {
-//                    is SocketTimeoutException -> Utils.getString(R.string.login_fail_for_server)
-//                    is HttpException -> Utils.getString(R.string.signup_fail_wrong_input)
-//                    else -> "" //TODO 서버로 로그전송
-//                }
-//
-//            }).addTo(compositeDisposable)
-//    }
+}
 }

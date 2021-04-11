@@ -172,6 +172,19 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
         return lensApiInterface.signUp(signUpRequest)
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .map { t ->
+                if (t.isSuccessful) {
+                    val token = t.headers()["Authorization"]
+                    if (token != null && token.isNotEmpty() && token.isNotBlank()) {
+
+                        AccessKeyHelper.addToken(token)
+
+                        return@map t
+                    }
+                    //TODO token 미포함 에러처리
+                    else throw HttpException(t)
+                } else throw HttpException(t)
+            }
             .observeOn(AndroidSchedulers.mainThread())
     }
 

@@ -41,6 +41,17 @@ class SignUpPasswordFragment : BaseFragment() {
         initListener()
 
         initTermsText()
+
+        observeEvents()
+    }
+
+    private fun observeEvents() {
+        signUpViewModel.pwError.observe(viewLifecycleOwner) {
+            binding.passwordEdit1Layout.error = if (it.isNotEmpty()) it else null
+        }
+        signUpViewModel.pwCheckError.observe(viewLifecycleOwner) {
+            binding.passwordEdit1Layout.error = if (it.isNotEmpty()) it else null
+        }
     }
 
     private fun initListener() {
@@ -57,10 +68,10 @@ class SignUpPasswordFragment : BaseFragment() {
             }.addTo(compositeDisposable)
     }
 
-    private fun initTermsText(){
+    private fun initTermsText() {
         val termsLinkText = SpannableString("이용약관, 개인정보수집이용").apply {
 
-            val clickableSpan = object:ClickableSpan(){
+            val clickableSpan = object : ClickableSpan() {
                 override fun onClick(widget: View) {
                     startActivity(requireActivity(), TermsActivity::class.java)
                 }

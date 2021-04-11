@@ -3,6 +3,7 @@ package com.wannagohome.viewty.ui.signup
 import android.os.Bundle
 import com.wannagohome.viewty.databinding.ActivitySignUpBinding
 import com.wannagohome.viewty.support.baseclass.BaseAppCompatActivity
+import com.wannagohome.viewty.ui.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignUpActivity : BaseAppCompatActivity() {
@@ -16,10 +17,12 @@ class SignUpActivity : BaseAppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         initViewPager()
 
-
         observeEvents()
+
+//        signUpViewModel.checkAccessKey()
 
 //        addEventListener()
 
@@ -32,8 +35,20 @@ class SignUpActivity : BaseAppCompatActivity() {
     }
 
     private fun observeEvents() {
+        signUpViewModel.autoLogin.observe(this, {
+            if (it) {
+                startActivity(this, MainActivity::class.java)
+                finish()
+            }
+        })
         signUpViewModel.signUpCurrentStagePosition.observe(this, { position ->
             binding.signUpViewPager.currentItem = position
+        })
+        signUpViewModel.signUpDone.observe(this, {
+            if(it){
+                finish()
+                startActivity(this, MainActivity::class.java)
+            }
         })
 //        signUpViewModel.emailWarn.observe(this, {
 //            binding.emailWarnText.text = it

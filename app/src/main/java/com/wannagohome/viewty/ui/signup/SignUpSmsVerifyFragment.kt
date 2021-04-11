@@ -31,6 +31,14 @@ class SignUpSmsVerifyFragment : BaseFragment() {
 
         initListener()
 
+        observeEvents()
+    }
+
+    private fun observeEvents(){
+
+        signUpViewModel.verifyCodeError.observe(viewLifecycleOwner) {
+            binding.smsCodeEditLayout.error = if(it.isNotEmpty()) it else null
+        }
     }
 
     private fun initListener() {
@@ -45,11 +53,6 @@ class SignUpSmsVerifyFragment : BaseFragment() {
                 signUpViewModel.backStage()
             }.addTo(compositeDisposable)
 
-        signUpViewModel.errMessage.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                Utils.showToast(it)
-            }
-        }
     }
 
 

@@ -29,9 +29,25 @@ class SignUpPhoneNumberFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         binding.phoneNumberEdit.addTextChangedListener(PhoneNumberFormattingTextWatcher("KR"))
+
         initListener()
 
+        observeEvents()
+    }
+
+    private fun observeEvents(){
+
+        signUpViewModel.phoneNumberError.observe(viewLifecycleOwner) {
+            binding.phoneNumberEditLayout.error = if(it.isNotEmpty()) it else null
+        }
+
+        signUpViewModel.errMessage.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                Utils.showToast(it)
+            }
+        }
     }
 
     private fun initListener() {
@@ -44,14 +60,7 @@ class SignUpPhoneNumberFragment : BaseFragment() {
             .subscribe {
                 signUpViewModel.backStage()
             }.addTo(compositeDisposable)
-        signUpViewModel.phoneNumberWarn.observe(viewLifecycleOwner) {
-            binding.phoneNumberWarn.text = it
-        }
-        signUpViewModel.errMessage.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                Utils.showToast(it)
-            }
-        }
+
     }
 
     companion object {

@@ -24,11 +24,10 @@ class AppRetrofitBuilder(private val baseUrl: String, private val interceptor: I
 
     private fun createClient(): OkHttpClient {
 
-
         val okHttpClient = OkHttpClient.Builder()
+            .addNetworkInterceptor(interceptorManager.authInterceptor)
             .addInterceptor(interceptorManager.httpLogging)
             .addNetworkInterceptor(interceptorManager.stethoInterceptor)
-            .addNetworkInterceptor(interceptorManager.autoInterceptor)
             .connectTimeout(NetworkConfig.ALL_TIMEOUT, TimeUnit.SECONDS)
             .writeTimeout(NetworkConfig.ALL_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(NetworkConfig.ALL_TIMEOUT, TimeUnit.SECONDS)
