@@ -22,7 +22,7 @@ class SignUpActivity : BaseAppCompatActivity() {
 
         observeEvents()
 
-//        signUpViewModel.checkAccessKey()
+        signUpViewModel.checkAccessKey()
 
 //        addEventListener()
 
