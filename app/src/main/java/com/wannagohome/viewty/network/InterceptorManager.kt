@@ -33,17 +33,14 @@ class InterceptorManager {
                 return chain.proceed(originalRequest)
             }
 
-            Timber.d("kgp read token " + accessToken)
-
             if (accessToken.isBlank() || accessToken.isEmpty()) {
                 accessToken = AccessKeyHelper.readToken()
             }
 
-            Timber.d("kgp read token 22 " + accessToken)
-
             val newRequest = originalRequest.newBuilder()
                 .addHeader("Authorization", accessToken)
                 .build()
+
             return chain.proceed(newRequest)
         }
     }
