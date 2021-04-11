@@ -24,9 +24,9 @@ import timber.log.Timber
 
 class SignUpPasswordFragment : BaseFragment() {
 
-    val signUpViewModel: SignUpViewModel by sharedViewModel()
+    private val signUpViewModel: SignUpViewModel by sharedViewModel()
 
-    var _binding: FragmentSignUpPasswordBinding? = null
+    private var _binding: FragmentSignUpPasswordBinding? = null
     val binding: FragmentSignUpPasswordBinding
         get() = _binding!!
 
@@ -47,9 +47,12 @@ class SignUpPasswordFragment : BaseFragment() {
 
     private fun observeEvents() {
         signUpViewModel.pwError.observe(viewLifecycleOwner) {
+
             binding.passwordEdit1Layout.error = if (it.isNotEmpty()) it else null
         }
+
         signUpViewModel.pwCheckError.observe(viewLifecycleOwner) {
+
             binding.passwordEdit1Layout.error = if (it.isNotEmpty()) it else null
         }
     }
@@ -59,6 +62,7 @@ class SignUpPasswordFragment : BaseFragment() {
             .subscribe {
                 val pass1 = binding.passwordEdit1.text.toString()
                 val pass2 = binding.passwordEdit2.text.toString()
+
                 signUpViewModel.register(pass1, pass2)
             }.addTo(compositeDisposable)
 

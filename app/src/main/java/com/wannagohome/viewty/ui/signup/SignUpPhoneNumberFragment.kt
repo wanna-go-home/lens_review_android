@@ -43,7 +43,7 @@ class SignUpPhoneNumberFragment : BaseFragment() {
             binding.phoneNumberEditLayout.error = if(it.isNotEmpty()) it else null
         }
 
-        signUpViewModel.errMessage.observe(viewLifecycleOwner) {
+        signUpViewModel.errorToastMsg.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 Utils.showToast(it)
             }

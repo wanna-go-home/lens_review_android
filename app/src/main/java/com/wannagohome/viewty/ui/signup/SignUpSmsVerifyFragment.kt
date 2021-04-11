@@ -7,15 +7,14 @@ import android.view.ViewGroup
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.viewty.databinding.FragmentSignUpSmsVerifyBinding
 import com.wannagohome.viewty.extension.addTo
-import com.wannagohome.viewty.support.Utils
 import com.wannagohome.viewty.support.baseclass.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class SignUpSmsVerifyFragment : BaseFragment() {
 
-    val signUpViewModel : SignUpViewModel by sharedViewModel()
+    private val signUpViewModel: SignUpViewModel by sharedViewModel()
 
-    var _binding: FragmentSignUpSmsVerifyBinding? = null
+    private var _binding: FragmentSignUpSmsVerifyBinding? = null
 
     val binding: FragmentSignUpSmsVerifyBinding
         get() = _binding!!
@@ -34,10 +33,10 @@ class SignUpSmsVerifyFragment : BaseFragment() {
         observeEvents()
     }
 
-    private fun observeEvents(){
+    private fun observeEvents() {
 
         signUpViewModel.verifyCodeError.observe(viewLifecycleOwner) {
-            binding.smsCodeEditLayout.error = if(it.isNotEmpty()) it else null
+            binding.smsCodeEditLayout.error = if (it.isNotEmpty()) it else null
         }
     }
 
@@ -45,6 +44,7 @@ class SignUpSmsVerifyFragment : BaseFragment() {
         binding.verifySmsCodeBtn.clicks()
             .subscribe {
                 val authCode = binding.smsCodeEdit.text.toString()
+
                 signUpViewModel.verifyAuthCode(authCode)
             }.addTo(compositeDisposable)
 

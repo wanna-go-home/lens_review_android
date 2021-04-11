@@ -31,7 +31,7 @@ class SignUpActivity : BaseAppCompatActivity() {
     private fun initViewPager() {
         binding.signUpViewPager.adapter = SignUpViewPagerAdapter(this)
         //TODO api 연결시 제거
-//        binding.signUpViewPager.isUserInputEnabled = false
+        binding.signUpViewPager.isUserInputEnabled = false
     }
 
     private fun observeEvents() {

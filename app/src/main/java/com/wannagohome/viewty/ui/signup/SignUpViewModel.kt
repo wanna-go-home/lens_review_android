@@ -20,22 +20,17 @@ class SignUpViewModel : BaseViewModel() {
         SIGN_UP
     }
 
-    companion object{
+    companion object {
         const val PIN_NUMBER_LENGTH = 6
     }
 
-    val emailWarn = MutableLiveData<String>()
     val pwError = MutableLiveData<String>()
     val pwCheckError = MutableLiveData<String>()
     val phoneNumberError = MutableLiveData<String>()
     val verifyCodeError = MutableLiveData<String>()
-    val nicknameWarn = MutableLiveData<String>()
-
-    val signUpResult = MutableLiveData<String>()
+    val errorToastMsg = MutableLiveData<String>()
 
     val signUpDone = MutableLiveData<Boolean>()
-
-    val errMessage = MutableLiveData<String>()
 
     val signUpCurrentStagePosition = MutableLiveData(0)
 
@@ -50,12 +45,12 @@ class SignUpViewModel : BaseViewModel() {
             signUpCurrentStagePosition.value = field.ordinal
         }
 
-    fun checkAccessKey(){
+    fun checkAccessKey() {
         val accessKey = AccessKeyHelper.readToken()
 
         Timber.d("kgp token " + accessKey)
 
-        if(accessKey.isNotEmpty()){
+        if (accessKey.isNotEmpty()) {
             autoLogin.value = true
         }
     }
@@ -77,18 +72,22 @@ class SignUpViewModel : BaseViewModel() {
     }
 
     fun requestAuthCode(phoneNumberWithHyphen: String) {
+
         if (!Pattern.matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$", phoneNumberWithHyphen)) {
             phoneNumberError.value = Utils.getString(R.string.signup_warn_wrong_phone_number)
             return
         }
         phoneNumberError.value = ""
+
         val phoneNumber = phoneNumberWithHyphen.replace("-", "")
+
         lensApiClient.requestAuthCode(phoneNumber)
             .subscribe({
                 requestId = it.body()!!.requestId
+
                 nextStage()
             }, {
-                errMessage.value = Utils.getString(R.string.signup_fail_for_server)
+                errorToastMsg.value = Utils.getString(R.string.signup_fail_for_server)
             }).addTo(compositeDisposable)
     }
 
@@ -104,37 +103,32 @@ class SignUpViewModel : BaseViewModel() {
     }
 
     fun register(pass1: String, pass2: String) {
-        if(pass1.length != PIN_NUMBER_LENGTH){
+        if (pass1.length != PIN_NUMBER_LENGTH) {
             pwError.value = Utils.getString(R.string.signup_pin_length)
             return
         }
-        else{
-            pwError.value = ""
-        }
+        pwError.value = ""
 
-        if(pass2.length != PIN_NUMBER_LENGTH){
+        if (pass2.length != PIN_NUMBER_LENGTH) {
             pwCheckError.value = Utils.getString(R.string.signup_pin_length)
             return
         }
-        else{
-            pwCheckError.value = ""
-        }
+        pwCheckError.value = ""
 
         if (pass1 != pass2) {
             pwCheckError.value = Utils.getString(R.string.signup_warn_different_with_pw)
             return
         }
+        pwCheckError.value = ""
 
         lensApiClient.signUp(pass1, requestId)
             .subscribe({
-                //signUpResult.value = Utils.getString(R.string.signup_success)
 
                 signUpDone.value = true
-
             }, {
-                errMessage.value = Utils.getString(R.string.signup_fail_for_server)
+                errorToastMsg.value = Utils.getString(R.string.signup_fail_for_server)
             }).addTo(compositeDisposable)
 
 
-}
+    }
 }
