@@ -5,18 +5,19 @@ import com.wannagohome.viewty.support.AccessKeyHelper
 import okhttp3.Interceptor
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
+import timber.log.Timber
 
 class InterceptorManager {
     val httpLogging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
-    val autoInterceptor = AuthenticationInterceptor()
+    val authInterceptor = AuthenticationInterceptor()
 
     val stethoInterceptor = StethoInterceptor()
 
     fun clearAuth(){
-        autoInterceptor.accessToken = ""
+        authInterceptor.accessToken = ""
     }
 
     class AuthenticationInterceptor : Interceptor {
@@ -37,8 +38,9 @@ class InterceptorManager {
             }
 
             val newRequest = originalRequest.newBuilder()
-                .addHeader("authorization", accessToken)
+                .addHeader("Authorization", accessToken)
                 .build()
+
             return chain.proceed(newRequest)
         }
     }

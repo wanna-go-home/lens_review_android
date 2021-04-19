@@ -167,11 +167,24 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun signUp(email: String, pw: String, phoneNumber: String, nickname: String): Observable<Response<ResponseBody>> {
-        val signUpRequest = SignUpRequest(email, pw, phoneNumber, nickname)
+    fun signUp(pin: String, requestId: Int): Observable<Response<ResponseBody>> {
+        val signUpRequest = SignUpRequest(pin, requestId)
         return lensApiInterface.signUp(signUpRequest)
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .map { t ->
+                if (t.isSuccessful) {
+                    val token = t.headers()["Authorization"]
+                    if (token != null && token.isNotEmpty() && token.isNotBlank()) {
+
+                        AccessKeyHelper.addToken(token)
+
+                        return@map t
+                    }
+                    //TODO token 미포함 에러처리
+                    else throw HttpException(t)
+                } else throw HttpException(t)
+            }
             .observeOn(AndroidSchedulers.mainThread())
     }
 
@@ -312,6 +325,21 @@ class LensApiClient(private val lensApiInterface: LensApiInterface) {
     }
     fun deleteReviewLike(reviewId: Int): Observable<Response<Review>> {
         return lensApiInterface.deleteReviewLike(reviewId)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun requestAuthCode(phoneNumber: String): Observable<Response<requestAuthCodeResponse>> {
+
+        return lensApiInterface.requestAuthCode(phoneNumber)
+            .subscribeOn(Schedulers.io())
+            .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+    fun verifyAuthCode(authCode: String, requestId: Int): Observable<Response<ResponseBody>> {
+
+        return lensApiInterface.verifyAuthCode(authCode, requestId)
             .subscribeOn(Schedulers.io())
             .map { t -> if (t.isSuccessful) t else throw HttpException(t) }
             .observeOn(AndroidSchedulers.mainThread())

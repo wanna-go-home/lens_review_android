@@ -1,14 +1,22 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
     <style name="PrimaryButtonStyle" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/selector_primary_button</item>
+    </style>
+
+    <style name="SignUpTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/text_input_layout_stroke_color</item>
+        <item name="hintTextColor">@color/text_input_layout_hint_color</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="color">#f5df4d</item>
     </style>
 
     <style name="boardListFooterIcon">

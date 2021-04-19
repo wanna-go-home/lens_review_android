@@ -71,6 +71,8 @@
 
     <string name="signup_success">가입한 메일로 로그인해주세요</string>
     <string name="signup_signup_btn">회원가입</string>
+    <string name="signup_fail_verification_code">인증코드를 확인해주세요</string>
+    <string name="signup_pin_length">핀넘버는 6자리로 해주세요</string>
 
     <string name="signup_fail_for_server">서버이상으로 회원가입에 실패했어요. 관리자에게 문의해주세요</string>
     <string name="signup_fail_wrong_input">서버이상으로 회원가입에 실패했어요. 관리자에게 문의해주세요 </string>

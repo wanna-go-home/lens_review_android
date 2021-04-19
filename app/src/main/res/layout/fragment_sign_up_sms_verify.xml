@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingStart="17dp"
+    android:paddingEnd="17dp"
+    tools:context=".ui.signup.SignUpSmsVerifyFragment">
+
+
+    <FrameLayout
+        android:id="@+id/backLayout"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="18dp">
+
+        <ImageView
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_arrow_to_left" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="14dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="인증코드를 입력해 주세요"
+            android:textSize="24sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/smsCodeEditLayout"
+            style="@style/SignUpTextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="26dp"
+            android:hint="인증코드를 입력해 주세요">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/smsCodeEdit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:inputType="numberSigned"
+                android:maxLength="6"
+                android:singleLine="true"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/verifySmsCodeBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="41dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="7dp"
+            android:text="다음"
+            android:textColor="@android:color/black"
+            android:textSize="27sp" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
