@@ -5,10 +5,12 @@ import com.wannagohome.viewty.extension.addTo
 import com.wannagohome.viewty.network.lensapi.LensApiClient
 import com.wannagohome.viewty.support.AccessKeyHelper
 import com.wannagohome.viewty.support.baseclass.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
-class MypageViewModel : BaseViewModel() {
+@HiltViewModel
+class MypageViewModel @Inject constructor(): BaseViewModel() {
 
     @Inject
     lateinit var lensApiClient: LensApiClient
@@ -28,6 +30,11 @@ class MypageViewModel : BaseViewModel() {
     val successModifyNickname = MutableLiveData<Boolean>()
 
     init {
+//        fetchMyInfo()
+    }
+
+    @Inject
+    fun onInitViewModel(){
         fetchMyInfo()
     }
 
