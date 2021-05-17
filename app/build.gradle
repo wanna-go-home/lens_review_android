@@ -43,7 +43,7 @@ android {
             debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "API_HOST", "\"https://wgh-lens.com:8080\""
+            buildConfigField "String", "API_HOST", "\"https://wgh-lens.com:8888\""
             signingConfig signingConfigs.debug
         }
         qa {

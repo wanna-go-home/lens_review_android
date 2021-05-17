@@ -2,10 +2,17 @@ package com.wannagohome.viewty.network.model.user
 
 import com.google.gson.annotations.SerializedName
 
-data class SignUpRequest(
+
+//{
+//    "available": true,
+//    "check_code": 0
+//}
+data class requestAuthCodeResponse(
+
     @SerializedName("pin")
     val pin: String,
 
     @SerializedName("requestId")
-    val  requestId: Int
+    val requestId: Int
+
 )

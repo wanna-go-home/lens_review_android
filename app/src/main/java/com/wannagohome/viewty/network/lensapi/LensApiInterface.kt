@@ -62,7 +62,7 @@ interface LensApiInterface {
     fun checkSamePhoneNumber(@Query("phoneNum") phoneNumber: String): Observable<Response<CheckDuplicateResponse>>
 
     @POST("api/user/signup")
-    fun signUp(@Body signUpRequestRequest: SignUpRequest): Observable<Response<ResponseBody>>
+    fun signUp(@Body userAuthDTO : SignUpRequest): Observable<Response<ResponseBody>>
 
     @GET("api/user/me")
     fun me(): Observable<Response<MyInfo>>
@@ -133,4 +133,9 @@ interface LensApiInterface {
     @DELETE("/api/boards/review-board/{reviewId}/like")
     fun deleteReviewLike(@Path("reviewId") reviewId: Int): Observable<Response<Review>>
 
+    @GET("/api/user/check/sendsms")
+    fun requestAuthCode(@Query("phoneNum") phoneNumber: String): Observable<Response<requestAuthCodeResponse>>
+
+    @GET("/api/user/check/authcode")
+    fun verifyAuthCode(@Query("authCode") authCode: String, @Query("requestId") requestId: Int): Observable<Response<ResponseBody>>
 }

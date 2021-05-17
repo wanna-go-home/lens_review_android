@@ -24,9 +24,9 @@ import timber.log.Timber
 
 class SignUpPasswordFragment : BaseFragment() {
 
-    val signUpViewModel: SignUpViewModel by sharedViewModel()
+    private val signUpViewModel: SignUpViewModel by sharedViewModel()
 
-    var _binding: FragmentSignUpPasswordBinding? = null
+    private var _binding: FragmentSignUpPasswordBinding? = null
     val binding: FragmentSignUpPasswordBinding
         get() = _binding!!
 
@@ -41,6 +41,20 @@ class SignUpPasswordFragment : BaseFragment() {
         initListener()
 
         initTermsText()
+
+        observeEvents()
+    }
+
+    private fun observeEvents() {
+        signUpViewModel.pwError.observe(viewLifecycleOwner) {
+
+            binding.passwordEdit1Layout.error = if (it.isNotEmpty()) it else null
+        }
+
+        signUpViewModel.pwCheckError.observe(viewLifecycleOwner) {
+
+            binding.passwordEdit1Layout.error = if (it.isNotEmpty()) it else null
+        }
     }
 
     private fun initListener() {
@@ -48,6 +62,7 @@ class SignUpPasswordFragment : BaseFragment() {
             .subscribe {
                 val pass1 = binding.passwordEdit1.text.toString()
                 val pass2 = binding.passwordEdit2.text.toString()
+
                 signUpViewModel.register(pass1, pass2)
             }.addTo(compositeDisposable)
 
@@ -57,10 +72,10 @@ class SignUpPasswordFragment : BaseFragment() {
             }.addTo(compositeDisposable)
     }
 
-    private fun initTermsText(){
+    private fun initTermsText() {
         val termsLinkText = SpannableString("이용약관, 개인정보수집이용").apply {
 
-            val clickableSpan = object:ClickableSpan(){
+            val clickableSpan = object : ClickableSpan() {
                 override fun onClick(widget: View) {
                     startActivity(requireActivity(), TermsActivity::class.java)
                 }

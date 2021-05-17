@@ -5,9 +5,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class SignUpViewPagerAdapter(fa : FragmentActivity) : FragmentStateAdapter(fa){
-    private val SIGNUP_PAGE_SIZE = 3
 
-    override fun getItemCount() = SIGNUP_PAGE_SIZE
+    override fun getItemCount() = SignUpViewModel.SignUpStage.values().size
 
     override fun createFragment(position: Int): Fragment {
         return when(position){
