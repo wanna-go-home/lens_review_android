@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.viewty.databinding.FragmentEditCommentBinding
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
-
+@AndroidEntryPoint
 class CommentEditFragment : DialogFragment() {
     companion object {
         const val TARGET_ID = "targetId"

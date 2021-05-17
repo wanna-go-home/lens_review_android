@@ -2,6 +2,7 @@ package com.wannagohome.viewty.ui.mypage.myreview
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding4.view.clicks
@@ -10,12 +11,13 @@ import com.wannagohome.viewty.support.Utils
 import com.wannagohome.viewty.support.baseclass.BaseAppCompatActivity
 import com.wannagohome.viewty.ui.bulletin.review.review_detail.ReviewDetailActivity
 import com.wannagohome.viewty.ui.bulletin.review.review_list.ReviewListAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class MyReviewActivity : BaseAppCompatActivity() {
 
-    private val myReviewViewModel: MyReviewViewModel by viewModel()
+    private val myReviewViewModel by viewModels<MyReviewViewModel>()
 
     lateinit var binding: ActivityMyReviewBinding
 

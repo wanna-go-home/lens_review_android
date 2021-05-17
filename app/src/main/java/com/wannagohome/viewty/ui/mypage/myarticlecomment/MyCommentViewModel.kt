@@ -5,12 +5,16 @@ import com.wannagohome.viewty.extension.addTo
 import com.wannagohome.viewty.network.lensapi.LensApiClient
 import com.wannagohome.viewty.network.model.comment.Comment
 import com.wannagohome.viewty.support.baseclass.BaseViewModel
-import org.koin.core.inject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
+import javax.inject.Inject
 
-class MyCommentViewModel : BaseViewModel() {
 
-    private val lensApiClient: LensApiClient by inject()
+@HiltViewModel
+class MyCommentViewModel @Inject constructor() : BaseViewModel() {
+
+    @Inject
+    lateinit var lensApiClient: LensApiClient
 
     val myCommentList = MutableLiveData<List<Comment>>()
 
@@ -19,7 +23,7 @@ class MyCommentViewModel : BaseViewModel() {
             .subscribe({
                 val myComments = it.body()
 
-                myCommentList.value = myComments
+                myCommentList.value = myComments!!
             }, {
                 Timber.d(it)
             })

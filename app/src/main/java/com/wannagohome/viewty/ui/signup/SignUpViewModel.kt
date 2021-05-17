@@ -7,12 +7,16 @@ import com.wannagohome.viewty.network.lensapi.LensApiClient
 import com.wannagohome.viewty.support.AccessKeyHelper
 import com.wannagohome.viewty.support.Utils
 import com.wannagohome.viewty.support.baseclass.BaseViewModel
-import org.koin.core.inject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import java.util.regex.Pattern
+import javax.inject.Inject
 
-class SignUpViewModel : BaseViewModel() {
-    private val lensApiClient: LensApiClient by inject()
+@HiltViewModel
+class SignUpViewModel @Inject constructor() : BaseViewModel() {
+
+    @Inject
+    lateinit var lensApiClient: LensApiClient
 
     enum class SignUpStage {
         REQUEST_SMS_CODE,

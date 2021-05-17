@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.viewty.R
 import com.wannagohome.viewty.databinding.DialogModifyNicknameBinding
@@ -15,10 +16,10 @@ import com.wannagohome.viewty.ui.login.LoginActivity
 import com.wannagohome.viewty.ui.mypage.myarticle.MyArticleActivity
 import com.wannagohome.viewty.ui.mypage.myarticlecomment.MyCommentActivity
 import com.wannagohome.viewty.ui.mypage.myreview.MyReviewActivity
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
+@AndroidEntryPoint
 class TabMypage : BaseFragment() {
 
     private var _binding: FragmentMypageBinding? = null
@@ -26,7 +27,7 @@ class TabMypage : BaseFragment() {
     private val binding
         get() = _binding!!
 
-    private val mypageViewModel: MypageViewModel by viewModel()
+    private val mypageViewModel by viewModels<MypageViewModel>()
 
     private lateinit var nicknameModifyDialogContents: DialogModifyNicknameBinding
     private lateinit var dialogBuilder: AlertDialog.Builder

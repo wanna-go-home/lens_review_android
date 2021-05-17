@@ -2,18 +2,19 @@ package com.wannagohome.viewty.ui.login
 
 import androidx.lifecycle.MutableLiveData
 import com.wannagohome.viewty.R
-import com.wannagohome.viewty.network.lensapi.LensApiClient
-import com.wannagohome.viewty.support.baseclass.BaseViewModel
 import com.wannagohome.viewty.extension.addTo
+import com.wannagohome.viewty.network.lensapi.LensApiClient
 import com.wannagohome.viewty.support.AccessKeyHelper
 import com.wannagohome.viewty.support.Utils
+import com.wannagohome.viewty.support.baseclass.BaseViewModel
 import io.reactivex.rxjava3.core.Observable
-import org.koin.core.inject
 import retrofit2.HttpException
+import javax.inject.Inject
 
 class LoginViewModel : BaseViewModel() {
 
-    private val lensClient: LensApiClient by inject()
+    @Inject
+    lateinit var lensClient: LensApiClient
 
     val loginSuccess = MutableLiveData<Boolean>()
 
@@ -42,18 +43,16 @@ class LoginViewModel : BaseViewModel() {
 
                 errMessage.value = when (it) {
 
-                    is HttpException ->{
-                        if(it.code() == 401){
+                    is HttpException -> {
+                        if (it.code() == 401) {
                             Utils.getString(R.string.login_fail_wrong_input)
-                        }
-                        else{
+                        } else {
                             Utils.getString(R.string.login_fail_for_server)
                         }
-                     }
+                    }
 
                     else -> Utils.getString(R.string.login_fail_for_server) //TODO 서버로 로그전송
                 }
-
 
 
             }).addTo(compositeDisposable)
@@ -94,10 +93,10 @@ class LoginViewModel : BaseViewModel() {
         return true
     }
 
-    fun checkAccessKey(){
+    fun checkAccessKey() {
         val accessKey = AccessKeyHelper.readToken()
 
-        if(accessKey.isNotEmpty()){
+        if (accessKey.isNotEmpty()) {
             loginSuccess.value = true
         }
     }

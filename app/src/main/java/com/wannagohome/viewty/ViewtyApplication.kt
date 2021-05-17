@@ -4,15 +4,14 @@ import android.app.Application
 import com.facebook.stetho.Stetho
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.HiltAndroidApp
 import io.reactivex.rxjava3.exceptions.UndeliverableException
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
 import timber.log.Timber
 import java.io.IOException
 import java.net.SocketException
 
-
+@HiltAndroidApp
 class ViewtyApplication : Application() {
 
     override fun onCreate() {
@@ -24,34 +23,29 @@ class ViewtyApplication : Application() {
 
         startStetho()
 
-        startKoin()
-
         setCrashlytics()
 
         addRxJavaExceptionHandler()
     }
-    private fun setCrashlytics(){
-        if(BuildConfig.DEBUG){
+
+    private fun setCrashlytics() {
+        if (BuildConfig.DEBUG) {
             Firebase.crashlytics.setCrashlyticsCollectionEnabled(false)
         }
     }
+
     private fun initTimber() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
     }
 
-    private fun startKoin() {
-        startKoin {
-            androidContext(this@ViewtyApplication)
-            modules(koinModulesList)
-        }
-    }
-    private fun startStetho(){
-        if(BuildConfig.DEBUG){
+    private fun startStetho() {
+        if (BuildConfig.DEBUG) {
             Stetho.initializeWithDefaults(this)
         }
     }
+
     private fun addRxJavaExceptionHandler() {
         RxJavaPlugins.setErrorHandler { e ->
 

@@ -5,10 +5,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import com.wannagohome.viewty.R
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.koin.core.KoinComponent
 
 
-open class BaseAppCompatActivity : AppCompatActivity(), KoinComponent {
+open class BaseAppCompatActivity : AppCompatActivity() {
 
     val compositeDisposable = CompositeDisposable()
 

@@ -2,21 +2,23 @@ package com.wannagohome.viewty.ui.mypage.myarticle
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.viewty.databinding.ActivityMyArticleBinding
 import com.wannagohome.viewty.support.baseclass.BaseAppCompatActivity
-import com.wannagohome.viewty.ui.bulletin.article.list.ArticleListAdapter
 import com.wannagohome.viewty.ui.bulletin.article.detail.ArticleActivity
+import com.wannagohome.viewty.ui.bulletin.article.list.ArticleListAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class MyArticleActivity : BaseAppCompatActivity() {
 
     private lateinit var binding: ActivityMyArticleBinding
 
-    private val myArticleViewModel: MyArticleViewModel by viewModel()
+    private val myArticleViewModel by viewModels<MyArticleViewModel>()
 
     private val myArticleListAdapter = ArticleListAdapter()
 
@@ -35,14 +37,16 @@ class MyArticleActivity : BaseAppCompatActivity() {
 
         myArticleViewModel.getMyArticle()
     }
-    private fun initListener(){
+
+    private fun initListener() {
         binding.titleBar.leftBtn.clicks()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 finishActivityToRight()
             }
     }
-    private fun observeEvents(){
+
+    private fun observeEvents() {
         myArticleViewModel.myArticleList.observe(this, {
             myArticleListAdapter.items = it
         })

@@ -1,6 +1,7 @@
 package com.wannagohome.viewty.ui.login
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.wannagohome.viewty.databinding.ActivityLoginBinding
@@ -8,13 +9,14 @@ import com.wannagohome.viewty.support.Utils
 import com.wannagohome.viewty.support.baseclass.BaseAppCompatActivity
 import com.wannagohome.viewty.ui.MainActivity
 import com.wannagohome.viewty.ui.signup.SignUpActivity
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 
+@AndroidEntryPoint
 class LoginActivity : BaseAppCompatActivity() {
 
-    private val loginViewModel: LoginViewModel by viewModel()
+    private val loginViewModel by viewModels<LoginViewModel>()
 
     private lateinit var binding: ActivityLoginBinding
 

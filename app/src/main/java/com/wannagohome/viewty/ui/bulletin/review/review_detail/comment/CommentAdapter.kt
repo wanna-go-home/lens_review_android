@@ -1,7 +1,6 @@
 package com.wannagohome.viewty.ui.bulletin.review.review_detail.comment
 
 import android.view.LayoutInflater
-import com.wannagohome.viewty.network.model.helper.dateHelper
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,14 +12,16 @@ import com.wannagohome.viewty.extension.gone
 import com.wannagohome.viewty.extension.invisible
 import com.wannagohome.viewty.extension.visible
 import com.wannagohome.viewty.network.model.comment.Comment
+import com.wannagohome.viewty.network.model.helper.dateHelper
 import com.wannagohome.viewty.support.Utils.getString
 import com.wannagohome.viewty.ui.BottomSheetFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
-class CommentMultiViewAdapter(private val fm: FragmentManager, private val reviewCommentViewModel: ReviewCommentViewModel, private val IS_REVIEW: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+class CommentMultiViewAdapter(private val fm: FragmentManager, private val reviewCommentViewModel: ReviewCommentViewModel, private val IS_REVIEW: Boolean) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     BottomSheetFragment.OnClickListener,
-    CommentEditFragment.OnClickListener{
+    CommentEditFragment.OnClickListener {
 
     companion object {
         const val MAX_CHILDREN_IN_REVIEW = 3
@@ -72,6 +73,7 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
 
     inner class CommentViewHolder(private val parent: ViewGroup, private val itemBinding: CommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         private lateinit var currentComment: Comment
+
         init {
             itemBinding.likesIcon.clicks()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -88,18 +90,19 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
 
             itemBinding.optionBtn.clicks()
                 .observeOn(AndroidSchedulers.mainThread())
-                .throttleFirst(300,TimeUnit.MILLISECONDS)
+                .throttleFirst(300, TimeUnit.MILLISECONDS)
                 .subscribe {
                     onOptionClick?.invoke(absoluteAdapterPosition)
                 }
 
             itemBinding.comments.clicks()
                 .observeOn(AndroidSchedulers.mainThread())
-                .throttleFirst(300,TimeUnit.MILLISECONDS)
+                .throttleFirst(300, TimeUnit.MILLISECONDS)
                 .subscribe {
                     onCommentsClick?.invoke(absoluteAdapterPosition)
                 }
         }
+
         fun bind(comment: Comment) {
             currentComment = comment
             itemBinding.content.text = comment.content
@@ -110,14 +113,13 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
 
             //@todo : let "더 보기" be recyclerview item
             if (IS_REVIEW && comment.bundleSize > MAX_CHILDREN_IN_REVIEW) {
-                    val nOfComments = String.format(
-                        getString(R.string.show_more_comments),
-                        comment.bundleSize - MAX_CHILDREN_IN_REVIEW
-                    )
-                    itemBinding.moreComment.text = nOfComments
-                    itemBinding.moreComment.visible()
-            }
-            else{
+                val nOfComments = String.format(
+                    getString(R.string.show_more_comments),
+                    comment.bundleSize - MAX_CHILDREN_IN_REVIEW
+                )
+                itemBinding.moreComment.text = nOfComments
+                itemBinding.moreComment.visible()
+            } else {
                 itemBinding.moreComment.gone()
             }
         }
@@ -125,20 +127,22 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
 
     inner class ChildCommentViewHolder(private val itemBinding: ChildCommentListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         private lateinit var currentComment: Comment
+
         init {
             itemBinding.likesIcon.clicks()
                 .observeOn(AndroidSchedulers.mainThread())
-                .throttleFirst(300,TimeUnit.MILLISECONDS)
+                .throttleFirst(300, TimeUnit.MILLISECONDS)
                 .subscribe {
                     onLikeClick?.invoke(absoluteAdapterPosition)
                 }
             itemBinding.optionBtn.clicks()
                 .observeOn(AndroidSchedulers.mainThread())
-                .throttleFirst(300,TimeUnit.MILLISECONDS)
+                .throttleFirst(300, TimeUnit.MILLISECONDS)
                 .subscribe {
                     onOptionClick?.invoke(absoluteAdapterPosition)
                 }
         }
+
         fun bind(comment: Comment) {
             currentComment = comment
             itemBinding.content.text = comment.content
@@ -155,12 +159,12 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
     }
 
     override fun onClickDeleteBtn(targetId: Int) {
-        reviewCommentViewModel.deleteComment(targetId)
+//        reviewCommentViewModel.deleteComment(targetId)
     }
 
     override fun onClickModifyBtn(targetId: Int) {
         val content = commentList.find { it.commentId == targetId }?.content
-        CommentEditFragment.newInstance(targetId, content).run{
+        CommentEditFragment.newInstance(targetId, content).run {
             setOnClickListener(this@CommentMultiViewAdapter)
             show(fm, null)
         }
@@ -168,10 +172,10 @@ class CommentMultiViewAdapter(private val fm: FragmentManager, private val revie
 
     override fun onClickReportBtn(targetId: Int) {
         //todo:  implement report
-        reviewCommentViewModel.reportComment()
+//        reviewCommentViewModel.reportComment()
     }
 
     override fun onClickModifyPostBtn(targetId: Int, content: String) {
-        reviewCommentViewModel.modifyComment(targetId, content)
+//        reviewCommentViewModel.modifyComment(targetId, content)
     }
 }

@@ -6,8 +6,9 @@ import com.wannagohome.viewty.BuildConfig
 import com.wannagohome.viewty.databinding.ActivityTermsBinding
 import com.wannagohome.viewty.extension.addTo
 import com.wannagohome.viewty.support.baseclass.BaseAppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class TermsActivity : BaseAppCompatActivity() {
 
     companion object {

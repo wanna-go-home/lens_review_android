@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.wannagohome.viewty.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TabVideo : Fragment() {
 
     override fun onCreateView(

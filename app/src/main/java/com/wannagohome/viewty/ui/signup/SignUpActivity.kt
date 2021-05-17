@@ -1,14 +1,16 @@
 package com.wannagohome.viewty.ui.signup
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.wannagohome.viewty.databinding.ActivitySignUpBinding
 import com.wannagohome.viewty.support.baseclass.BaseAppCompatActivity
 import com.wannagohome.viewty.ui.MainActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpActivity : BaseAppCompatActivity() {
 
-    private val signUpViewModel: SignUpViewModel by viewModel()
+    private val signUpViewModel by viewModels<SignUpViewModel>()
 
     private lateinit var binding: ActivitySignUpBinding
 
@@ -45,7 +47,7 @@ class SignUpActivity : BaseAppCompatActivity() {
             binding.signUpViewPager.currentItem = position
         })
         signUpViewModel.signUpDone.observe(this, {
-            if(it){
+            if (it) {
                 finish()
                 startActivity(this, MainActivity::class.java)
             }

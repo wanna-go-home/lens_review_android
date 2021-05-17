@@ -6,16 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wannagohome.viewty.databinding.FragmentSearchBinding
 import com.wannagohome.viewty.ui.lens_detail.LensDetailActivity
 import com.wannagohome.viewty.ui.lens_detail.LensDetailActivity.Companion.DETAILED_LENS_ID
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.core.KoinComponent
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
-class TabSearch : Fragment(), KoinComponent {
+@AndroidEntryPoint
+class TabSearch : Fragment() {
     companion object {
         fun newInstance() = TabSearch()
     }
@@ -23,7 +24,7 @@ class TabSearch : Fragment(), KoinComponent {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
-    private val lensViewModel: LensViewModel by sharedViewModel()
+    private val lensViewModel by activityViewModels<LensViewModel>()
 
     private val lensListAdapter = LensListAdapter()
 

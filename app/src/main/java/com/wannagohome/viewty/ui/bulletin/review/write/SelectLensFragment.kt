@@ -14,8 +14,9 @@ import com.wannagohome.viewty.databinding.FragmentSelectLensBinding
 import com.wannagohome.viewty.databinding.WriteReviewSelectLensDialogBinding
 import com.wannagohome.viewty.extension.addTo
 import com.wannagohome.viewty.support.baseclass.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-
+@AndroidEntryPoint
 class SelectLensFragment : BaseFragment() {
 
     companion object {

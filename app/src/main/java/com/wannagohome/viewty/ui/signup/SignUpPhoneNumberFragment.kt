@@ -5,14 +5,15 @@ import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.viewty.databinding.FragmentSignUpPhoneNumberBinding
 import com.wannagohome.viewty.extension.addTo
 import com.wannagohome.viewty.support.Utils
 import com.wannagohome.viewty.support.baseclass.BaseFragment
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SignUpPhoneNumberFragment : BaseFragment() {
 
     private var _binding: FragmentSignUpPhoneNumberBinding? = null
@@ -20,7 +21,7 @@ class SignUpPhoneNumberFragment : BaseFragment() {
     private val binding: FragmentSignUpPhoneNumberBinding
         get() = _binding!!
 
-    private val signUpViewModel: SignUpViewModel by sharedViewModel()
+    private val signUpViewModel by activityViewModels<SignUpViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSignUpPhoneNumberBinding.inflate(layoutInflater, container, false)

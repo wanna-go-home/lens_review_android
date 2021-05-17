@@ -5,12 +5,13 @@ import com.wannagohome.viewty.extension.addTo
 import com.wannagohome.viewty.network.lensapi.LensApiClient
 import com.wannagohome.viewty.support.AccessKeyHelper
 import com.wannagohome.viewty.support.baseclass.BaseViewModel
-import org.koin.core.inject
 import timber.log.Timber
+import javax.inject.Inject
 
 class MypageViewModel : BaseViewModel() {
 
-    private val lensApiClient: LensApiClient by inject()
+    @Inject
+    lateinit var lensApiClient: LensApiClient
 
     val myReviewCount = MutableLiveData<Int>()
 
