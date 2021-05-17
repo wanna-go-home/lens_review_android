@@ -15,30 +15,31 @@
         android:theme="@style/AppTheme">
         <activity android:name="com.wannagohome.viewty.ui.signup.TermsActivity"/>
         <activity android:name="com.wannagohome.viewty.ui.mypage.myarticle.MyArticleActivity" />
-        <activity android:name="com.wannagohome.viewty.ui.article.write.WriteArticleActivity" />
+        <activity android:name="com.wannagohome.viewty.ui.bulletin.article.write.WriteArticleActivity" />
         <activity android:name="com.wannagohome.viewty.ui.mypage.myreview.MyReviewActivity" />
         <activity android:name="com.wannagohome.viewty.ui.mypage.myarticlecomment.MyCommentActivity" />
-        <activity android:name="com.wannagohome.viewty.ui.review.write.WriteReviewActivity" />
-        <activity android:name="com.wannagohome.viewty.ui.review.review_detail.ReviewDetailActivity" />
+        <activity android:name="com.wannagohome.viewty.ui.bulletin.review.write.WriteReviewActivity" />
+        <activity android:name="com.wannagohome.viewty.ui.bulletin.review.review_detail.ReviewDetailActivity" />
         <activity
             android:name="com.wannagohome.viewty.ui.signup.SignUpActivity"
             android:windowSoftInputMode="adjustResize" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
             android:name="com.wannagohome.viewty.ui.login.LoginActivity"
             android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity android:name="com.wannagohome.viewty.ui.lens_detail.LensDetailActivity" />
-        <activity android:name="com.wannagohome.viewty.ui.article.detail.ArticleActivity" />
-        <activity android:name="com.wannagohome.viewty.ui.article.detail.comment.CommentActivity" />
-        <activity android:name="com.wannagohome.viewty.ui.review.review_detail.comment.CommentActivity" />
+        <activity android:name="com.wannagohome.viewty.ui.bulletin.article.detail.ArticleActivity" />
+        <activity android:name="com.wannagohome.viewty.ui.bulletin.article.detail.comment.CommentActivity" />
+        <activity android:name="com.wannagohome.viewty.ui.bulletin.review.review_detail.comment.CommentActivity" />
         <activity android:name="com.wannagohome.viewty.ui.MainActivity" />
     </application>
 

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
 
     android:orientation="vertical"
-    tools:context=".ui.review.write.WriteReviewFragment">
+    tools:context=".ui.bulletin.review.write.WriteReviewFragment">
 
     <com.wannagohome.viewty.ui.LensCustomTitleBar
         android:id="@+id/titleBar"

@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.viewty.databinding.ActivityMyArticleBinding
 import com.wannagohome.viewty.support.baseclass.BaseAppCompatActivity
-import com.wannagohome.viewty.ui.article.list.ArticleListAdapter
-import com.wannagohome.viewty.ui.article.detail.ArticleActivity
+import com.wannagohome.viewty.ui.bulletin.article.list.ArticleListAdapter
+import com.wannagohome.viewty.ui.bulletin.article.detail.ArticleActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

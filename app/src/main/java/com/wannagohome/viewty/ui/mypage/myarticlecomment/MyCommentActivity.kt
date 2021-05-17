@@ -8,8 +8,8 @@ import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.viewty.databinding.ActivityMyCommentBinding
 import com.wannagohome.viewty.network.model.comment.CommentType
 import com.wannagohome.viewty.support.baseclass.BaseAppCompatActivity
-import com.wannagohome.viewty.ui.article.detail.ArticleActivity
-import com.wannagohome.viewty.ui.review.review_detail.ReviewDetailActivity
+import com.wannagohome.viewty.ui.bulletin.article.detail.ArticleActivity
+import com.wannagohome.viewty.ui.bulletin.review.review_detail.ReviewDetailActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MyCommentActivity : BaseAppCompatActivity() {

@@ -6,23 +6,130 @@
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/mainTabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:background="@color/colorPrimary"
+        android:id="@+id/mainTitleBar"
+        android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        >
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:layout_height="wrap_content">
 
-    </com.google.android.material.tabs.TabLayout>
+        <ImageView
+            android:layout_marginLeft="6dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_main_title"
+            android:layout_width="39dp"
+            android:layout_height="39dp"/>
 
-    <androidx.viewpager.widget.ViewPager
+        <TextView
+            android:layout_marginLeft="11dp"
+            android:layout_gravity="center_vertical"
+            android:textSize="24sp"
+            android:id="@+id/mainTitleText"
+            android:text="asdf"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/mainViewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/mainTabContainer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mainTabLayout"
+        app:layout_constraintTop_toBottomOf="@id/mainTitleBar" />
+
+    <LinearLayout
+        android:id="@+id/mainTabContainer"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/mainTabLayout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:background="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainViewPager"
+            app:tabBackground="@drawable/main_tab_color_selector"
+            app:tabIndicator="@null"
+            app:tabRippleColor="@null"/>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary" />
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/writeBtn"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:backgroundTint="#b00020"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_write"
+        android:translationY="22.5dp"
+        app:borderWidth="0dp"
+        app:fabCustomSize="45dp"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toTopOf="@id/mainTabContainer"
+        app:layout_constraintRight_toRightOf="parent"
+        app:tint="@android:color/white" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/writeMenuLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99787878"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="111dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="13dp"
+            android:layout_marginBottom="91dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/writeReviewBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:padding="0dp"
+                android:text="리뷰 쓰기"
+
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/writeArticleBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/white"
+                android:padding="0dp"
+                android:text="잡담 쓰기"
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
