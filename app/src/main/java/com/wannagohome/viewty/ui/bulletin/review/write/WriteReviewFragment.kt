@@ -1,18 +1,20 @@
 package com.wannagohome.viewty.ui.bulletin.review.write
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.viewty.databinding.FragmentWriteReviewBinding
 import com.wannagohome.viewty.support.Utils
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
 
+@AndroidEntryPoint
 class WriteReviewFragment : Fragment() {
 
     companion object {
@@ -23,7 +25,7 @@ class WriteReviewFragment : Fragment() {
     private val binding: FragmentWriteReviewBinding
         get() = _binding!!
 
-    private val writeReviewViewModel : WriteReviewViewModel by sharedViewModel()
+    private val writeReviewViewModel by activityViewModels<WriteReviewViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentWriteReviewBinding.inflate(inflater, container, false)
@@ -47,21 +49,21 @@ class WriteReviewFragment : Fragment() {
 
         binding.titleBar.rightBtn.clicks()
             .observeOn(AndroidSchedulers.mainThread())
-            .throttleFirst(300,TimeUnit.MILLISECONDS)
+            .throttleFirst(300, TimeUnit.MILLISECONDS)
             .subscribe {
                 writeReviewViewModel.writeReview(binding.titleEdit.text.toString(), binding.contentsEdit.text.toString())
             }
     }
 
-    private fun observeEvents(){
+    private fun observeEvents() {
         writeReviewViewModel.writeSuccess.observe(viewLifecycleOwner, {
-            if(it){
+            if (it) {
                 requireActivity().finish()
             }
         })
 
         writeReviewViewModel.errMessageLiveData.observe(viewLifecycleOwner, {
-            if(it.isNotEmpty()){
+            if (it.isNotEmpty()) {
                 Utils.showToast(it)
             }
         })

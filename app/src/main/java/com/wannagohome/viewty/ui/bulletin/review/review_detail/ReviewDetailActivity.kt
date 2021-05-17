@@ -4,32 +4,26 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.viewty.R
 import com.wannagohome.viewty.databinding.ActivityReviewDetailBinding
-import com.wannagohome.viewty.extension.hideKeyboard
-import com.wannagohome.viewty.network.model.helper.dateHelper
 import com.wannagohome.viewty.support.Utils
 import com.wannagohome.viewty.support.baseclass.BaseAppCompatActivity
 import com.wannagohome.viewty.ui.BottomSheetFragment
-import com.wannagohome.viewty.ui.bulletin.review.review_detail.comment.CommentActivity
-import com.wannagohome.viewty.ui.bulletin.review.write.WriteReviewActivity
 import com.wannagohome.viewty.ui.bulletin.review.review_detail.comment.CommentMultiViewAdapter
-import com.wannagohome.viewty.ui.bulletin.review.review_detail.comment.ReviewCommentViewModel
+import com.wannagohome.viewty.ui.bulletin.review.write.WriteReviewActivity
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import java.util.concurrent.TimeUnit
 
+@AndroidEntryPoint
 class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClickListener {
 
-    companion object{
+    companion object {
         const val REVIEW_ID = "reviewId"
         const val COMMENT_ID = "commentId"
         const val IS_REVIEW = true
-        fun startReviewDetailActivity(context: Context, reviewId : Int){
+        fun startReviewDetailActivity(context: Context, reviewId: Int) {
             val intent = Intent(context, ReviewDetailActivity::class.java)
             intent.putExtra(REVIEW_ID, reviewId)
             context.startActivity(intent)
@@ -38,10 +32,11 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
 
     private var reviewId = -1
     private val commentId = null
-    private val reviewDetailViewModel: ReviewDetailViewModel by viewModel { parametersOf(reviewId) }
-    private val reviewCommentViewModel: ReviewCommentViewModel by viewModel { parametersOf(reviewId, commentId) }
+
+    //    private val reviewDetailViewModel: ReviewDetailViewModel by viewModel { parametersOf(reviewId) }
+//    private val reviewCommentViewModel: ReviewCommentViewModel by viewModel { parametersOf(reviewId, commentId) }
     private lateinit var commentAdapter: CommentMultiViewAdapter
-    private lateinit var binding : ActivityReviewDetailBinding
+    private lateinit var binding: ActivityReviewDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +45,7 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
 
         reviewId = intent.getIntExtra(REVIEW_ID, -1)
 
-        if(reviewId == -1){
+        if (reviewId == -1) {
             finish()
         }
         initCommentRecyclerView()
@@ -70,14 +65,14 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
 
     override fun onStart() {
         super.onStart()
-        reviewDetailViewModel.getReview()
-        reviewCommentViewModel.getCommentsByReviewId()
+//        reviewDetailViewModel.getReview()
+//        reviewCommentViewModel.getCommentsByReviewId()
     }
 
 
     private fun addDialogListener(reviewId: Int, isAuthor: Boolean) {
         binding.optionBtn.setOnClickListener {
-            BottomSheetFragment.newInstance(reviewId, isAuthor).run{
+            BottomSheetFragment.newInstance(reviewId, isAuthor).run {
                 setOnClickListener(this@ReviewDetailActivity)
                 show(supportFragmentManager, null)
             }
@@ -95,12 +90,11 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
             .observeOn(AndroidSchedulers.mainThread())
             .throttleFirst(300, TimeUnit.MILLISECONDS)
             .subscribe {
-                if (binding.likesIcon.isChecked){
-                    reviewDetailViewModel.unlike()
-                }
-                else{
-                    reviewDetailViewModel.like()
-                }
+//                if (binding.likesIcon.isChecked) {
+//                    reviewDetailViewModel.unlike()
+//                } else {
+//                    reviewDetailViewModel.like()
+//                }
             }
     }
 
@@ -121,7 +115,7 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
                 if (content.isEmpty()) {
                     Utils.showToast(getString(R.string.write_need_content))
                 } else {
-                    reviewCommentViewModel.postComment(content)
+//                    reviewCommentViewModel.postComment(content)
                 }
             }
     }
@@ -133,115 +127,115 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
     }
 
     private fun initCommentRecyclerView() {
-        binding.commentRecyclerView.run {
-            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
-            layoutManager = LinearLayoutManager(context)
-            commentAdapter = CommentMultiViewAdapter(supportFragmentManager, reviewCommentViewModel, IS_REVIEW)
-
-            commentAdapter.onLikeClick = { pos ->
-                val targetComment = commentAdapter.commentList[pos]
-                if (targetComment.isLiked){
-                    reviewCommentViewModel.unlike(targetComment.commentId)
-                }
-                else{
-                    reviewCommentViewModel.like(targetComment.commentId)
-                }
-            }
-
-            commentAdapter.onMoreCommentClick = { pos ->
-                val targetComment = commentAdapter.commentList[pos]
-                val intent = Intent(context, CommentActivity::class.java)
-                intent.putExtra(REVIEW_ID, targetComment.postId)
-                intent.putExtra(COMMENT_ID, targetComment.commentId)
-                startActivityFromRight(intent)
-            }
-
-            commentAdapter.onOptionClick = { pos ->
-                val targetComment = commentAdapter.commentList[pos]
-                BottomSheetFragment.newInstance(targetComment.commentId, targetComment.isAuthor).run {
-                    setOnClickListener(commentAdapter)
-                    show(supportFragmentManager, null)
-                }
-            }
-
-            commentAdapter.onCommentsClick = { pos ->
-                val targetComment = commentAdapter.commentList[pos]
-                val intent = Intent(context, CommentActivity::class.java)
-                intent.putExtra(REVIEW_ID, targetComment.postId)
-                intent.putExtra(COMMENT_ID, targetComment.commentId)
-                startActivityFromRight(intent)
-            }
-
-            adapter = commentAdapter
-        }
+//        binding.commentRecyclerView.run {
+//            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+//            layoutManager = LinearLayoutManager(context)
+//            commentAdapter = CommentMultiViewAdapter(supportFragmentManager, reviewCommentViewModel, IS_REVIEW)
+//
+//            commentAdapter.onLikeClick = { pos ->
+//                val targetComment = commentAdapter.commentList[pos]
+//                if (targetComment.isLiked) {
+//                    reviewCommentViewModel.unlike(targetComment.commentId)
+//                } else {
+//                    reviewCommentViewModel.like(targetComment.commentId)
+//                }
+//            }
+//
+//            commentAdapter.onMoreCommentClick = { pos ->
+//                val targetComment = commentAdapter.commentList[pos]
+//                val intent = Intent(context, CommentActivity::class.java)
+//                intent.putExtra(REVIEW_ID, targetComment.postId)
+//                intent.putExtra(COMMENT_ID, targetComment.commentId)
+//                startActivityFromRight(intent)
+//            }
+//
+//            commentAdapter.onOptionClick = { pos ->
+//                val targetComment = commentAdapter.commentList[pos]
+//                BottomSheetFragment.newInstance(targetComment.commentId, targetComment.isAuthor).run {
+//                    setOnClickListener(commentAdapter)
+//                    show(supportFragmentManager, null)
+//                }
+//            }
+//
+//            commentAdapter.onCommentsClick = { pos ->
+//                val targetComment = commentAdapter.commentList[pos]
+//                val intent = Intent(context, CommentActivity::class.java)
+//                intent.putExtra(REVIEW_ID, targetComment.postId)
+//                intent.putExtra(COMMENT_ID, targetComment.commentId)
+//                startActivityFromRight(intent)
+//            }
+//
+//            adapter = commentAdapter
+//        }
     }
 
     private fun observeEvent() {
-        reviewDetailViewModel.review.observe(this, {
-            binding.reviewTitle.text = it.title
-            binding.reviewContents.text = it.content
-            binding.reviewWriter.text = it.nickname
-            binding.likesIcon.isChecked = it.isLiked
-            binding.likeNum.text = it.likeCnt.toString()
-            binding.commentNum.text = it.replyCnt.toString()
-            binding.time.text = dateHelper.calcCreatedBefore(it.createdAt)
-
-            addDialogListener(reviewId, it.isAuthor)
-        })
-        reviewCommentViewModel.comments.observe(this, {
-            commentAdapter.commentList = ArrayList(it)
-            if (binding.swiperefresh.isRefreshing){
-                binding.swiperefresh.isRefreshing = false
-            }
-        })
-
-        reviewDetailViewModel.deleteSuccess.observe(this, {
-            if (it) {
-                Utils.showToast(getString(R.string.delete_success))
-                finishActivityToRight()
-            }
-        })
-        reviewDetailViewModel.reportSuccess.observe(this, {
-            if (it) {
-                Utils.showToast(getString(R.string.report_success))
-            }
-        })
-        reviewCommentViewModel.postCommentSuccess.observe(this, {
-            if (it) {
-                refreshreview()
-                binding.commentInput.text.clear()
-                binding.scrollView.fullScroll(View.FOCUS_DOWN)
-                hideKeyboard()
-
-            }
-        })
-        reviewCommentViewModel.deleteCommentSuccess.observe(this, {
-            if (it) {
-                refreshreview()
-                Utils.showToast(getString(R.string.delete_success))
-            }
-        })
-        reviewCommentViewModel.modifyCommentSuccess.observe(this, {
-            if (it) {
-                refreshreview()
-                Utils.showToast(getString(R.string.modify_success))
-                hideKeyboard()
-            }
-        })
-        reviewCommentViewModel.reportCommentSuccess.observe(this, {
-            if (it) {
-                Utils.showToast(getString(R.string.report_success))
-            }
-        })
+//        reviewDetailViewModel.review.observe(this, {
+//            binding.reviewTitle.text = it.title
+//            binding.reviewContents.text = it.content
+//            binding.reviewWriter.text = it.nickname
+//            binding.likesIcon.isChecked = it.isLiked
+//            binding.likeNum.text = it.likeCnt.toString()
+//            binding.commentNum.text = it.replyCnt.toString()
+//            binding.time.text = dateHelper.calcCreatedBefore(it.createdAt)
+//
+//            addDialogListener(reviewId, it.isAuthor)
+//        })
+//        reviewCommentViewModel.comments.observe(this, {
+//            commentAdapter.commentList = ArrayList(it)
+//            if (binding.swiperefresh.isRefreshing) {
+//                binding.swiperefresh.isRefreshing = false
+//            }
+//        })
+//
+//        reviewDetailViewModel.deleteSuccess.observe(this, {
+//            if (it) {
+//                Utils.showToast(getString(R.string.delete_success))
+//                finishActivityToRight()
+//            }
+//        })
+//        reviewDetailViewModel.reportSuccess.observe(this, {
+//            if (it) {
+//                Utils.showToast(getString(R.string.report_success))
+//            }
+//        })
+//        reviewCommentViewModel.postCommentSuccess.observe(this, {
+//            if (it) {
+//                refreshreview()
+//                binding.commentInput.text.clear()
+//                binding.scrollView.fullScroll(View.FOCUS_DOWN)
+//                hideKeyboard()
+//
+//            }
+//        })
+//        reviewCommentViewModel.deleteCommentSuccess.observe(this, {
+//            if (it) {
+//                refreshreview()
+//                Utils.showToast(getString(R.string.delete_success))
+//            }
+//        })
+//        reviewCommentViewModel.modifyCommentSuccess.observe(this, {
+//            if (it) {
+//                refreshreview()
+//                Utils.showToast(getString(R.string.modify_success))
+//                hideKeyboard()
+//            }
+//        })
+//        reviewCommentViewModel.reportCommentSuccess.observe(this, {
+//            if (it) {
+//                Utils.showToast(getString(R.string.report_success))
+//            }
+//        })
     }
+
     private fun refreshreview() {
-        binding.swiperefresh.isRefreshing = true
-        reviewDetailViewModel.getReview()
-        reviewCommentViewModel.getCommentsByReviewId()
+//        binding.swiperefresh.isRefreshing = true
+//        reviewDetailViewModel.getReview()
+//        reviewCommentViewModel.getCommentsByReviewId()
     }
 
     override fun onClickDeleteBtn(targetId: Int) {
-        reviewDetailViewModel.deleteReview()
+//        reviewDetailViewModel.deleteReview()
     }
 
     override fun onClickModifyBtn(targetId: Int) {
@@ -252,7 +246,7 @@ class ReviewDetailActivity : BaseAppCompatActivity(), BottomSheetFragment.OnClic
 
     override fun onClickReportBtn(targetId: Int) {
         //todo:  implement report
-        reviewDetailViewModel.reportReview()
+//        reviewDetailViewModel.reportReview()
     }
 
     override fun onBackPressed() {

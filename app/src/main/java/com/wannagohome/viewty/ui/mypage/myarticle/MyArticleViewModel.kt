@@ -4,13 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import com.wannagohome.viewty.network.lensapi.LensApiClient
 import com.wannagohome.viewty.network.model.article.Article
 import com.wannagohome.viewty.support.baseclass.BaseViewModel
-import org.koin.core.inject
+import javax.inject.Inject
 
 class MyArticleViewModel : BaseViewModel() {
 
     val myArticleList = MutableLiveData<List<Article>>()
 
-    val lensApiClient: LensApiClient by inject()
+    @Inject
+    lateinit var lensApiClient: LensApiClient
 
     fun getMyArticle() {
         lensApiClient.getMyArticle()

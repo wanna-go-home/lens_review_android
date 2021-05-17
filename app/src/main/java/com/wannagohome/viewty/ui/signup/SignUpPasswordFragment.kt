@@ -12,19 +12,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.viewty.AppComponents
 import com.wannagohome.viewty.R
 import com.wannagohome.viewty.databinding.FragmentSignUpPasswordBinding
 import com.wannagohome.viewty.extension.addTo
 import com.wannagohome.viewty.support.baseclass.BaseFragment
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import timber.log.Timber
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SignUpPasswordFragment : BaseFragment() {
 
-    private val signUpViewModel: SignUpViewModel by sharedViewModel()
+    private val signUpViewModel by activityViewModels<SignUpViewModel>()
 
     private var _binding: FragmentSignUpPasswordBinding? = null
     val binding: FragmentSignUpPasswordBinding

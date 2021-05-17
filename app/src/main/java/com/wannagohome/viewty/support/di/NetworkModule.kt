@@ -1,22 +1,25 @@
 package com.wannagohome.viewty.support.di
 
 import com.wannagohome.viewty.network.AppRetrofitBuilder
-import com.wannagohome.viewty.network.InterceptorManager
 import com.wannagohome.viewty.network.NetworkConfig
 import com.wannagohome.viewty.network.lensapi.LensApiClient
 import com.wannagohome.viewty.network.lensapi.LensApiInterface
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-val networkModule = module {
-
-    single {
-        LensApiClient(
+@Module
+@InstallIn(SingletonComponent::class)
+class NetworkModule {
+    @Provides
+    @Singleton
+    fun provideLensApiClient(): LensApiClient {
+        return LensApiClient(
             AppRetrofitBuilder(NetworkConfig.API_BASE_URL)
                 .build()
-
                 .create(LensApiInterface::class.java)
         )
     }
-
-    single { InterceptorManager() }
 }

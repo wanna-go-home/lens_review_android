@@ -5,21 +5,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wannagohome.viewty.databinding.FragmentReviewBinding
 import com.wannagohome.viewty.support.baseclass.BaseFragment
 import com.wannagohome.viewty.ui.bulletin.review.review_detail.ReviewDetailActivity
 import com.wannagohome.viewty.ui.bulletin.review.write.WriteReviewActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class TabReview : BaseFragment() {
 
     private var _binding: FragmentReviewBinding? = null
     private val binding get() = _binding!!
 
-    private val reviewPreviewViewModel: ReviewPreviewViewModel by viewModel()
+    private val reviewPreviewViewModel by viewModels<ReviewPreviewViewModel>()
 
     private val reviewPreviewAdapter = ReviewListAdapter()
 
@@ -67,10 +68,9 @@ class TabReview : BaseFragment() {
 
             reviewPreviewAdapter.onLikeClick = { pos ->
                 val clickedReview = reviewPreviewAdapter.getItem(pos)
-                if (clickedReview.isLiked){
+                if (clickedReview.isLiked) {
                     reviewPreviewViewModel.unlike(clickedReview.id)
-                }
-                else{
+                } else {
                     reviewPreviewViewModel.like(clickedReview.id)
                 }
             }

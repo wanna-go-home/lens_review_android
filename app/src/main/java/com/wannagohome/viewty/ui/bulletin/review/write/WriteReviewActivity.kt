@@ -1,14 +1,16 @@
 package com.wannagohome.viewty.ui.bulletin.review.write
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.wannagohome.viewty.databinding.ActivityWriteReviewBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class WriteReviewActivity : AppCompatActivity() {
 
-    private val writeReviewViewModel: WriteReviewViewModel by viewModel()
+    private val writeReviewViewModel by viewModels<WriteReviewViewModel>()
 
     private lateinit var binding: ActivityWriteReviewBinding
 
@@ -26,9 +28,10 @@ class WriteReviewActivity : AppCompatActivity() {
         writeReviewViewModel.resetStage()
 
     }
-    private fun observeEvents(){
+
+    private fun observeEvents() {
         writeReviewViewModel.curStageLiveData.observe(this, {
-            if(it == WriteReviewViewModel.WriteReviewStage.OFF){
+            if (it == WriteReviewViewModel.WriteReviewStage.OFF) {
                 finish()
                 return@observe
             }
@@ -37,7 +40,7 @@ class WriteReviewActivity : AppCompatActivity() {
         })
     }
 
-    private fun initViewPager(){
+    private fun initViewPager() {
         binding.writeReviewViewPager.adapter = writeReviewPagerAdapter
         binding.writeReviewViewPager.isUserInputEnabled = false
 

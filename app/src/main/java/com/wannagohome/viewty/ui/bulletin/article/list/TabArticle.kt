@@ -5,16 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wannagohome.viewty.databinding.FragmentBoardBinding
 import com.wannagohome.viewty.support.baseclass.BaseFragment
 import com.wannagohome.viewty.ui.bulletin.article.detail.ArticleActivity
 import com.wannagohome.viewty.ui.bulletin.article.write.WriteArticleActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.KoinComponent
+import dagger.hilt.android.AndroidEntryPoint
 
-class TabArticle : KoinComponent, BaseFragment()   {
+@AndroidEntryPoint
+class TabArticle : BaseFragment() {
 
     companion object {
         fun newInstance() = TabArticle()
@@ -23,7 +24,7 @@ class TabArticle : KoinComponent, BaseFragment()   {
     private var _binding: FragmentBoardBinding? = null
     private val binding get() = _binding!!
 
-    private val boardViewModel: BoardViewModel by viewModel()
+    private val boardViewModel by viewModels<BoardViewModel>()
 
     private val boardListAdapter = ArticleListAdapter()
 
@@ -39,21 +40,25 @@ class TabArticle : KoinComponent, BaseFragment()   {
         addOnRefreshListener()
         observeEvent()
     }
-    override fun onStart(){
+
+    override fun onStart() {
         super.onStart()
         boardViewModel.getArticleList()
     }
+
     private fun addWriteBtnListener() {
         binding.writeBtn.setOnClickListener {
             val intent = Intent(requireContext(), WriteArticleActivity::class.java)
             startActivityFromRight(intent)
         }
     }
+
     private fun addOnRefreshListener() {
-        binding.swiperefresh.setOnRefreshListener{
+        binding.swiperefresh.setOnRefreshListener {
             boardViewModel.refreshArticleList()
         }
     }
+
     private fun initBoardListRecyclerView() {
         binding.articleListRecyclerView.run {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
@@ -68,10 +73,9 @@ class TabArticle : KoinComponent, BaseFragment()   {
             }
             boardListAdapter.onLikeClick = { pos ->
                 val clickedArticle = boardListAdapter.getItem(pos)
-                if (clickedArticle.isLiked){
+                if (clickedArticle.isLiked) {
                     boardViewModel.unlike(clickedArticle.articleId)
-                }
-                else{
+                } else {
                     boardViewModel.like(clickedArticle.articleId)
                 }
             }
@@ -86,7 +90,7 @@ class TabArticle : KoinComponent, BaseFragment()   {
         })
 
         boardViewModel.refreshSuccess.observe(viewLifecycleOwner, {
-                binding.swiperefresh.isRefreshing = !it
+            binding.swiperefresh.isRefreshing = !it
         })
     }
 

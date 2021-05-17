@@ -1,18 +1,20 @@
 package com.wannagohome.viewty.ui.search_lens
 
 import androidx.lifecycle.MutableLiveData
+import com.wannagohome.viewty.extension.addTo
 import com.wannagohome.viewty.network.lensapi.LensApiClient
 import com.wannagohome.viewty.network.model.LensPreview
 import com.wannagohome.viewty.support.baseclass.BaseViewModel
-import com.wannagohome.viewty.extension.addTo
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LensViewModel : BaseViewModel(), KoinComponent {
+@HiltViewModel
+class LensViewModel @Inject constructor() : BaseViewModel() {
 
     val lensList = MutableLiveData<List<LensPreview>>()
 
-    private val lensClient: LensApiClient by inject()
+    @Inject
+    lateinit var lensClient: LensApiClient
 
     fun getLensList() {
         lensClient.getLensList()

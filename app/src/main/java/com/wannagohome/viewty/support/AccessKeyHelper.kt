@@ -2,14 +2,12 @@ package com.wannagohome.viewty.support
 
 import android.content.Context
 import com.wannagohome.viewty.AppComponents
-import com.wannagohome.viewty.network.InterceptorManager
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import com.wannagohome.viewty.network.interceptorManager
 
-object AccessKeyHelper : KoinComponent {
+
+object AccessKeyHelper {
     private const val KEY_TOKEN = "token"
     private const val KEY_AUTH = "auth"
-    private val interceptorManager: InterceptorManager by inject()
 
     fun addToken(token: String) {
         val editor = AppComponents.applicationContext.getSharedPreferences(KEY_AUTH, Context.MODE_PRIVATE).edit()

@@ -1,19 +1,21 @@
 package com.wannagohome.viewty.ui.lens_detail
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.wannagohome.viewty.databinding.ActivityDetailedLensBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class LensDetailActivity : AppCompatActivity() {
 
     companion object {
         const val DETAILED_LENS_ID = "lensId"
     }
 
-    private val lensDetailViewModel: LensDetailViewModel by viewModel()
+    private val lensDetailViewModel by viewModels<LensDetailViewModel>()
 
     private lateinit var binding: ActivityDetailedLensBinding
 

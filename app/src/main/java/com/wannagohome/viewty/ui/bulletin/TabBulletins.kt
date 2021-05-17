@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -14,16 +15,16 @@ import com.wannagohome.viewty.databinding.ItemBulletinTabBinding
 import com.wannagohome.viewty.support.baseclass.BaseFragment
 import com.wannagohome.viewty.ui.MainTitleEnum
 import com.wannagohome.viewty.ui.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import timber.log.Timber
 
+@AndroidEntryPoint
 class TabBulletins : BaseFragment() {
 
-    val mainViewModel: MainViewModel by sharedViewModel()
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
-    var _binding: FragmentTabBulletinBinding? = null
-    val binding
+    private var _binding: FragmentTabBulletinBinding? = null
+    private val binding
         get() = _binding!!
 
     override fun onCreateView(
@@ -58,7 +59,7 @@ class TabBulletins : BaseFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     val checked = tabRoot.root.isChecked
-                    if(!checked){
+                    if (!checked) {
                         tabRoot.root.isChecked = true
                         return@subscribe
                     }
@@ -114,7 +115,7 @@ class TabBulletins : BaseFragment() {
         setCurrentPageTitle()
     }
 
-    private fun setCurrentPageTitle(){
+    private fun setCurrentPageTitle() {
         val selectedTabPosition = binding.bulletinTab.selectedTabPosition
         val titleInfo = MainTitleEnum.values().find { it.ordinal == selectedTabPosition }
         mainViewModel.setTitleInfo(titleInfo!!)

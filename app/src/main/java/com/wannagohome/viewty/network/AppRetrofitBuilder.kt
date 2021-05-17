@@ -2,16 +2,12 @@ package com.wannagohome.viewty.network
 
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class AppRetrofitBuilder(private val baseUrl: String, private val interceptor: Interceptor? = null) : KoinComponent {
-
-    private val interceptorManager: InterceptorManager by inject()
+class AppRetrofitBuilder(private val baseUrl: String, private val interceptor: Interceptor? = null) {
 
     fun build(): Retrofit {
         return Retrofit.Builder()

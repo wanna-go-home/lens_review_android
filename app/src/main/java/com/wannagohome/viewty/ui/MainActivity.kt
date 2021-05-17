@@ -1,6 +1,7 @@
 package com.wannagohome.viewty.ui
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
@@ -16,16 +17,16 @@ import com.wannagohome.viewty.extension.visible
 import com.wannagohome.viewty.support.baseclass.BaseAppCompatActivity
 import com.wannagohome.viewty.ui.bulletin.article.write.WriteArticleActivity
 import com.wannagohome.viewty.ui.bulletin.review.write.WriteReviewActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.KoinComponent
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : BaseAppCompatActivity(), KoinComponent {
+@AndroidEntryPoint
+class MainActivity : BaseAppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
     private val iconEnumArray = TabIconEnum.values()
 
-    private val mainViewModel: MainViewModel by viewModel()
+    private val mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

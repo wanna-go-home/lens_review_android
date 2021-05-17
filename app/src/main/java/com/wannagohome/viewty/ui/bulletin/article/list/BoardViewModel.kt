@@ -1,18 +1,22 @@
 package com.wannagohome.viewty.ui.bulletin.article.list
 
 import androidx.lifecycle.MutableLiveData
+import com.wannagohome.viewty.extension.addTo
 import com.wannagohome.viewty.network.lensapi.LensApiClient
 import com.wannagohome.viewty.network.model.article.Article
 import com.wannagohome.viewty.support.baseclass.BaseViewModel
-import com.wannagohome.viewty.extension.addTo
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class BoardViewModel : BaseViewModel(), KoinComponent {
+
+@HiltViewModel
+class BoardViewModel @Inject constructor() : BaseViewModel() {
 
     val articleList = MutableLiveData<List<Article>>()
     val refreshSuccess = MutableLiveData<Boolean>(true)
-    private val lensClient: LensApiClient by inject()
+
+    @Inject
+    lateinit var lensClient: LensApiClient
 
     fun getArticleList() {
         lensClient.getArticleList()
@@ -44,14 +48,14 @@ class BoardViewModel : BaseViewModel(), KoinComponent {
 
     fun like(articleId: Int) {
         lensClient.postArticleLike(articleId)
-            .subscribe( {
+            .subscribe({
                 val newArticle = it.body()
                 var oldArticleList = articleList.value?.toMutableList()
-                if (oldArticleList!=null && newArticle !=null){
-                    val idx = oldArticleList.indexOfFirst { article ->  article.articleId == newArticle.articleId }
+                if (oldArticleList != null && newArticle != null) {
+                    val idx = oldArticleList.indexOfFirst { article -> article.articleId == newArticle.articleId }
                     oldArticleList[idx] = newArticle
                 }
-                articleList.value = oldArticleList
+                articleList.value = oldArticleList!!
             }, {
             })
             .addTo(compositeDisposable)
@@ -59,14 +63,14 @@ class BoardViewModel : BaseViewModel(), KoinComponent {
 
     fun unlike(articleId: Int) {
         lensClient.deleteArticleLike(articleId)
-            .subscribe( {
+            .subscribe({
                 val newArticle = it.body()
                 var oldArticleList = articleList.value?.toMutableList()
-                if (oldArticleList!=null && newArticle !=null){
-                    val idx = oldArticleList.indexOfFirst { article ->  article.articleId == newArticle.articleId }
+                if (oldArticleList != null && newArticle != null) {
+                    val idx = oldArticleList.indexOfFirst { article -> article.articleId == newArticle.articleId }
                     oldArticleList[idx] = newArticle
                 }
-                articleList.value = oldArticleList
+                articleList.value = oldArticleList!!
             }, {
             })
             .addTo(compositeDisposable)

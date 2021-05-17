@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.viewty.databinding.FragmentSignUpSmsVerifyBinding
 import com.wannagohome.viewty.extension.addTo
 import com.wannagohome.viewty.support.baseclass.BaseFragment
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpSmsVerifyFragment : BaseFragment() {
 
-    private val signUpViewModel: SignUpViewModel by sharedViewModel()
+    private val signUpViewModel by activityViewModels<SignUpViewModel>()
 
     private var _binding: FragmentSignUpSmsVerifyBinding? = null
 

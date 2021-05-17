@@ -8,10 +8,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.viewty.databinding.FragmentBottomsheetDialogBinding
 import com.wannagohome.viewty.extension.gone
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
-
+@AndroidEntryPoint
 class BottomSheetFragment : BottomSheetDialogFragment() {
     companion object {
         const val TARGET_ID = "targetId"

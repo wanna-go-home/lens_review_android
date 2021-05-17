@@ -2,15 +2,19 @@ package com.wannagohome.viewty.ui.bulletin.review.write
 
 import androidx.lifecycle.MutableLiveData
 import com.wannagohome.viewty.R
-import com.wannagohome.viewty.network.lensapi.LensApiClient
-import com.wannagohome.viewty.support.baseclass.BaseViewModel
 import com.wannagohome.viewty.extension.addTo
+import com.wannagohome.viewty.network.lensapi.LensApiClient
 import com.wannagohome.viewty.network.model.LensPreview
 import com.wannagohome.viewty.support.Utils
-import org.koin.core.inject
+import com.wannagohome.viewty.support.baseclass.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class WriteReviewViewModel : BaseViewModel() {
-    private val lensApiClient: LensApiClient by inject()
+@HiltViewModel
+class WriteReviewViewModel @Inject constructor() : BaseViewModel() {
+
+    @Inject
+    lateinit var lensApiClient: LensApiClient
 
     val writeSuccess = MutableLiveData<Boolean>(false)
     val errMessageLiveData = MutableLiveData<String>()
@@ -23,14 +27,15 @@ class WriteReviewViewModel : BaseViewModel() {
     var selectedLensId = -1
     var previousSelectedId = -1
 
-    enum class WriteReviewStage{
+    enum class WriteReviewStage {
         SELECT_LENS,
         WRITE_REVIEW,
         OFF,
     }
+
     val curStageLiveData = MutableLiveData<WriteReviewStage>(WriteReviewStage.SELECT_LENS)
 
-    fun writeReview(title: String, contents: String, lensId: Int) {
+    private fun writeReview(title: String, contents: String, lensId: Int) {
         lensApiClient.writeReview(title, contents, lensId)
             .subscribe {
                 writeSuccess.value = true
@@ -38,50 +43,52 @@ class WriteReviewViewModel : BaseViewModel() {
             .addTo(compositeDisposable)
     }
 
-    fun writeReview(title:String, contents:String){
-        if(title.isEmpty()){
+    fun writeReview(title: String, contents: String) {
+        if (title.isEmpty()) {
             errMessageLiveData.value = Utils.getString(R.string.write_review_empty_title)
             return
         }
 
-        if(contents.isEmpty()){
+        if (contents.isEmpty()) {
             errMessageLiveData.value = Utils.getString(R.string.write_review_empty_contents)
             return
         }
 
-        writeReview(title,contents,selectedLensId)
+        writeReview(title, contents, selectedLensId)
     }
-    fun resetStage(){
+
+    fun resetStage() {
         curStageLiveData.value = WriteReviewStage.SELECT_LENS
     }
-    fun next(){
+
+    fun next() {
         curStageLiveData.value = WriteReviewStage.WRITE_REVIEW
     }
 
-    fun back(){
-        curStageLiveData.value = when(curStageLiveData.value){
+    fun back() {
+        curStageLiveData.value = when (curStageLiveData.value) {
             WriteReviewStage.SELECT_LENS -> WriteReviewStage.OFF
             WriteReviewStage.WRITE_REVIEW -> WriteReviewStage.SELECT_LENS
             else -> WriteReviewStage.OFF
         }
     }
 
-    fun getLensList(){
+    fun getLensList() {
         lensApiClient.getLensList()
-            .subscribe ({
+            .subscribe({
 
                 lensList = it.body()!!
 
                 lensListLiveData.value = lensList
 
-                if(selectedLensId == -1)
+                if (selectedLensId == -1)
                     selectLens(1)
-            },{})
+            }, {})
             .addTo(compositeDisposable)
     }
 
 
-    fun selectLens(selectLensId : Int){
+    fun selectLens(selectLensId: Int) {
         previousSelectedId = selectedLensId
 
         selectedLensId = selectLensId
@@ -89,8 +96,8 @@ class WriteReviewViewModel : BaseViewModel() {
         selectedLensLiveData.value = lensList.first { it.lensId == selectedLensId }
     }
 
-    fun searchLens(name : String){
-        if(name.isEmpty()) {
+    fun searchLens(name: String) {
+        if (name.isEmpty()) {
             lensListLiveData.value = lensList
             return
         }

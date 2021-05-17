@@ -1,22 +1,19 @@
 package com.wannagohome.viewty.ui.bulletin.review.review_detail.comment
 
 import android.os.Bundle
-import android.view.View
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding4.view.clicks
 import com.wannagohome.viewty.R
 import com.wannagohome.viewty.databinding.ActivityCommentBinding
-import com.wannagohome.viewty.extension.hideKeyboard
 import com.wannagohome.viewty.support.Utils
 import com.wannagohome.viewty.support.baseclass.BaseAppCompatActivity
 import com.wannagohome.viewty.ui.BottomSheetFragment
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import java.util.concurrent.TimeUnit
 
+@AndroidEntryPoint
 class CommentActivity : BaseAppCompatActivity() {
 
     companion object {
@@ -24,10 +21,11 @@ class CommentActivity : BaseAppCompatActivity() {
         const val COMMENT_ID = "commentId"
         const val IS_ARTICLE = false
     }
+
     private var reviewId = -1
     private var commentId = -1
 
-    private val reviewCommentViewModel: ReviewCommentViewModel by viewModel {parametersOf(reviewId, commentId)}
+    //    private val reviewCommentViewModel: ReviewCommentViewModel by viewModel {parametersOf(reviewId, commentId)}
     private lateinit var commentAdapter: CommentMultiViewAdapter
     private lateinit var binding: ActivityCommentBinding
 
@@ -44,7 +42,7 @@ class CommentActivity : BaseAppCompatActivity() {
             finishActivityToRight()
         }
 
-        commentAdapter = CommentMultiViewAdapter(supportFragmentManager, reviewCommentViewModel, IS_ARTICLE)
+//        commentAdapter = CommentMultiViewAdapter(supportFragmentManager, reviewCommentViewModel, IS_ARTICLE)
 
         initCommentRecyclerView()
 
@@ -59,19 +57,19 @@ class CommentActivity : BaseAppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        reviewCommentViewModel.getCommentsByCommentId()
+//        reviewCommentViewModel.getCommentsByCommentId()
     }
 
     private fun initCommentRecyclerView() {
         binding.commentRecyclerView.run {
             commentAdapter.onLikeClick = { pos ->
                 val targetComment = commentAdapter.commentList[pos]
-                if (targetComment.isLiked){
-                    reviewCommentViewModel.unlike(targetComment.commentId)
-                }
-                else{
-                    reviewCommentViewModel.like(targetComment.commentId)
-                }
+//                if (targetComment.isLiked){
+//                    reviewCommentViewModel.unlike(targetComment.commentId)
+//                }
+//                else{
+//                    reviewCommentViewModel.like(targetComment.commentId)
+//                }
             }
             commentAdapter.onOptionClick = { pos ->
                 val targetComment = commentAdapter.commentList[pos]
@@ -96,7 +94,7 @@ class CommentActivity : BaseAppCompatActivity() {
                     Utils.showToast(getString(R.string.write_need_content))
                     return@subscribe
                 }
-                reviewCommentViewModel.postComment(content)
+//                reviewCommentViewModel.postComment(content)
             }
     }
 
@@ -109,51 +107,51 @@ class CommentActivity : BaseAppCompatActivity() {
     }
 
     private fun addOnRefreshListener() {
-        binding.swiperefresh.setOnRefreshListener {
-            reviewCommentViewModel.refreshComment()
-        }
+//        binding.swiperefresh.setOnRefreshListener {
+//            reviewCommentViewModel.refreshComment()
+//        }
     }
 
     private fun observeEvent() {
-        reviewCommentViewModel.comments.observe(this, {
-            commentAdapter.commentList = ArrayList(it)
-        })
-
-        reviewCommentViewModel.refreshSuccess.observe(this, {
-            binding.swiperefresh.isRefreshing = !it
-        })
-
-        reviewCommentViewModel.postCommentSuccess.observe(this, {
-            if (it) {
-                reviewCommentViewModel.refreshComment()
-                binding.commentInput.text.clear()
-                binding.scrollView.fullScroll(View.FOCUS_DOWN)
-                hideKeyboard()
-            }
-        })
-        reviewCommentViewModel.deleteCommentSuccess.observe(this, {
-            if (it) {
-                reviewCommentViewModel.refreshComment()
-                Utils.showToast(getString(R.string.delete_success))
-            }
-        })
-        reviewCommentViewModel.finishActivity.observe(this, {
-            if (it) {
-                finishActivityToRight()
-            }
-        })
-        reviewCommentViewModel.modifyCommentSuccess.observe(this, {
-            if (it) {
-                reviewCommentViewModel.refreshComment()
-                Utils.showToast(getString(R.string.modify_success))
-                hideKeyboard()
-            }
-        })
-        reviewCommentViewModel.modifyCommentSuccess.observe(this, {
-            if (it) {
-                Utils.showToast(getString(R.string.report_success))
-            }
-        })
+//        reviewCommentViewModel.comments.observe(this, {
+//            commentAdapter.commentList = ArrayList(it)
+//        })
+//
+//        reviewCommentViewModel.refreshSuccess.observe(this, {
+//            binding.swiperefresh.isRefreshing = !it
+//        })
+//
+//        reviewCommentViewModel.postCommentSuccess.observe(this, {
+//            if (it) {
+//                reviewCommentViewModel.refreshComment()
+//                binding.commentInput.text.clear()
+//                binding.scrollView.fullScroll(View.FOCUS_DOWN)
+//                hideKeyboard()
+//            }
+//        })
+//        reviewCommentViewModel.deleteCommentSuccess.observe(this, {
+//            if (it) {
+//                reviewCommentViewModel.refreshComment()
+//                Utils.showToast(getString(R.string.delete_success))
+//            }
+//        })
+//        reviewCommentViewModel.finishActivity.observe(this, {
+//            if (it) {
+//                finishActivityToRight()
+//            }
+//        })
+//        reviewCommentViewModel.modifyCommentSuccess.observe(this, {
+//            if (it) {
+//                reviewCommentViewModel.refreshComment()
+//                Utils.showToast(getString(R.string.modify_success))
+//                hideKeyboard()
+//            }
+//        })
+//        reviewCommentViewModel.modifyCommentSuccess.observe(this, {
+//            if (it) {
+//                Utils.showToast(getString(R.string.report_success))
+//            }
+//        })
     }
 
     override fun onBackPressed() {

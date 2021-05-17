@@ -5,19 +5,19 @@ import com.wannagohome.viewty.extension.addTo
 import com.wannagohome.viewty.network.lensapi.LensApiClient
 import com.wannagohome.viewty.network.model.review.Review
 import com.wannagohome.viewty.support.baseclass.BaseViewModel
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 import retrofit2.HttpException
 import timber.log.Timber
+import javax.inject.Inject
 
 
-class ReviewDetailViewModel (private val reviewId: Int): BaseViewModel(), KoinComponent {
+class ReviewDetailViewModel(private val reviewId: Int) : BaseViewModel() {
 
     val review = MutableLiveData<Review>()
     val deleteSuccess = MutableLiveData<Boolean>(false)
     val reportSuccess = MutableLiveData<Boolean>(false)
 
-    private val lensClient: LensApiClient by inject()
+    @Inject
+    lateinit var lensClient: LensApiClient
 
     fun getReview() {
         compositeDisposable.add(lensClient.getReviewById(reviewId).subscribe({
@@ -34,7 +34,7 @@ class ReviewDetailViewModel (private val reviewId: Int): BaseViewModel(), KoinCo
 
     fun like() {
         lensClient.postReviewLike(reviewId)
-            .subscribe( {
+            .subscribe({
                 review.value = it.body()
             }, {
             })
@@ -43,7 +43,7 @@ class ReviewDetailViewModel (private val reviewId: Int): BaseViewModel(), KoinCo
 
     fun unlike() {
         lensClient.deleteReviewLike(reviewId)
-            .subscribe( {
+            .subscribe({
                 review.value = it.body()
             }, {
             })
@@ -52,14 +52,14 @@ class ReviewDetailViewModel (private val reviewId: Int): BaseViewModel(), KoinCo
 
     fun deleteReview() {
         lensClient.deleteReviewById(reviewId)
-            .subscribe( {
+            .subscribe({
                 deleteSuccess.value = true
             }, {
             })
             .addTo(compositeDisposable)
     }
 
-    fun reportReview(){
+    fun reportReview() {
         reportSuccess.value = true
     }
 }
